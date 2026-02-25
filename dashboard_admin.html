@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Admin – TK Aisyiyah Timika</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; font-family: "Segoe UI", Helvetica, Arial, sans-serif; background: #e8f5e8; color: #222; overflow-x: hidden; }
+
+    /* ── LAYOUT ── */
+    .app { display: flex; min-height: 100vh; }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: 260px; min-width: 260px; background: #f4fbf4;
+      border-right: 1px solid #e0ede0;
+      display: flex; flex-direction: column;
+      position: fixed; top: 0; left: 0; height: 100vh;
+      z-index: 100; overflow-y: auto;
+    }
+    .sidebar-brand {
+      display: flex; align-items: center; gap: 14px;
+      padding: 24px 20px 20px;
+      border: 2px solid #00cc30; border-radius: 16px;
+      margin: 18px 16px 24px;
+    }
+    .sidebar-logo {
+      width: 52px; height: 52px; background: #fff;
+      border: 2px solid #00cc30; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .sidebar-logo img { width: 40px; height: 40px; object-fit: contain; }
+    .sidebar-brand-name { font-size: 1rem; font-weight: 700; color: #222; line-height: 1.3; }
+
+    .sidebar-nav { flex: 1; padding: 0 12px; }
+    .nav-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 11px 16px; border-radius: 10px;
+      font-size: .93rem; color: #444; cursor: pointer;
+      transition: background .2s, color .2s; margin-bottom: 4px;
+      border: 1px solid transparent; text-decoration: none;
+    }
+    .nav-item:hover { background: #f0fdf0; color: #00a832; border-color: #d0f0d0; }
+    .nav-item.active { background: #00cc30; color: #fff; font-weight: 600; }
+    .nav-item.nav-ppdb { background: #00cc30; color: #fff; font-weight: 700; }
+    .nav-item.nav-ppdb:hover { background: #00b82c; color: #fff; border-color: transparent; }
+    .nav-item.active .nav-icon { color: #fff; }
+    .nav-item .nav-icon { font-size: 1rem; width: 20px; text-align: center; flex-shrink: 0; }
+    .nav-item .nav-arrow { margin-left: auto; font-size: .75rem; opacity: .6; transition: transform .3s; }
+    .nav-item .nav-arrow.open { transform: rotate(180deg); }
+
+    .manage-dropdown {
+      display: none; flex-direction: column;
+      background: #f7fdf7; border-radius: 10px;
+      margin: 2px 0 4px 8px;
+      overflow: hidden;
+      border-left: 3px solid #00cc30;
+    }
+    .manage-dropdown.open { display: flex; }
+    .dropdown-item {
+      padding: 10px 16px 10px 20px;
+      font-size: .88rem; color: #555; cursor: pointer;
+      transition: background .2s, color .2s;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .dropdown-item:hover { background: #e0f7e0; color: #00a832; }
+
+    .nav-divider { height: 1px; background: #e8f5e8; margin: 12px 4px; }
+
+    .sidebar-bottom { padding: 12px; border-top: 1px solid #c8e6c8; background: #f4fbf4; }
+    .nav-item-sm {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 14px; border-radius: 8px;
+      font-size: .88rem; color: #888; cursor: pointer;
+      transition: background .2s, color .2s; margin-bottom: 2px;
+    }
+    .nav-item-sm:hover { background: #f9fdf9; color: #00a832; }
+    .nav-item-sm.logout { color: #cc3300; }
+    .nav-item-sm.logout:hover { background: #fff5f5; }
+
+    /* ── MAIN ── */
+    .main { margin-left: 260px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; background: linear-gradient(160deg, #eaf6ea 0%, #f0f9f0 100%); }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background: #f4fbf4; border-bottom: 1px solid #c8e6c8;
+      padding: 14px 28px; display: flex; align-items: center; gap: 16px;
+      position: sticky; top: 0; z-index: 50;
+    }
+    .search-box {
+      flex: 1; display: flex; align-items: center; gap: 10px;
+      background: #edf7ed; border: 1px solid #b8ddb8; border-radius: 100px;
+      padding: 10px 18px;
+    }
+    .search-box input {
+      border: none; background: transparent; outline: none;
+      font-size: .93rem; color: #444; width: 100%;
+      font-style: italic;
+    }
+    .search-box input::placeholder { color: #aaa; }
+    .search-icon { color: #aaa; font-size: .95rem; }
+    .topbar-actions { display: flex; align-items: center; gap: 10px; }
+    .btn-notif {
+      width: 40px; height: 40px; border-radius: 10px;
+      border: 1px solid #d0e8d0; background: #fff;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1.1rem; transition: background .2s;
+      position: relative;
+    }
+    .btn-notif:hover { background: #f0fdf0; }
+    .notif-dot {
+      position: absolute; top: 6px; right: 6px;
+      width: 8px; height: 8px; background: #cc0000; border-radius: 50%;
+      border: 2px solid #fff;
+    }
+    .btn-saran {
+      display: flex; align-items: center; gap: 8px;
+      padding: 9px 18px; border-radius: 10px;
+      border: 1px solid #d0e8d0; background: #fff;
+      font-size: .88rem; color: #444; cursor: pointer;
+      transition: background .2s;
+    }
+    .btn-saran:hover { background: #f0fdf0; color: #00a832; }
+
+    /* ── CONTENT ── */
+    .content { padding: 28px; flex: 1; background: linear-gradient(160deg, #eaf6ea 0%, #f0f9f0 40%, #e4f2e4 100%); }
+
+    .greeting { font-size: 1.6rem; font-weight: 800; color: #00a832; margin-bottom: 20px; }
+
+    /* ── TOP GRID ── */
+    .top-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-bottom: 22px; }
+
+    .card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,168,50,.08); border: 1px solid rgba(0,204,48,.08); }
+
+    .photo-card img { width: 100%; height: 200px; object-fit: cover; display: block; }
+
+    .stats-card { padding: 20px 22px; }
+    .stats-card-title {
+      font-size: .95rem; font-weight: 700; color: #00a832; margin-bottom: 14px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .stats-card-title a { font-size: .8rem; color: #00a832; text-decoration: none; }
+    .chart-bars { display: flex; align-items: flex-end; gap: 8px; height: 120px; padding: 0 4px; }
+    .bar-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
+    .bar { width: 100%; border-radius: 6px 6px 0 0; background: #a8e6b0; transition: background .2s; min-height: 4px; }
+    .bar.highlight { background: #00cc30; }
+    .bar-label { font-size: .7rem; color: #999; }
+
+    .quicklink-card {
+      background: #222; cursor: pointer; position: relative; overflow: hidden;
+      transition: transform .2s;
+    }
+    .quicklink-card:hover { transform: scale(1.02); }
+    .quicklink-card img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: .55; position: absolute; inset: 0; }
+    .quicklink-card-body {
+      position: relative; z-index: 2;
+      padding: 18px; height: 95px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .quicklink-title { font-size: .95rem; font-weight: 800; color: #fff; text-transform: uppercase; line-height: 1.3; margin-bottom: 4px; }
+    .quicklink-link { font-size: .72rem; color: rgba(255,255,255,.75); text-decoration: none; }
+
+    .quick-stack { display: flex; flex-direction: column; gap: 10px; }
+
+    .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .section-title { font-size: 1.05rem; font-weight: 700; color: #222; }
+    .see-more { font-size: .82rem; color: #00a832; cursor: pointer; text-decoration: none; }
+
+    .review-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
+    .review-tag {
+      padding: 7px 14px; background: #f0fdf0;
+      border: 1px solid #c8ecd0; border-radius: 100px;
+      font-size: .82rem; color: #444; cursor: pointer;
+      transition: background .2s;
+      white-space: nowrap; max-width: 220px;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .review-tag:hover { background: #d8f5e0; }
+    .review-tag.more { background: #f5f5f5; border-color: #ddd; color: #888; }
+
+    .bottom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+    .event-card { padding: 22px; }
+    .event-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    .event-table th { font-size: .78rem; color: #aaa; font-weight: 600; text-align: left; padding: 0 8px 10px; }
+    .event-table td { padding: 10px 8px; font-size: .88rem; color: #444; border-top: 1px solid #f0f0f0; }
+    .event-table td:first-child { font-weight: 700; color: #222; width: 36px; }
+    .badge { display: inline-block; padding: 4px 14px; border-radius: 100px; font-size: .75rem; font-weight: 700; cursor: pointer; }
+    .badge.done { background: #00cc30; color: #fff; }
+    .badge.mark { background: #fff; border: 1.5px solid #00cc30; color: #00a832; }
+
+    .chart-card { padding: 22px; }
+    .chart-row { display: flex; align-items: flex-end; gap: 10px; height: 130px; margin-top: 14px; }
+    .chart-bar-wrap { display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1; }
+    .chart-bar { width: 100%; border-radius: 6px 6px 0 0; background: #a8e6b0; min-height: 4px; }
+    .chart-bar.highlight { background: #00cc30; }
+    .chart-label { font-size: .72rem; color: #999; }
+
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(0,0,0,.35); backdrop-filter: blur(4px);
+      align-items: center; justify-content: center;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-box {
+      background: #fff; border-radius: 18px; padding: 32px 36px;
+      width: 440px; box-shadow: 0 20px 60px rgba(0,0,0,.2);
+      animation: popIn .3s cubic-bezier(.22,1,.36,1);
+    }
+    @keyframes popIn { from{opacity:0;transform:scale(.9);}to{opacity:1;transform:scale(1);} }
+    .modal-title { font-size: 1.1rem; font-weight: 700; color: #00a832; margin-bottom: 16px; }
+    .modal-box textarea {
+      width: 100%; height: 110px; padding: 12px; border: 1px solid #d0e8d0;
+      border-radius: 10px; resize: none; font-size: .9rem; outline: none; font-family: inherit;
+    }
+    .modal-box textarea:focus { border-color: #00cc30; }
+    .modal-actions { display: flex; gap: 10px; margin-top: 14px; justify-content: flex-end; }
+    .btn-cancel { padding: 9px 22px; border: 1px solid #ddd; border-radius: 8px; background: #fff; cursor: pointer; font-size: .9rem; }
+    .btn-submit { padding: 9px 22px; border: none; border-radius: 8px; background: linear-gradient(102deg,#00af29,#00cc30); color: #fff; cursor: pointer; font-size: .9rem; font-weight: 600; }
+
+    .notif-panel {
+      display: none; position: fixed; top: 70px; right: 28px;
+      width: 300px; background: #fff; border-radius: 14px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.15); z-index: 200;
+      padding: 18px; border: 1px solid #e8f5e8;
+    }
+    .notif-panel.show { display: block; }
+    .notif-panel-title { font-weight: 700; font-size: .95rem; color: #00a832; margin-bottom: 12px; }
+    .notif-item { padding: 10px 0; border-bottom: 1px solid #f0f0f0; font-size: .85rem; color: #555; line-height: 1.5; }
+    .notif-item:last-child { border-bottom: none; }
+    .notif-item span { font-weight: 600; color: #00a832; }
+
+
+    /* SEARCH */
+    .search-results {
+      position: absolute; top: 68px; left: 28px;
+      width: calc(100% - 56px - 180px);
+      background: #fff; border-radius: 14px;
+      box-shadow: 0 8px 32px rgba(0,168,50,.15);
+      border: 1px solid #c8e6c8;
+      display: none; z-index: 999;
+      overflow: hidden; max-height: 320px; overflow-y: auto;
+    }
+    .search-results.show { display: block; }
+    .search-result-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 18px; cursor: pointer;
+      transition: background .2s; border-bottom: 1px solid #f0f8f0;
+      font-size: .9rem; color: #333;
+    }
+    .search-result-item:last-child { border-bottom: none; }
+    .search-result-item:hover { background: #f0fdf0; color: #00a832; }
+    .search-result-icon { font-size: 1.1rem; width: 28px; text-align: center; flex-shrink: 0; }
+    .search-result-label { flex: 1; }
+    .search-result-label strong { color: #00a832; }
+    .search-result-cat { font-size: .75rem; color: #aaa; margin-left: auto; }
+    .search-empty { padding: 20px 18px; text-align: center; color: #aaa; font-size: .9rem; }
+
+    /* LOGOUT */
+    .logout-overlay {
+      display: none; position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,.45);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      align-items: center; justify-content: center;
+    }
+    .logout-overlay.show { display: flex; }
+    .logout-card {
+      width: 320px;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 22px; padding: 36px 32px 30px; text-align: center;
+      backdrop-filter: blur(24px) saturate(150%); -webkit-backdrop-filter: blur(24px) saturate(150%);
+      box-shadow: 0 24px 60px rgba(0,0,0,.4);
+      animation: popIn .35s cubic-bezier(.22,1,.36,1);
+    }
+    .logout-logo {
+      width: 76px; height: 76px; background: #fff; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px; box-shadow: 0 4px 20px rgba(0,0,0,.2);
+    }
+    .logout-logo img { width: 60px; height: 60px; object-fit: contain; }
+    .logout-title { font-size: 1.1rem; font-weight: 800; color: #fff; letter-spacing: 1px; margin-bottom: 12px; text-transform: uppercase; }
+    .logout-msg { font-size: .9rem; color: rgba(255,255,255,.8); line-height: 1.6; margin-bottom: 24px; }
+    .logout-btn-confirm {
+      width: 100%; padding: 13px; margin-bottom: 10px;
+      border: none; border-radius: 10px;
+      background: linear-gradient(102deg, #cc0000, #ee0000);
+      color: #fff; font-size: .97rem; font-weight: 700; cursor: pointer;
+      box-shadow: 0 4px 18px rgba(200,0,0,.45); transition: transform .2s, box-shadow .2s;
+    }
+    .logout-btn-confirm:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(200,0,0,.55); }
+    .logout-btn-cancel {
+      width: 100%; padding: 12px;
+      border: 1px solid rgba(255,255,255,.35); border-radius: 10px;
+      background: rgba(255,255,255,.1); color: rgba(255,255,255,.85);
+      font-size: .92rem; font-weight: 500; cursor: pointer;
+      transition: background .2s, border-color .2s;
+    }
+    .logout-btn-cancel:hover { background: rgba(255,255,255,.2); border-color: rgba(255,255,255,.6); }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-logo"><img src="LogoTk.png" alt="Logo" /></div>
+      <div class="sidebar-brand-name">TK Aisyiyah Timika</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-item" onclick="setActive(this)">
+        <span class="nav-icon">🏠</span> Dashboard
+      </div>
+      <div class="nav-item" onclick="toggleManage(this)" id="manageBtn">
+        <span class="nav-icon">⚙️</span> Manage
+        <span class="nav-arrow" id="manageArrow">▾</span>
+      </div>
+      <div class="manage-dropdown" id="manageDropdown">
+        <div class="dropdown-item" onclick="setActive(this)">🏫 Profil Sekolah</div>
+        <div class="dropdown-item" onclick="setActive(this)">👩‍🏫 Staff Pengajar & Tenaga Kependidikan</div>
+        <div class="dropdown-item" onclick="setActive(this)">🏗️ Fasilitas</div>
+        <div class="dropdown-item" onclick="setActive(this)">🖼️ Galeri</div>
+        <div class="dropdown-item" onclick="setActive(this)">📅 Kalender</div>
+      </div>
+      <div class="nav-item nav-ppdb" onclick="setActive(this)">
+        <span class="nav-icon">📋</span> PPDB 2027/2028
+      </div>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="nav-item-sm">⚙️ Settings</div>
+      <div class="nav-item-sm">👤 Manage Account</div>
+      <div class="nav-item-sm">❓ Help Center</div>
+      <div class="nav-item-sm logout" onclick="confirmLogout()">↩ Log Out</div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Search Here" oninput="doSearch(this.value)" autocomplete="off" />
+      </div>
+      <div class="search-results" id="searchResults"></div>
+      <div class="topbar-actions">
+        <div class="btn-notif" onclick="toggleNotif()">
+          🔔<div class="notif-dot"></div>
+        </div>
+        <div class="btn-saran" onclick="openSaran()">💬 Saran dan Masukan</div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="greeting">Good Morning Admin!</div>
+
+      <div class="top-grid">
+        <div class="card photo-card">
+          <img src="berkumpul.jpg" alt="Kegiatan" onerror="this.style.background='linear-gradient(135deg,#a8e6b0,#00cc30)';this.style.height='200px'" />
+        </div>
+        <div class="card stats-card">
+          <div class="stats-card-title">2021-2026 PPDB Stats <a href="#">›</a></div>
+          <div class="chart-bars">
+            <div class="bar-wrap"><div class="bar" style="height:55%"></div><div class="bar-label">2021</div></div>
+            <div class="bar-wrap"><div class="bar" style="height:60%"></div><div class="bar-label">2022</div></div>
+            <div class="bar-wrap"><div class="bar" style="height:58%"></div><div class="bar-label">2023</div></div>
+            <div class="bar-wrap"><div class="bar" style="height:65%"></div><div class="bar-label">2024</div></div>
+            <div class="bar-wrap"><div class="bar" style="height:72%"></div><div class="bar-label">2025</div></div>
+            <div class="bar-wrap"><div class="bar highlight" style="height:90%"></div><div class="bar-label">2026</div></div>
+          </div>
+        </div>
+        <div class="quick-stack">
+          <div class="card quicklink-card">
+            <img src="Fasilitas_Full.png" alt="Fasilitas" onerror="this.style.display='none'" />
+            <div class="quicklink-card-body" style="background:linear-gradient(135deg,rgba(0,80,20,.7),rgba(0,40,10,.5))">
+              <div class="quicklink-title">FASILITAS</div>
+              <a class="quicklink-link" href="Fasilitas.html">Edit Fasilitas ›</a>
+            </div>
+          </div>
+          <div class="card quicklink-card">
+            <img src="1.jpg" alt="Staff" onerror="this.style.display='none'" />
+            <div class="quicklink-card-body" style="background:linear-gradient(135deg,rgba(0,60,20,.75),rgba(0,30,10,.5))">
+              <div class="quicklink-title">STAFF PENGAJAR DAN<br>TENAGA KEPENDIDIKAN</div>
+              <a class="quicklink-link" href="#">Edit Staff Pengajar dan Tenaga Kependidikan ›</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <div class="section-title">Recent Reviews</div>
+        <a href="#" class="see-more">See more ›</a>
+      </div>
+      <div class="review-tags">
+        <div class="review-tag">@Ibu Risnawati : Alhamdulillah kami sebagai orang tua sangat senang...</div>
+        <div class="review-tag">@Ibu Nursaida : Anak2 mendapat banyak pelajaran ilmu agama...</div>
+        <div class="review-tag">@Ibu Kisriwati : Bismillah, Alhamdulillah ananda chaidiil sya masukan...</div>
+        <div class="review-tag more">4+ more</div>
+      </div>
+
+      <div class="bottom-grid">
+        <div class="card event-card">
+          <div class="section-header"><div class="section-title">January Upcoming Event</div></div>
+          <table class="event-table">
+            <thead><tr><th>Date</th><th>Event name</th><th style="text-align:right">Status</th></tr></thead>
+            <tbody>
+              <tr><td>08</td><td>Pertemuan Wali Murid & Orang Tua</td><td style="text-align:right"><span class="badge done">Done</span></td></tr>
+              <tr><td>14</td><td>Outing Class – Taman Edukasi</td><td style="text-align:right"><span class="badge mark">Mark Done</span></td></tr>
+              <tr><td>20</td><td>Pentas Seni & Bakat Anak</td><td style="text-align:right"><span class="badge mark">Mark Done</span></td></tr>
+              <tr><td>28</td><td>Rapat Evaluasi Semester</td><td style="text-align:right"><span class="badge mark">Mark Done</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card chart-card">
+          <div class="section-header">
+            <div class="section-title">2027 Customer Reviews</div>
+            <a href="#" class="see-more">See more ›</a>
+          </div>
+          <div class="chart-row">
+            <div class="chart-bar-wrap"><div class="chart-bar" style="height:50%"></div><div class="chart-label">Aug</div></div>
+            <div class="chart-bar-wrap"><div class="chart-bar" style="height:55%"></div><div class="chart-label">Sept</div></div>
+            <div class="chart-bar-wrap"><div class="chart-bar" style="height:60%"></div><div class="chart-label">Oct</div></div>
+            <div class="chart-bar-wrap"><div class="chart-bar" style="height:65%"></div><div class="chart-label">Nov</div></div>
+            <div class="chart-bar-wrap"><div class="chart-bar" style="height:72%"></div><div class="chart-label">Dec</div></div>
+            <div class="chart-bar-wrap"><div class="chart-bar highlight" style="height:95%"></div><div class="chart-label">Jan</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NOTIF PANEL -->
+<div class="notif-panel" id="notifPanel">
+  <div class="notif-panel-title">🔔 Notifikasi</div>
+  <div class="notif-item"><span>PPDB Baru:</span> 3 pendaftar baru hari ini</div>
+  <div class="notif-item"><span>Review:</span> Ibu Fauziah memberikan ulasan bintang 5</div>
+  <div class="notif-item"><span>Event:</span> Outing Class tinggal 6 hari lagi</div>
+</div>
+
+<!-- MODAL SARAN -->
+<div class="modal-overlay" id="saranModal">
+  <div class="modal-box">
+    <div class="modal-title">💬 Saran dan Masukan</div>
+    <textarea placeholder="Tulis saran atau masukan Anda di sini..."></textarea>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeSaran()">Batal</button>
+      <button class="btn-submit" onclick="submitSaran()">Kirim</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOGOUT MODAL -->
+<div class="logout-overlay" id="logoutModal">
+  <div class="logout-card">
+    <div class="logout-logo"><img src="LogoTk.png" alt="Logo" /></div>
+    <div class="logout-title">ADMIN LOGIN</div>
+    <div class="logout-msg">Apakah Anda yakin ingin<br>keluar dari dashboard?</div>
+    <button class="logout-btn-confirm" onclick="doLogout()">↩ Ya, Log Out</button>
+    <button class="logout-btn-cancel" onclick="closeLogout()">Kembali ke Dashboard</button>
+  </div>
+</div>
+
+<script>
+  // Manage dropdown
+  function toggleManage(el) {
+    const dd = document.getElementById('manageDropdown');
+    const arrow = document.getElementById('manageArrow');
+    dd.classList.toggle('open');
+    arrow.classList.toggle('open');
+    el.classList.toggle('active');
+  }
+
+  // Active nav
+  function setActive(el) {
+    document.querySelectorAll('.nav-item:not(.nav-ppdb)').forEach(i => i.classList.remove('active'));
+    if (!el.classList.contains('nav-ppdb')) el.classList.add('active');
+  }
+
+  // Notif panel
+  function toggleNotif() { document.getElementById('notifPanel').classList.toggle('show'); }
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.btn-notif') && !e.target.closest('.notif-panel'))
+      document.getElementById('notifPanel').classList.remove('show');
+  });
+
+  // Saran modal
+  function openSaran() { document.getElementById('saranModal').classList.add('show'); }
+  function closeSaran() { document.getElementById('saranModal').classList.remove('show'); }
+  function submitSaran() { alert('Saran berhasil dikirim! Terima kasih 😊'); closeSaran(); }
+  document.getElementById('saranModal').addEventListener('click', e => {
+    if (e.target === document.getElementById('saranModal')) closeSaran();
+  });
+
+  // Logout
+  function confirmLogout() { document.getElementById('logoutModal').classList.add('show'); }
+  function doLogout() { window.location.href = 'Login-Admin.html'; }
+  function closeLogout() { document.getElementById('logoutModal').classList.remove('show'); }
+
+  // Greeting
+  const h = new Date().getHours();
+  const greet = h < 12 ? 'Good Morning' : h < 17 ? 'Good Afternoon' : 'Good Evening';
+  document.querySelector('.greeting').textContent = greet + ' Admin!';
+
+  // Search data
+  const searchData = [
+    { icon: '🏠', label: 'Dashboard', cat: 'Menu', action: () => document.querySelector('.nav-item').click() },
+    { icon: '🏫', label: 'Profil Sekolah', cat: 'Manage', action: () => {} },
+    { icon: '👩‍🏫', label: 'Staff Pengajar & Tenaga Kependidikan', cat: 'Manage', action: () => {} },
+    { icon: '🏗️', label: 'Fasilitas', cat: 'Manage', action: () => window.location.href='Fasilitas.html' },
+    { icon: '🖼️', label: 'Galeri', cat: 'Manage', action: () => {} },
+    { icon: '📅', label: 'Kalender', cat: 'Manage', action: () => {} },
+    { icon: '📋', label: 'PPDB 2027/2028', cat: 'Menu', action: () => {} },
+    { icon: '⚙️', label: 'Settings', cat: 'Pengaturan', action: () => {} },
+    { icon: '👤', label: 'Manage Account', cat: 'Pengaturan', action: () => {} },
+    { icon: '❓', label: 'Help Center', cat: 'Bantuan', action: () => {} },
+    { icon: '📊', label: 'PPDB Stats 2021-2026', cat: 'Statistik', action: () => {} },
+    { icon: '💬', label: 'Recent Reviews', cat: 'Konten', action: () => {} },
+    { icon: '📅', label: 'January Upcoming Event', cat: 'Kalender', action: () => {} },
+    { icon: '📈', label: '2027 Customer Reviews', cat: 'Statistik', action: () => {} },
+    { icon: '🔔', label: 'Notifikasi', cat: 'Info', action: () => toggleNotif() },
+    { icon: '💬', label: 'Saran dan Masukan', cat: 'Info', action: () => openSaran() },
+    { icon: '↩', label: 'Log Out', cat: 'Akun', action: () => confirmLogout() },
+  ];
+
+  function doSearch(val) {
+    const box = document.getElementById('searchResults');
+    const q = val.trim().toLowerCase();
+    if (!q) { box.classList.remove('show'); box.innerHTML = ''; return; }
+
+    const results = searchData.filter(d => d.label.toLowerCase().includes(q));
+    if (results.length === 0) {
+      box.innerHTML = '<div class="search-empty">😕 Tidak ada hasil untuk "<b>' + val + '</b>"</div>';
+    } else {
+      box.innerHTML = results.map((d, i) =>
+        `<div class="search-result-item" onclick="searchGo(${i}, '${val}')">
+          <span class="search-result-icon">${d.icon}</span>
+          <span class="search-result-label">${d.label.replace(new RegExp(val, 'gi'), m => '<strong>'+m+'</strong>')}</span>
+          <span class="search-result-cat">${d.cat}</span>
+        </div>`
+      ).join('');
+    }
+    box.classList.add('show');
+    // store filtered for action
+    box._results = results;
+  }
+
+  function searchGo(idx, val) {
+    const box = document.getElementById('searchResults');
+    const results = searchData.filter(d => d.label.toLowerCase().includes(val.toLowerCase()));
+    if (results[idx]) results[idx].action();
+    box.classList.remove('show');
+    document.getElementById('searchInput').value = '';
+  }
+
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.search-box') && !e.target.closest('.search-results')) {
+      document.getElementById('searchResults').classList.remove('show');
+    }
+  });
+
+</script>
+</body>
+</html>

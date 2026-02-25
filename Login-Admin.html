@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login – TK Aisyiyah Timika</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100vw; height: 100vh; overflow: hidden;
+      font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    }
+
+    /* ── BACKGROUND SLIDESHOW ── */
+    .bg-wrap {
+      position: fixed; inset: 0; z-index: 0;
+    }
+    .bg-slide {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center;
+      opacity: 0; transition: opacity 1.6s ease-in-out;
+    }
+    .bg-slide.active { opacity: 1; }
+    .bg-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,.52);
+      backdrop-filter: blur(3px);
+      z-index: 1;
+    }
+
+    /* ── CENTER CARD ── */
+    .login-wrap {
+      position: relative; z-index: 10;
+      width: 100vw; height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .login-card {
+      width: 340px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 20px;
+      padding: 40px 36px 36px;
+      backdrop-filter: blur(22px) saturate(140%);
+      -webkit-backdrop-filter: blur(22px) saturate(140%);
+      box-shadow: 0 24px 60px rgba(0,0,0,.45);
+      text-align: center;
+      animation: cardIn .5s cubic-bezier(.22,1,.36,1);
+    }
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(30px) scale(.97); }
+      to   { opacity: 1; transform: translateY(0)  scale(1); }
+    }
+
+    /* Logo */
+    .card-logo {
+      width: 72px; height: 72px;
+      background: #fff; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 14px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.25);
+    }
+    .card-logo img { width: 58px; height: 58px; object-fit: contain; }
+
+    .card-title {
+      font-size: 1.05rem; font-weight: 700;
+      color: #fff; letter-spacing: .5px;
+      margin-bottom: 28px;
+      text-transform: uppercase;
+    }
+
+    /* Inputs */
+    .field { margin-bottom: 14px; text-align: left; }
+    .field label {
+      display: block; font-size: .75rem;
+      color: rgba(255,255,255,.7); margin-bottom: 5px;
+      text-transform: uppercase; letter-spacing: .4px;
+    }
+    .field input {
+      width: 100%; padding: 11px 42px 11px 14px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 10px;
+      color: #fff; font-size: .92rem;
+      outline: none; transition: border-color .25s, background .25s;
+    }
+    .field input::placeholder { color: rgba(255,255,255,.45); }
+    .input-wrap { position: relative; }
+    .eye-btn {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer;
+      color: rgba(255,255,255,.55); font-size: 1.15rem;
+      display: flex; align-items: center; padding: 0; line-height: 1;
+      transition: color .2s;
+    }
+    .eye-btn:hover { color: rgba(255,255,255,.95); }
+    .field input:focus {
+      border-color: rgba(0,204,48,.7);
+      background: rgba(255,255,255,.18);
+    }
+
+    /* Login button */
+    .btn-login {
+      width: 100%; margin-top: 8px;
+      padding: 13px;
+      border: none; border-radius: 10px;
+      background: linear-gradient(102deg, #cc0000 0%, #e00 100%);
+      color: #fff; font-size: .97rem; font-weight: 700;
+      cursor: pointer; letter-spacing: .4px;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 18px rgba(200,0,0,.45);
+    }
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(200,0,0,.55);
+    }
+    .btn-login:active { transform: scale(.98); }
+
+    .btn-back {
+      width: 100%; margin-top: 10px;
+      padding: 11px;
+      border: 1px solid rgba(255,255,255,.35); border-radius: 10px;
+      background: rgba(255,255,255,.08);
+      color: rgba(255,255,255,.85); font-size: .92rem; font-weight: 500;
+      cursor: pointer; letter-spacing: .3px;
+      transition: background .2s, border-color .2s, transform .2s;
+      backdrop-filter: blur(10px);
+    }
+    .btn-back:hover {
+      background: rgba(255,255,255,.18);
+      border-color: rgba(255,255,255,.6);
+      transform: translateY(-2px);
+    }
+
+    /* ── POPUP ── */
+    .popup-overlay {
+      display: none;
+      position: fixed; inset: 0; z-index: 999;
+      align-items: center; justify-content: center;
+      background: rgba(0,0,0,.35);
+      backdrop-filter: blur(4px);
+    }
+    .popup-overlay.show { display: flex; }
+
+    .popup-box {
+      background: #fff;
+      border-radius: 18px;
+      padding: 36px 44px 32px;
+      text-align: center;
+      min-width: 260px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.3);
+      animation: popIn .35s cubic-bezier(.22,1,.36,1);
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(.85); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    .popup-icon {
+      width: 64px; height: 64px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; margin: 0 auto 16px;
+    }
+    .popup-icon.success { background: #e8fbe8; border: 3px solid #00cc30; color: #00cc30; }
+    .popup-icon.error   { background: #fbe8e8; border: 3px solid #cc0000; color: #cc0000; }
+
+    .popup-title {
+      font-size: 1.25rem; font-weight: 800;
+      letter-spacing: 1px; margin-bottom: 20px;
+    }
+    .popup-title.success { color: #00a832; }
+    .popup-title.error   { color: #cc0000; }
+
+    .popup-btn {
+      padding: 10px 36px;
+      border: none; border-radius: 100px;
+      font-size: .95rem; font-weight: 700;
+      cursor: pointer; transition: transform .2s;
+    }
+    .popup-btn:hover { transform: translateY(-2px); }
+    .popup-btn.success { background: linear-gradient(102deg,#00af29,#00cc30); color: #fff; }
+    .popup-btn.error   { background: linear-gradient(102deg,#cc0000,#e00);   color: #fff; }
+
+    /* bottom label */
+    .bottom-label {
+      position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%);
+      font-size: .78rem; color: rgba(255,255,255,.45);
+      z-index: 5; white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BACKGROUND SLIDESHOW -->
+  <div class="bg-wrap">
+    <div class="bg-slide active" style="background-image:url('IMG-20260205-WA0019 (1) 1.png')"></div>
+    <div class="bg-slide" style="background-image:url('IMG-20260205-WA0021 1.png')"></div>
+    <div class="bg-slide" style="background-image:url('berkumpul.jpg')"></div>
+    <div class="bg-slide" style="background-image:url('Halaman.png')"></div>
+    <div class="bg-overlay"></div>
+  </div>
+
+  <!-- LOGIN CARD -->
+  <div class="login-wrap">
+    <div class="login-card">
+
+      <div class="card-logo">
+        <img src="LogoTk.png" alt="Logo TK Aisyiyah" />
+      </div>
+      <p class="card-title">Admin Login</p>
+
+      <div class="field">
+        <label>Username</label>
+        <input type="text" id="inputUser" placeholder="Masukkan username Anda" autocomplete="off" />
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <div class="input-wrap"><input type="password" id="inputPass" placeholder="Masukkan password Anda" /><button type="button" class="eye-btn" onclick="togglePass()" id="eyeBtn">👁️</button></div>
+      </div>
+
+      <button class="btn-login" onclick="doLogin()">Coba Login</button>
+      <button class="btn-back" onclick="window.location.href='TK_Aisyiyah_Timika.html'">Kembali ke Beranda</button>
+    </div>
+  </div>
+
+  <!-- POPUP SUCCESS -->
+  <div class="popup-overlay" id="popupSuccess">
+    <div class="popup-box">
+      <div class="popup-icon success">✓</div>
+      <div class="popup-title success">LOGIN BERHASIL</div>
+      <button class="popup-btn success" onclick="goToDashboard()">Oke</button>
+    </div>
+  </div>
+
+  <!-- POPUP ERROR -->
+  <div class="popup-overlay" id="popupError">
+    <div class="popup-box">
+      <div class="popup-icon error">✕</div>
+      <div class="popup-title error">LOGIN GAGAL</div>
+      <button class="popup-btn error" onclick="closeError()">Coba Lagi</button>
+    </div>
+  </div>
+
+  <p class="bottom-label">dashboard-admin</p>
+
+  <script>
+    // ── Credentials (ganti sesuai kebutuhan) ──
+    const ADMIN_USER = 'TK-Aisyiyah';
+    const ADMIN_PASS = 'Aisyiyah123';
+
+    function doLogin() {
+      const u = document.getElementById('inputUser').value.trim();
+      const p = document.getElementById('inputPass').value;
+      if (u === ADMIN_USER && p === ADMIN_PASS) {
+        document.getElementById('popupSuccess').classList.add('show');
+      } else {
+        document.getElementById('popupError').classList.add('show');
+      }
+    }
+
+    function goToDashboard() {
+      document.getElementById('popupSuccess').classList.remove('show');
+      window.location.href = 'dashboard_admin.html';
+    }
+
+    function closeError() {
+      document.getElementById('popupError').classList.remove('show');
+      document.getElementById('inputPass').value = '';
+      document.getElementById('inputPass').focus();
+    }
+
+    function togglePass() {
+      const inp = document.getElementById("inputPass");
+      const btn = document.getElementById("eyeBtn");
+      if (inp.type === "password") {
+        inp.type = "text";
+        btn.textContent = "🙈";
+      } else {
+        inp.type = "password";
+        btn.textContent = "👁️";
+      }
+    }
+
+    // Enter key
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Enter') doLogin();
+    });
+
+    // ── Background slideshow ──
+    const slides = document.querySelectorAll('.bg-slide');
+    let cur = 0;
+    setInterval(() => {
+      slides[cur].classList.remove('active');
+      cur = (cur + 1) % slides.length;
+      slides[cur].classList.add('active');
+    }, 5000);
+  </script>
+</body>
+</html>
