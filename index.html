@@ -54,6 +54,35 @@
       .btn-learn-more:hover { background: linear-gradient(102deg, #009a24 0%, #00b82c 100%); transform: translateY(-3px); box-shadow: 0 6px 25px rgba(0,168,50,0.5); }
       .btn-learn-more::after { content: '›'; font-size: 1.5rem; font-weight: bold; }
 
+      /* SECTION MENGENAL */
+      .section-profil-home { background: #fff; padding: 80px 0; }
+      .profil-home-inner { max-width: 1300px; margin: 0 auto; padding: 0 60px; }
+      .profil-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+      .profil-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; background: rgba(0,137,1,.1); border-radius: 100px; color: #008901; font-size: .8rem; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; margin-bottom: 20px; }
+      .profil-badge::before { content: ''; width: 7px; height: 7px; background: #008901; border-radius: 50%; }
+      .profil-heading { font-family: "Coolvetica-Regular","Arial Black",sans-serif; font-size: 2.3rem; font-weight: 900; color: #008901; line-height: 1.2; margin-bottom: 28px; }
+      .profil-text p { font-size: .97rem; line-height: 1.92; color: #555; margin-bottom: 16px; }
+      .profil-text p:last-child { margin-bottom: 0; }
+      .profil-img-wrap { position: relative; }
+      .profil-img-main { width: 100%; aspect-ratio: 4/3; border-radius: 24px; overflow: hidden; box-shadow: 0 24px 64px rgba(0,0,0,.16); }
+      .profil-img-main img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; display: block; }
+      .profil-img-main:hover img { transform: scale(1.04); }
+      .deco-sq { position: absolute; bottom: -22px; right: -22px; width: 140px; height: 140px; border-radius: 18px; background: #008901; opacity: .12; z-index: -1; }
+      .deco-ci { position: absolute; top: -14px; left: -14px; width: 80px; height: 80px; border-radius: 50%; border: 3px solid #008901; opacity: .2; z-index: -1; }
+
+      /* DIVIDER */
+      .sec-divider-home { max-width: 1300px; margin: 0 auto; padding: 0 60px; }
+      .sec-divider-line { height: 1.5px; background: linear-gradient(to right, transparent, #008901 30%, #008901 70%, transparent); opacity: .2; }
+
+      /* KENAPA */
+      .section-kenapa-home { background: #fff; padding: 60px 0 80px; }
+      .kenapa-home-inner { max-width: 1300px; margin: 0 auto; padding: 0 60px; }
+      .kenapa-top { display: grid; grid-template-columns: 300px 1fr; gap: 80px; align-items: start; }
+      .kenapa-title { font-family: "Coolvetica-Regular","Arial Black",sans-serif; font-size: 3.2rem; font-weight: 900; color: #008901; line-height: 1.1; }
+      .kenapa-title::after { content: ''; display: block; width: 56px; height: 5px; background: #008901; border-radius: 4px; margin-top: 20px; }
+      .kenapa-desc p { font-size: .97rem; line-height: 1.9; color: #555; margin-bottom: 16px; }
+      .kenapa-desc p:last-child { margin-bottom: 0; }
+
       /* CHATBOT */
       .chatbot-toggle { position: fixed; bottom: 110px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, #00af29 0%, #00cc30 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 20px rgba(0,204,48,0.4); z-index: 9997; transition: all 0.3s ease; border: 3px solid white; }
       .chatbot-toggle:hover { transform: scale(1.1); box-shadow: 0 6px 25px rgba(0,204,48,0.6); }
@@ -108,153 +137,12 @@
       .transition-blur .blur-center { top: 50%; left: 50%; transform: translate(-50%,-50%); width: 350px; height: 180px; background: radial-gradient(ellipse, #ffeb00 0%, transparent 70%); }
       .transition-blur .blur-right { top: 50%; right: 10%; transform: translateY(-50%); width: 380px; height: 190px; background: radial-gradient(ellipse, #0052cc 0%, transparent 70%); }
 
-      /* ===== SECTION 3: GALERI SEKOLAH — SLIDER ===== */
-      .section-gallery-old { position: relative; width: 100%; background: #ffffff; padding: 40px 20px 40px; }
-      .gallery-container { max-width: 1300px; margin: 0 auto; position: relative; z-index: 1; }
-      .breadcrumb { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; font-size: 1.2rem; justify-content: flex-start; }
-      .breadcrumb-item { color: #00a832; font-weight: 600; transition: color 0.3s ease; }
-      .breadcrumb-item.active { color: #666; }
-      .breadcrumb-separator { color: #00a832; font-size: 1.3rem; font-weight: 600; }
-      .gallery-slider-wrapper { position: relative; padding: 0 50px; }
-      .gallery-slider-outer { overflow: hidden; border-radius: 16px; }
-      .gallery-slider-track { display: flex; transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-      .gallery-slider-page { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 25px; flex: 0 0 100%; min-width: 100%; box-sizing: border-box; }
-      .gallery-slider-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 50px; height: 50px; background: rgba(255,255,255,0.95); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; z-index: 10; box-shadow: 0 4px 16px rgba(0,0,0,0.18); border: none; }
-      .gallery-slider-arrow:hover { background: #fff; transform: translateY(-50%) scale(1.1); box-shadow: 0 6px 20px rgba(0,0,0,0.25); }
-      .gallery-slider-arrow.arr-left { left: 0; }
-      .gallery-slider-arrow.arr-right { right: 0; }
-      .gallery-slider-arrow::before { content: ''; width: 11px; height: 11px; border-top: 3px solid #008901; border-right: 3px solid #008901; }
-      .gallery-slider-arrow.arr-left::before { transform: rotate(-135deg); margin-left: 4px; }
-      .gallery-slider-arrow.arr-right::before { transform: rotate(45deg); margin-right: 4px; }
-      .gallery-slider-dots { display: flex; justify-content: center; gap: 8px; margin-top: 24px; }
-      .gs-dot { width: 9px; height: 9px; border-radius: 50%; background: #ccc; cursor: pointer; transition: all 0.25s; }
-      .gs-dot.active { background: #008901; transform: scale(1.4); }
-
-      /* Gallery items shared */
-      .gallery-item { position: relative; width: 100%; aspect-ratio: 4/3; border-radius: 20px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.12); transition: transform 0.3s ease, box-shadow 0.3s ease; }
-      .gallery-item:hover { transform: translateY(-8px); box-shadow: 0 10px 30px rgba(0,0,0,0.18); }
-      .gallery-image { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
-      .gallery-item:hover .gallery-image { transform: scale(1.05); }
-      .img-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, transparent 100%); padding: 25px 18px 18px; opacity: 0; transition: opacity 0.35s ease; border-radius: 0 0 20px 20px; }
-      .gallery-item:hover .img-overlay, .mentor-card:hover .img-overlay { opacity: 1; }
-      .img-overlay-title { color: #ffffff; font-size: 1.05rem; font-weight: 700; margin: 0 0 5px 0; }
-      .img-overlay-desc { color: rgba(255,255,255,0.88); font-size: 0.8rem; line-height: 1.5; margin: 0; }
-
-      /* ===== SECTION 4: FASILITAS — STATIS 6 FOTO ===== */
-      .section-gallery-new { position: relative; width: 100%; background: #ffffff; padding: 20px 20px 40px; }
-      .gallery-new-container { max-width: 1400px; margin: 0 auto; position: relative; }
-      .breadcrumb-new { display: inline-flex; align-items: center; gap: 12px; padding: 12px 25px; background: linear-gradient(102deg, #00af29 0%, #00cc30 100%); border-radius: 50px; margin-bottom: 20px; font-size: 1rem; color: #ffffff; font-weight: 500; }
-      .breadcrumb-new .separator { font-size: 1.2rem; margin: 0 5px; }
-      .fasilitas-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 20px; }
-
-      /* MENTOR */
-      .section-mentor { position: relative; width: 100%; background: #ffffff; padding: 30px 20px 40px; }
-      .mentor-container { max-width: 1400px; margin: 0 auto; position: relative; }
-      .mentor-title { font-family: "Coolvetica-Regular","Arial Black",sans-serif; font-size: 3rem; font-weight: 700; color: #00a832; margin: 0 0 20px 0; line-height: 1.2; }
-      .mentor-section-wrapper { margin-bottom: 60px; position: relative; }
-      .mentor-section-breadcrumb { display: inline-flex; align-items: center; gap: 10px; padding: 8px 18px; background: #00cc30; border-radius: 20px; margin-bottom: 25px; font-size: 0.9rem; color: #ffffff; font-weight: 500; }
-      .mentor-section-breadcrumb .separator { margin: 0 3px; }
-      .mentor-grid-outer { overflow: hidden; }
-      .mentor-grid { display: flex; transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94); }
-      .mentor-grid-slide { flex: 0 0 25%; padding: 0 10px; box-sizing: border-box; }
-      .mentor-card { position: relative; background: #ffffff; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); transition: transform 0.3s ease, box-shadow 0.3s ease; }
-      .mentor-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
-      .mentor-image-wrapper { position: relative; width: 100%; aspect-ratio: 3/4; overflow: hidden; background: #f5f5f5; }
-      .mentor-image { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
-      .mentor-card:hover .mentor-image { transform: scale(1.05); }
-      .mentor-arrows { position: absolute; display: flex; flex-direction: column; gap: 10px; z-index: 10; }
-      .mentor-arrows.left { top: 50%; left: -50px; transform: translateY(-50%); }
-      .mentor-arrow-btn { width: 40px; height: 40px; background: #00cc30; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 3px 10px rgba(0,204,48,0.3); border: none; }
-      .mentor-arrow-btn:hover { background: #00af29; transform: scale(1.05); }
-      .mentor-arrow-btn::before { content: ''; width: 8px; height: 8px; border-top: 2.5px solid #ffffff; border-right: 2.5px solid #ffffff; }
-      .mentor-arrow-btn.arrow-right::before { transform: rotate(45deg); margin-right: 2px; }
-      .mentor-arrow-btn.arrow-left::before { transform: rotate(-135deg); margin-left: 2px; }
-      .mentor-slider-dots { display: flex; justify-content: center; gap: 8px; margin-top: 20px; }
-      .mentor-dot { width: 10px; height: 10px; border-radius: 50%; background: #ccc; cursor: pointer; transition: background 0.3s, transform 0.3s; }
-      .mentor-dot.active { background: #00cc30; transform: scale(1.3); }
-
-      /* TESTIMONI */
-      .section-testimonial { position: relative; width: 100%; background: #f5f5f5; padding: 40px 20px 60px; }
-      .testimonial-container { max-width: 1400px; margin: 0 auto; }
-      .testimonial-header { text-align: center; margin-bottom: 30px; }
-      .testimonial-title { font-family: "Coolvetica-Regular","Arial Black",sans-serif; font-size: 3.2rem; font-weight: 700; color: #00a832; margin: 0 0 20px 0; line-height: 1.3; }
-      .testimonial-subtitle { font-size: 1.1rem; color: #666; max-width: 900px; margin: 0 auto; line-height: 1.6; }
-      .testimonial-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 25px; margin-bottom: 50px; }
-      .testimonial-card { background: #ffffff; border-radius: 20px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); transition: transform 0.3s ease, box-shadow 0.3s ease; border: 2px solid #e0e0e0; }
-      .testimonial-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.12); border-color: #00cc30; }
-      .testimonial-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; }
-      .testimonial-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
-      .testimonial-info { flex: 1; }
-      .testimonial-name { font-size: 1.1rem; font-weight: 700; color: #00a832; margin: 0 0 3px 0; }
-      .testimonial-role { font-size: 0.9rem; color: #666; margin: 0; }
-      .testimonial-rating { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
-      .star { font-size: 1.2rem; }
-      .rating-number { font-size: 0.95rem; font-weight: 600; color: #00a832; }
-      .testimonial-text { font-size: 0.95rem; line-height: 1.7; color: #444; margin: 0; }
-      .testimonial-button-wrapper { display: flex; justify-content: center; }
-      .btn-read-all-testimonial { display: inline-flex; align-items: center; gap: 10px; padding: 15px 40px; border: none; border-radius: 100px; background: linear-gradient(102deg, #00af29 0%, #00cc30 100%); color: #ffffff; font-size: 1.05rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(0,168,50,0.4); }
-      .btn-read-all-testimonial:hover { background: linear-gradient(102deg, #009a24 0%, #00b82c 100%); transform: translateY(-3px); }
-      .arrow-icon { font-size: 1.5rem; font-weight: bold; }
-
-      /* MODAL TESTIMONI */
-      .testi-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,30,10,0.65); backdrop-filter: blur(8px); z-index: 99999; align-items: center; justify-content: center; padding: 30px 20px; }
-      .testi-modal-overlay.active { display: flex; animation: testiOverlayIn 0.3s ease; }
-      @keyframes testiOverlayIn { from { opacity: 0; } to { opacity: 1; } }
-      .testi-modal-box { background: #f5f5f5; border-radius: 28px; width: 100%; max-width: 1100px; max-height: calc(100vh - 60px); position: relative; animation: testiBoxIn 0.35s cubic-bezier(0.22,1,0.36,1); box-shadow: 0 24px 80px rgba(0,0,0,0.35); display: flex; flex-direction: column; overflow: hidden; }
-      @keyframes testiBoxIn { from { opacity: 0; transform: translateY(50px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
-      .testi-modal-header-wrap { flex-shrink: 0; padding: 36px 40px 0; background: #f5f5f5; border-radius: 28px 28px 0 0; position: relative; }
-      .testi-modal-close { position: absolute; top: 16px; right: 16px; width: 44px; height: 44px; border-radius: 50%; border: 2px solid #00cc30; background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #00cc30; font-weight: bold; transition: all 0.25s; z-index: 10; }
-      .testi-modal-close:hover { background: #00cc30; color: white; transform: rotate(90deg); }
-      .testi-modal-header { text-align: center; padding-bottom: 24px; border-bottom: 2px dashed #c8f0d0; }
-      .testi-modal-header h2 { font-family: "Coolvetica-Regular","Arial Black",sans-serif; font-size: clamp(1.6rem,3vw,2.6rem); font-weight: 700; color: #00a832; margin-bottom: 8px; }
-      .testi-modal-header p { font-size: 1rem; color: #666; }
-      .testi-modal-scroll-area { flex: 1; overflow-y: auto; padding: 28px 40px 40px; scrollbar-width: thin; scrollbar-color: #00cc30 #e8f5ea; }
-      .testi-modal-scroll-area::-webkit-scrollbar { width: 7px; }
-      .testi-modal-scroll-area::-webkit-scrollbar-thumb { background: #00cc30; border-radius: 10px; }
-      .testi-modal-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
-      .testi-modal-card { background: #ffffff; border-radius: 18px; padding: 22px 20px; border: 2px solid #e8f5ea; box-shadow: 0 3px 14px rgba(0,168,50,0.07); transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s, opacity 0.4s ease, translate 0.4s ease; opacity: 0; translate: 0 24px; }
-      .testi-modal-card.visible { opacity: 1; translate: 0 0; }
-      .testi-modal-card:hover { transform: translateY(-5px); box-shadow: 0 10px 28px rgba(0,168,50,0.14); border-color: #00cc30; }
-      .testi-modal-card .testi-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-      .testi-modal-avatar { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; color: white; flex-shrink: 0; }
-      .testi-card-info .testi-card-name { font-size: 1rem; font-weight: 700; color: #00a832; margin: 0 0 2px 0; }
-      .testi-card-info .testi-card-role { font-size: 0.82rem; color: #888; margin: 0; }
-      .testi-modal-card .testi-stars { display: flex; gap: 2px; margin-bottom: 10px; }
-      .testi-modal-card .testi-stars span { font-size: 1rem; color: #f59e0b; }
-      .testi-modal-card .testi-text { font-size: 0.9rem; line-height: 1.7; color: #555; margin: 0; }
-      .testi-modal-footer { text-align: center; margin-top: 36px; padding-top: 24px; border-top: 2px dashed #c8f0d0; color: #888; font-size: 0.9rem; }
-
-      /* ===== CTA — DISAMAKAN DENGAN GAMBAR REFERENSI ===== */
+      /* CTA */
       .section-cta { position: relative; width: 100%; background: #ffffff; display: flex; align-items: center; justify-content: center; padding: 60px 20px; }
       .cta-container { text-align: center; max-width: 900px; }
-      .cta-title {
-        font-family: "Arial Black", "Coolvetica-Regular", sans-serif;
-        font-size: 2.8rem;
-        font-weight: 900;
-        color: #00a832;
-        margin: 0 0 30px 0;
-        line-height: 1.25;
-      }
-      .btn-cta-ppdb {
-        display: inline-block;
-        padding: 12px 36px;
-        border: none;
-        border-radius: 100px;
-        background: linear-gradient(102deg, #00af29 0%, #00cc30 100%);
-        color: #ffffff;
-        font-size: 0.95rem;
-        font-weight: 700;
-        letter-spacing: 0.5px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 18px rgba(0,168,50,0.35);
-        text-decoration: none;
-      }
-      .btn-cta-ppdb:hover {
-        background: linear-gradient(102deg, #009a24 0%, #00b82c 100%);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 22px rgba(0,168,50,0.5);
-      }
+      .cta-title { font-family: "Arial Black", "Coolvetica-Regular", sans-serif; font-size: 2.8rem; font-weight: 900; color: #00a832; margin: 0 0 30px 0; line-height: 1.25; }
+      .btn-cta-ppdb { display: inline-block; padding: 12px 36px; border: none; border-radius: 100px; background: linear-gradient(102deg, #00af29 0%, #00cc30 100%); color: #ffffff; font-size: 0.95rem; font-weight: 700; letter-spacing: 0.5px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 18px rgba(0,168,50,0.35); text-decoration: none; }
+      .btn-cta-ppdb:hover { background: linear-gradient(102deg, #009a24 0%, #00b82c 100%); transform: translateY(-2px); }
 
       /* FOOTER */
       .footer { position: relative; width: 100%; background: #00a832; padding: 35px 60px; }
@@ -283,18 +171,20 @@
       .footer-map:hover .map-overlay { opacity: 1; }
       .map-overlay-text { color: #ffffff; font-size: 1.1rem; font-weight: 600; text-align: center; padding: 10px; }
 
+      @media (max-width: 1100px) {
+        .profil-grid { grid-template-columns: 1fr; gap: 36px; }
+        .kenapa-top { grid-template-columns: 1fr; gap: 28px; }
+        .profil-home-inner, .kenapa-home-inner { padding: 0 32px; }
+      }
       @media (max-width: 768px) {
         .navbar { top: 20px; }
         .hero-title { font-size: 2.5rem; }
-        .gallery-slider-page { grid-template-columns: 1fr; grid-template-rows: auto; }
-        .fasilitas-grid { grid-template-columns: 1fr; }
-        .testimonial-grid { grid-template-columns: 1fr; }
-        .testi-modal-grid { grid-template-columns: 1fr; }
         .cta-title { font-size: 2rem; }
-        .gallery-slider-wrapper { padding: 0 35px; }
-      }
-      @media (max-width: 480px) {
-        .mentor-grid-slide { flex: 0 0 100%; }
+        .profil-home-inner, .kenapa-home-inner { padding: 0 20px; }
+        .section-profil-home, .section-kenapa-home { padding: 50px 0; }
+        .footer { padding: 28px 24px; }
+        .footer-container { flex-direction: column; gap: 28px; align-items: flex-start; }
+        .footer-center { border: none; margin: 0; padding: 0; }
       }
     </style>
   </head>
@@ -316,7 +206,7 @@
         <div class="nav-right">
           <div class="nav-item text-scalable">Beranda</div>
           <div class="nav-item text-scalable" onclick="window.location.href='profil_sekolah.html'">Profil Sekolah</div>
-          <div class="nav-item text-scalable" onclick="window.location.href='Fasilitas.html'">Fasilitas</div>
+          <div class="nav-item text-scalable" onclick="window.location.href='Galeri.html'">Galeri</div>
           <button class="btn-admin" onclick="window.location.href='Login-Admin.html'">Admin Login</button>
           <button class="btn-ppdb text-scalable" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSfHN9S8RSsGs-huLbVv7qaaqlOKi-tCzG9veoakL9N_4LPr7g/viewform','_blank')">PPDB 2026/2027</button>
         </div>
@@ -324,7 +214,7 @@
       
       <div class="hero-content">
         <h1 class="hero-title text-scalable">TK AISYIYAH MIMIKA</h1>
-        <p class="hero-text text-scalable">Kami menciptakan lingkungan yang aman dan penuh kasih untuk mendukung setiap tahap tumbuh kembang si kecil melalui bermain dan belajar.</p>
+        <p class="hero-text text-scalable">Tempat Yang Aman dan Nyaman Untuk Belajar Sambil Bermain dan Mendidik Karakter Anak Usia Dini Di Wilayah Mimika Papua Tengah</p>
       </div>
     </section>
     
@@ -369,7 +259,7 @@
       </div>
       <div class="colorful-content">
         <h2 class="colorful-heading text-scalable">Lebih dari Sekadar Belajar</h2>
-        <p class="colorful-paragraph text-scalable">Kami membangun karakter dan kemandirian, sekaligus menjadi wadah bagi imajinasi si kecil untuk mekar menjadi karya nyata agar ia siap menghadapi dunia dengan percaya diri.</p>
+        <p class="colorful-paragraph text-scalable">Kami Juga Membangun Terbentuknya Tunas Pelajar yang Bertaqwa, Berakhlak Mulia, Mandiri, Cakap, Kreatif dan Peduli.</p>
         <button class="btn-learn-more text-scalable" onclick="learnMore()">Selengkapnya</button>
       </div>
     </section>
@@ -383,124 +273,45 @@
       </div>
     </section>
 
-    <!-- SECTION 3: GALERI SEKOLAH — SLIDER -->
-    <section class="section-gallery-old" id="gallery">
-      <div class="gallery-container">
-        <div class="breadcrumb">
-          <span class="breadcrumb-item">Beranda</span>
-          <span class="breadcrumb-separator">›</span>
-          <span class="breadcrumb-item active">Galeri Sekolah</span>
-        </div>
-        <div class="gallery-slider-wrapper">
-          <button class="gallery-slider-arrow arr-left" onclick="moveGallerySlider(-1)"></button>
-          <div class="gallery-slider-outer">
-            <div class="gallery-slider-track" id="gallerySliderTrack">
-              <!-- Page 1 -->
-              <div class="gallery-slider-page">
-                <div class="gallery-item"><img src="berkumpul.jpg" alt="Kegiatan 1" class="gallery-image" /><div class="img-overlay"><p class="img-overlay-title">LOREM IPSUM</p><p class="img-overlay-desc">Lorem ipsum dolor sit amet.</p></div></div>
-                <div class="gallery-item"><img src="IMG-20260205-WA0021 1.png" alt="Kegiatan 2" class="gallery-image" /><div class="img-overlay"><p class="img-overlay-title">LOREM IPSUM</p><p class="img-overlay-desc">Lorem ipsum dolor sit amet.</p></div></div>
-                <div class="gallery-item"><img src="IMG-20260205-WA0024 1.png" alt="Kegiatan 3" class="gallery-image" /><div class="img-overlay"><p class="img-overlay-title">LOREM IPSUM</p><p class="img-overlay-desc">Lorem ipsum dolor sit amet.</p></div></div>
-                <div class="gallery-item"><img src="IMG-20260205-WA0027 1.png" alt="Kegiatan 4" class="gallery-image" /><div class="img-overlay"><p class="img-overlay-title">LOREM IPSUM</p><p class="img-overlay-desc">Lorem ipsum dolor sit amet.</p></div></div>
-                <div class="gallery-item"><img src="Cita-Cita.jpg" alt="Kegiatan 5" class="gallery-image" /><div class="img-overlay"><p class="img-overlay-title">LOREM IPSUM</p><p class="img-overlay-desc">Lorem ipsum dolor sit amet.</p></div></div>
-                <div class="gallery-item"><img src="Pawai.jpg" alt="Kegiatan 6" class="gallery-image" /><div class="img-overlay"><p class="img-overlay-title">LOREM IPSUM</p><p class="img-overlay-desc">Lorem ipsum dolor sit amet.</p></div></div>
-              </div>
-              <!-- Page 2 -->
-              <div class="gallery-slider-page">
-                <div class="gallery-item"><img src="IMG-20260205-WA0019 (1) 1.png" alt="Kegiatan 7" class="gallery-image" /><div class="img-overlay"><p class="img-overlay-title">LOREM IPSUM</p><p class="img-overlay-desc">Lorem ipsum dolor sit amet.</p></div></div>
-                <div class="gallery-item"><img src="berkumpul.jpg" alt="Kegiatan 8" class="gallery-image" /><div class="img-overlay"><p class="img-overlay-title">LOREM IPSUM</p><p class="img-overlay-desc">Lorem ipsum dolor sit amet.</p></div></div>
-                <div class="gallery-item"><img src="Cita-Cita.jpg" alt="Kegiatan 9" class="gallery-image" /><div class="img-overlay"><p class="img-overlay-title">LOREM IPSUM</p><p class="img-overlay-desc">Lorem ipsum dolor sit amet.</p></div></div>
-                <div class="gallery-item"><img src="Pawai.jpg" alt="Kegiatan 10" class="gallery-image" /><div class="img-overlay"><p class="img-overlay-title">LOREM IPSUM</p><p class="img-overlay-desc">Lorem ipsum dolor sit amet.</p></div></div>
-                <div class="gallery-item"><img src="IMG-20260205-WA0024 1.png" alt="Kegiatan 11" class="gallery-image" /><div class="img-overlay"><p class="img-overlay-title">LOREM IPSUM</p><p class="img-overlay-desc">Lorem ipsum dolor sit amet.</p></div></div>
-                <div class="gallery-item"><img src="IMG-20260205-WA0027 1.png" alt="Kegiatan 12" class="gallery-image" /><div class="img-overlay"><p class="img-overlay-title">LOREM IPSUM</p><p class="img-overlay-desc">Lorem ipsum dolor sit amet.</p></div></div>
-              </div>
+    <!-- SECTION: MENGENAL TK AISYIYAH -->
+    <section class="section-profil-home" id="mengenal">
+      <div class="profil-home-inner">
+        <div class="profil-grid">
+          <div>
+            <div class="profil-badge">Profil Kami</div>
+            <h2 class="profil-heading">Mengenal TK Aisyiyah Mimika</h2>
+            <div class="profil-text">
+              <p>TK Aisyiyah Mimika Berdiri Sejak Tahun 2011, Berada Di Bawah Naungan Organisasi Pimpinan Daerah Aisyiyah (PDA) dan Pimpinan Daerah Muhammadiyah (PDM) Mimika, NPSN : 60304918, NSS : 002251201507 dan Terakreditasi B Tahun 2024.</p>
+              <p>Berdiri Dengan Komitmen Penuh Untuk Membentuk Tunas Pelajar dan Bertakwa, Berahlak Mulia, Mandiri, Cakap, Kreatif dan Peduli. Dengan Pendekatan Pembelajaran Yang Holistik Integratif dan Berbasis Nilai-Nilai Islami.</p>
+              <p>Kami Memastikan Setiap Anak Mendapatkan Pengalaman Belajar Yang Menyenangkan, Aman, dan Bermakna. Karena Kami Percaya Masa Depan Anak Adalah Pondasi Penting Dalam Kehidupan Setiap Anak.</p>
             </div>
           </div>
-          <button class="gallery-slider-arrow arr-right" onclick="moveGallerySlider(1)"></button>
-        </div>
-        <div class="gallery-slider-dots" id="gallerySliderDots"></div>
-      </div>
-    </section>
-
-    <!-- SECTION 4: FASILITAS -->
-    <section class="section-gallery-new" id="gallery-new">
-      <div class="gallery-new-container">
-        <div class="breadcrumb-new">
-          <span>Beranda</span><span class="separator">›</span><span>Fasilitas Sekolah  | Ruang aman untuk bereksplorasi, melatih kemandirian, dan membiarkan imajinasi si kecil terbang tinggi</span>
-        </div>
-        <div class="fasilitas-grid">
-          <div class="gallery-item"><img src="Fasilitas_Full.png" alt="Fasilitas 1" class="gallery-image" /><div class="img-overlay"><p class="img-overlay-title">Ruang Kelas Sekolah</p><p class="img-overlay-desc">Ruang kelas adalah tempat belajar di sekolah Yang Nyaman dan Terang Saat Digunakan, Di ruang kelas ada meja, kursi, papan tulis, dan buku-buku. Di sana, guru mengajar dan murid-murid belajar bersama teman-teman.</p></div></div>
-          <div class="gallery-item"><img src="Halaman.png" alt="Fasilitas 2" class="gallery-image" /><div class="img-overlay"><p class="img-overlay-title">Halaman Sekolah</p><p class="img-overlay-desc">Halaman adalah bagian luar dari Sekolah Yang Luas, Indah dan Segar Di halaman, kita bisa bermain, berlari, atau menanam bunga dan pohon. Halaman sekolah sering dipakai untuk upacara atau bermain saat istirahat.</p></div></div>
-          <div class="gallery-item"><img src="berkumpul.jpg" alt="Fasilitas 3" class="gallery-image" /><div class="img-overlay"><p class="img-overlay-title">Aula Sekolah</p><p class="img-overlay-desc">Aula adalah ruangan yang besar dan luas di dalam sebuah gedung. Aula biasanya digunakan untuk berkumpul banyak orang</p></div></div>
-          <div class="gallery-item"><img src="Nonton.png" alt="Fasilitas 4" class="gallery-image" /><div class="img-overlay"><p class="img-overlay-title">TV Sekolah</p><p class="img-overlay-desc">TV Yang Besar dan Lebar dengan TV, kita bisa menonton film, kartun, berita, dan acara lainnya.</p></div></div>
-          <div class="gallery-item"><img src="IMG-20260205-WA0019 (1) 1.png" alt="Fasilitas 5" class="gallery-image" /><div class="img-overlay"><p class="img-overlay-title">Perpustakaan Sekolah</p><p class="img-overlay-desc">Perpustakaan adalah tempat yang penuh dengan buku. Di perpustakaan, kita bisa membaca buku cerita, buku bergambar, dan buku pelajaran.</p></div></div>
-          <div class="gallery-item"><img src="IMG-20260205-WA0021 1.png" alt="Fasilitas 6" class="gallery-image" /><div class="img-overlay"><p class="img-overlay-title">LOREM IPSUM</p><p class="img-overlay-desc">Lorem ipsum dolor sit amet.</p></div></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SECTION 5: MENTOR -->
-    <section class="section-mentor" id="mentor">
-      <div class="mentor-container">
-        <h2 class="mentor-title">Mentor, Inspirator, dan Sahabat Belajar</h2>
-        <div class="mentor-section-wrapper">
-          <div class="mentor-section-breadcrumb"><span>Beranda</span><span class="separator">›</span><span>Staff Pengajar / Tenaga Kependidikan</span></div>
-          <div class="mentor-arrows left">
-            <div class="mentor-arrow-btn arrow-right" onclick="slideMentorSection('staff',1)"></div>
-            <div class="mentor-arrow-btn arrow-left" onclick="slideMentorSection('staff',-1)"></div>
+          <div class="profil-img-wrap">
+            <div class="profil-img-main"><img src="Berkumpul2.png" alt="Foto TK Aisyiyah" /></div>
+            <div class="deco-sq"></div>
+            <div class="deco-ci"></div>
           </div>
-          <div class="mentor-grid-outer">
-            <div class="mentor-grid" id="staffGrid">
-              <div class="mentor-grid-slide"><div class="mentor-card"><div class="mentor-image-wrapper"><img src="1.png" alt="Kepsek" class="mentor-image" /><div class="img-overlay"><p class="img-overlay-title">Kepsek : Parliyah, S.Pd, Gr</p><p class="img-overlay-desc">Kepala Sekolah TK AISYIYAH.</p></div></div></div></div>
-              <div class="mentor-grid-slide"><div class="mentor-card"><div class="mentor-image-wrapper"><img src="2.png" alt="Operator" class="mentor-image" /><div class="img-overlay"><p class="img-overlay-title">Operator : Nur Wahyu Widodo</p><p class="img-overlay-desc">Operator Sekolah TK AISYIYAH.</p></div></div></div></div>
-              <div class="mentor-grid-slide"><div class="mentor-card"><div class="mentor-image-wrapper"><img src="8.png" alt="TU" class="mentor-image" /><div class="img-overlay"><p class="img-overlay-title">TU : Fatimah Salsabila</p><p class="img-overlay-desc">Tata Usaha/ Tenaga Administrasi.</p></div></div></div></div>
-              <div class="mentor-grid-slide"><div class="mentor-card"><div class="mentor-image-wrapper"><img src="3.png" alt="Guru 1" class="mentor-image" /><div class="img-overlay"><p class="img-overlay-title">Guru : Nur Octaviani</p><p class="img-overlay-desc">Guru / wali kelas TK B.</p></div></div></div></div>
-              <div class="mentor-grid-slide"><div class="mentor-card"><div class="mentor-image-wrapper"><img src="4.png" alt="Guru 2" class="mentor-image" /><div class="img-overlay"><p class="img-overlay-title">Guru : Mila Manne, S.Sos, S.Pd, Gr</p><p class="img-overlay-desc">Guru / wali kelas TK B.</p></div></div></div></div>
-              <div class="mentor-grid-slide"><div class="mentor-card"><div class="mentor-image-wrapper"><img src="5.png" alt="Guru 3" class="mentor-image" /><div class="img-overlay"><p class="img-overlay-title">Guru : Anggi Mutiara</p><p class="img-overlay-desc">Guru / wali kelas TK A.</p></div></div></div></div>
-              <div class="mentor-grid-slide"><div class="mentor-card"><div class="mentor-image-wrapper"><img src="6.png" alt="Guru 4" class="mentor-image" /><div class="img-overlay"><p class="img-overlay-title">Guru : Marwa, AMD</p><p class="img-overlay-desc">Guru / wali kelas TK B.</p></div></div></div></div>
-              <div class="mentor-grid-slide"><div class="mentor-card"><div class="mentor-image-wrapper"><img src="7.png" alt="Guru 5" class="mentor-image" /><div class="img-overlay"><p class="img-overlay-title">Guru : Yurdayin Aliah</p><p class="img-overlay-desc">Guru / wali kelas Pendamping.</p></div></div></div></div>
-            </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DIVIDER -->
+    <div class="sec-divider-home"><div class="sec-divider-line"></div></div>
+
+    <!-- SECTION: KENAPA HARUS TK AISYIYAH -->
+    <section class="section-kenapa-home" id="kenapa">
+      <div class="kenapa-home-inner">
+        <div class="kenapa-top">
+          <div><h2 class="kenapa-title">KENAPA<br>HARUS TK<br>AISYIYAH??</h2></div>
+          <div class="kenapa-desc">
+            <p>Karena TK Aisyiyah Berada Di Tempat Yang Aman, Nyaman, dan Menyenangkan. Diampuh Oleh Para Guru Yang Profesional, Sabar, dan Berdedikasi Tinggi.</p>
+            <p>Biaya Pendidikan Yang Terjangkau Dengan Fasilitas Yang Memuaskan.</p>
           </div>
-          <div class="mentor-slider-dots" id="staffDots"></div>
         </div>
       </div>
     </section>
 
-    <!-- SECTION 6: TESTIMONI -->
-    <section class="section-testimonial" id="testimonial">
-      <div class="testimonial-container">
-        <div class="testimonial-header">
-          <h2 class="testimonial-title">Saksi Keceriaan yang Tumbuh Bersama</h2>
-          <p class="testimonial-subtitle">Inilah cerita para orang tua yang telah melihat buah hati mereka tumbuh menjadi pribadi yang lebih mandiri, percaya diri, dan tentu saja, bahagia</p>
-        </div>
-        <div class="testimonial-grid">
-          <div class="testimonial-card"><div class="testimonial-card-header"><img src="LogoTk.png" alt="Wali Murid" class="testimonial-avatar" /><div class="testimonial-info"><h3 class="testimonial-name">Ibu Risnawati</h3><p class="testimonial-role">Wali Murid</p></div><div class="testimonial-rating"><span class="star">⭐</span><span class="rating-number">10/10</span></div></div><p class="testimonial-text">Alhamdulillah kami sebagai orang tua sangat senang menyekolahkan anak di TK ini. Guru-gurunya sabar, perhatian, dan penuh kasih sayang. Anak kami jadi lebih berani, mandiri, dan banyak perubahan baik yang kami rasakan di rumah.</p></div>
-          <div class="testimonial-card"><div class="testimonial-card-header"><img src="LogoTk.png" alt="Wali Murid" class="testimonial-avatar" /><div class="testimonial-info"><h3 class="testimonial-name">Ibu Nursaida</h3><p class="testimonial-role">Wali Murid</p></div><div class="testimonial-rating"><span class="star">⭐</span><span class="rating-number">10/10</span></div></div><p class="testimonial-text">Anak2 mendapat banyak pelajaran ilmu agama, hafalan-hafalan doa, sering mengadakan kegiatan outing class yg membuat anak2 mkin byk tahu tentang dunia luar sekolah, Uminya baik2, ramah dan jg sangat2 sabar dalam menghadapi anak2..</p></div>
-          <div class="testimonial-card"><div class="testimonial-card-header"><img src="LogoTk.png" alt="Wali Murid" class="testimonial-avatar" /><div class="testimonial-info"><h3 class="testimonial-name">Ibu Kisriwati</h3><p class="testimonial-role">Wali Murid</p></div><div class="testimonial-rating"><span class="star">⭐</span><span class="rating-number">10/10</span></div></div><p class="testimonial-text">Bismillah, Alhamdulillah ananda chaidiil sya masukan d TK Aisyiyah banyak prkembanganx, dri segi pmbelajaran dasar ank2 TK cukup baik, & dri segi biaya cukup trjangkau untuk smua kalangan, juga guru2 yg cukup terlatih dan sabar untuk mnghadapi ank2 yg berbagai macam karakterx🙏🏻</p></div>
-          <div class="testimonial-card"><div class="testimonial-card-header"><img src="LogoTk.png" alt="Wali Murid" class="testimonial-avatar" /><div class="testimonial-info"><h3 class="testimonial-name">Ibu Citra Dia Ayu</h3><p class="testimonial-role">Wali Murid</p></div><div class="testimonial-rating"><span class="star">⭐</span><span class="rating-number">10/10</span></div></div><p class="testimonial-text">Alhamdulillah saya senang menyekolahlan anak2 saya di tk aisyiyah anak2 saya bisa mengikuti arahan setiap ummi menjadi anak yg taat krna ummi2 nya sabar dan pmbelajaran di tk aisyiyah menyenangkan teimkasih 😊</p></div>
-          <div class="testimonial-card"><div class="testimonial-card-header"><img src="LogoTk.png" alt="Wali Murid" class="testimonial-avatar" /><div class="testimonial-info"><h3 class="testimonial-name">Ibu Faizah Maslikhah</h3><p class="testimonial-role">Wali Murid</p></div><div class="testimonial-rating"><span class="star">⭐</span><span class="rating-number">10/10</span></div></div><p class="testimonial-text">Alhamdulillah sy selaku orang tua sangat senang anak sy pernah mengenyam pendidikan usia dini di TK Aisyiyah. Karena selain lingkungan nya yg nyaman Para tenaga pendidik nya pun tak kalah luar biasa. Di sekolah TK Aisyiyah anak sy jadi lebih mandiri, berakhlaq mulia, dan berbudi pekerti yg baik.</p></div>
-          <div class="testimonial-card"><div class="testimonial-card-header"><img src="LogoTk.png" alt="Wali Murid" class="testimonial-avatar" /><div class="testimonial-info"><h3 class="testimonial-name">Ibu Fina Parapinda</h3><p class="testimonial-role">Wali Murid</p></div><div class="testimonial-rating"><span class="star">⭐</span><span class="rating-number">10/10</span></div></div><p class="testimonial-text">Alhamdulillah kami sangat bersyukur setelah memilih TK Aisyiyah untuk anak kami. Kami melihat perubahan, ia sudah bisa kontrol tantrumnya, lebih percaya diri, suka berbagi dan mulai mengenal huruf angka, do'a dan alhamdulillah sudah hafal surah pendek 🥰🙏🏻</p></div>
-        </div>
-        <div class="testimonial-button-wrapper">
-          <button class="btn-read-all-testimonial" onclick="bukaModalTestimoni()">BACA SEMUA TESTIMONI <span class="arrow-icon">›</span></button>
-        </div>
-      </div>
-    </section>
-
-    <!-- MODAL TESTIMONI -->
-    <div class="testi-modal-overlay" id="testiModalOverlay" onclick="tutupModalTestimoniOverlay(event)">
-      <div class="testi-modal-box">
-        <div class="testi-modal-header-wrap">
-          <button class="testi-modal-close" onclick="tutupModalTestimoni()" title="Tutup">✕</button>
-          <div class="testi-modal-header"><h2>💬 Semua Testimoni Orang Tua</h2><p>12 cerita dari para orang tua murid TK Aisyiyah Timika</p></div>
-        </div>
-        <div class="testi-modal-scroll-area">
-          <div class="testi-modal-grid" id="testiModalGrid"></div>
-          <div class="testi-modal-footer">✨ Bergabunglah bersama kami dan jadilah bagian dari cerita indah ini! &nbsp;|&nbsp; PPDB 2026/2027 Dibuka</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SECTION 7: CTA -->
+    <!-- SECTION: CTA -->
     <section class="section-cta" id="cta">
       <div class="cta-container">
         <h2 class="cta-title">Mulai Petualangan Si Kecil bersama kami!<br>Daftar Sekarang !</h2>
@@ -508,18 +319,18 @@
       </div>
     </section>
 
-    <!-- SECTION 8: FOOTER -->
-    <footer class="footer" id="footer">
+    <!-- FOOTER -->
+     <footer class="footer">
       <div class="footer-container">
         <div class="footer-left">
           <div class="footer-logo"><img src="LogoTk.png" alt="Logo TK Aisyiyah" class="footer-logo-img" /></div>
           <div class="footer-nav">
             <h4>Navigasi:</h4>
             <ul>
-              <li><a href="#hero">Beranda</a></li>
-              <li><a href="#colorful">Profil Sekolah</a></li>
-              <li><a href="Fasilitas.html">Fasilitas</a></li>
-              <li><a href="#mentor">Staff Pengajar</a></li>
+              <li><a href="index.html">Beranda</a></li>
+              <li><a href="profil_sekolah.html">Profil Sekolah</a></li>
+              <li><a href="Galeri.html">Galeri</a></li>
+              <li><a href="#staff-pengajar">Staff Pengajar</a></li>
             </ul>
           </div>
         </div>
@@ -543,55 +354,7 @@
     </footer>
 
     <script>
-      // ===== GALERI SEKOLAH SLIDER =====
-      let gsIdx = 0;
-      const GS_PAGES = 2;
-      function buildGallerySliderDots() {
-        const c = document.getElementById('gallerySliderDots');
-        c.innerHTML = '';
-        for (let i = 0; i < GS_PAGES; i++) {
-          const d = document.createElement('div');
-          d.className = 'gs-dot' + (i === gsIdx ? ' active' : '');
-          d.onclick = () => { gsIdx = i; applyGallerySlider(); buildGallerySliderDots(); };
-          c.appendChild(d);
-        }
-      }
-      function applyGallerySlider() {
-        document.getElementById('gallerySliderTrack').style.transform = `translateX(-${gsIdx * 100}%)`;
-      }
-      function moveGallerySlider(dir) {
-        gsIdx = Math.max(0, Math.min(GS_PAGES - 1, gsIdx + dir));
-        applyGallerySlider();
-        buildGallerySliderDots();
-      }
-      buildGallerySliderDots();
-
-      // ===== TESTIMONI =====
-      const semuaTestimoni = [
-        { nama: "Ibu Fauziah", inisial: "IF", kelas: "Wali Murid", warna: "linear-gradient(135deg,#00af29,#00cc30)", teks: "Kenal dengan ummi ummi Dan lingkungan TK aisyiyah sejak tahun 2021 anak pertama Saya masuk sekolah. Lanjut anak ke 2 di thn 2022 Dan skrg anak ke 3 masuk thn 2025. Melihat perkembangan anak pertama makanya kami pikir sekolah kan anak anak di sini semua saja. Selain Karena jaraknya yang tidak begitu jauh dari rumah, juga Karena Tim pengajarnya luar biasa. Luar biasa baik dan sabar menghadapi 3 anakku yang aktif 😁. Pokoknya Sudah cocok dengan TK Aisyiyah. ❤❤" },
-      ];
-      function bukaModalTestimoni() {
-        const grid = document.getElementById('testiModalGrid');
-        grid.innerHTML = semuaTestimoni.map((t, i) => `
-          <div class="testi-modal-card" id="tmc${i}" style="transition-delay:${i*45}ms;">
-            <div class="testi-card-header">
-              <div class="testi-modal-avatar" style="background:${t.warna};">${t.inisial}</div>
-              <div class="testi-card-info"><p class="testi-card-name">${t.nama}</p><p class="testi-card-role">${t.kelas}</p></div>
-            </div>
-            <div class="testi-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-            <p class="testi-text">"${t.teks}"</p>
-          </div>`).join('');
-        document.getElementById('testiModalOverlay').classList.add('active');
-        document.body.style.overflow = 'hidden';
-        requestAnimationFrame(() => {
-          semuaTestimoni.forEach((_, i) => setTimeout(() => { const el = document.getElementById('tmc'+i); if(el) el.classList.add('visible'); }, i*55));
-        });
-      }
-      function tutupModalTestimoni() { document.getElementById('testiModalOverlay').classList.remove('active'); document.body.style.overflow = ''; }
-      function tutupModalTestimoniOverlay(e) { if(e.target === document.getElementById('testiModalOverlay')) tutupModalTestimoni(); }
-      document.addEventListener('keydown', e => { if(e.key === 'Escape') tutupModalTestimoni(); });
-
-      // ===== CHATBOT =====
+      // CHATBOT
       let isChatbotOpen = false, hasSeenWelcome = false;
       const chatbotContainer = document.getElementById('chatbotContainer');
       const chatbotMessages = document.getElementById('chatbotMessages');
@@ -599,11 +362,7 @@
       const chatbotTyping = document.getElementById('chatbotTyping');
       const chatbotBadge = document.getElementById('chatbotBadge');
       const chatbotToggleIcon = document.getElementById('chatbotToggleIcon');
-      function toggleChatbot() {
-        isChatbotOpen = !isChatbotOpen;
-        if (isChatbotOpen) { chatbotContainer.classList.add('show'); chatbotToggleIcon.textContent = '✕'; chatbotBadge.style.display = 'none'; chatbotInput.focus(); hasSeenWelcome = true; }
-        else { chatbotContainer.classList.remove('show'); chatbotToggleIcon.textContent = '💬'; }
-      }
+      function toggleChatbot() { isChatbotOpen = !isChatbotOpen; if (isChatbotOpen) { chatbotContainer.classList.add('show'); chatbotToggleIcon.textContent = '✕'; chatbotBadge.style.display = 'none'; chatbotInput.focus(); hasSeenWelcome = true; } else { chatbotContainer.classList.remove('show'); chatbotToggleIcon.textContent = '💬'; } }
       setTimeout(() => { if (!hasSeenWelcome && !isChatbotOpen) chatbotBadge.style.display = 'flex'; }, 5000);
       const botResponses = { 'halo':'Halo! 👋 Ada yang bisa saya bantu?', 'hai':'Hai! 😊 Ada yang ingin ditanyakan?', 'ppdb':'Untuk info PPDB:\n📞 Hubungi kami\n📍 Datang langsung ke sekolah', 'biaya':'💰 Untuk info biaya, hubungi kantor kami!', 'fasilitas':'🏫 Fasilitas lengkap:\n✅ Ruang kelas nyaman\n✅ Playground aman', 'lokasi':'📍 Jl. Pendidikan No. 123, Timika, Papua', 'terima kasih':'Sama-sama! 😊' };
       function addChatMessage(msg, isUser) { const d=document.createElement('div'); d.className=`chatbot-message ${isUser?'user':'bot'}`; const b=document.createElement('div'); b.className='chatbot-message-bubble'; b.innerHTML=msg.replace(/\n/g,'<br>'); d.appendChild(b); chatbotMessages.insertBefore(d,chatbotTyping); chatbotMessages.scrollTop=chatbotMessages.scrollHeight; }
@@ -612,34 +371,20 @@
       function sendQuickReply(t) { chatbotInput.value=t; sendChatMessage(); }
       chatbotInput.addEventListener('keypress', e => { if(e.key==='Enter') sendChatMessage(); });
 
-      // ===== NAVBAR =====
+      // NAVBAR
       const navbar = document.querySelector('.navbar');
       window.addEventListener('scroll', () => navbar.classList.toggle('white-bg', window.pageYOffset > 100));
 
-      // ===== HERO SLIDESHOW =====
+      // HERO SLIDESHOW
       const backgrounds = document.querySelectorAll('.hero-background');
       let currentBg = 0;
       setInterval(() => { backgrounds[currentBg].classList.remove('active'); currentBg=(currentBg+1)%backgrounds.length; backgrounds[currentBg].classList.add('active'); }, 5000);
 
-      // ===== BACK TO TOP =====
+      // BACK TO TOP
       const backToTopBtn = document.getElementById('backToTop');
       window.addEventListener('scroll', () => backToTopBtn.classList.toggle('show', window.pageYOffset > window.innerHeight/2));
       function scrollToTop() { window.scrollTo({ top:0, behavior:'smooth' }); }
-      function learnMore() { window.location.href = 'profil_sekolah.html'; }
-
-      // ===== MENTOR SLIDER =====
-      const mentorState = { staff: { index:0, total:8 } };
-      function getMentorPerView() { if(window.innerWidth<=480) return 1; if(window.innerWidth<=768) return 2; if(window.innerWidth<=1024) return 3; return 4; }
-      function renderStaffDots() {
-        const pv=getMentorPerView(); const total=Math.max(1,mentorState.staff.total-pv+1);
-        const c=document.getElementById('staffDots'); if(!c)return; c.innerHTML='';
-        for(let i=0;i<total;i++){const d=document.createElement('div'); d.className='mentor-dot'+(i===mentorState.staff.index?' active':''); d.onclick=()=>{mentorState.staff.index=i; document.getElementById('staffGrid').style.transform=`translateX(-${i*(100/pv)}%)`; renderStaffDots();}; c.appendChild(d);}
-      }
-      function slideMentorSection(sec, dir) { const s=mentorState[sec]; const pv=getMentorPerView(); const max=Math.max(0,s.total-pv); s.index=Math.max(0,Math.min(max,s.index+dir)); document.getElementById('staffGrid').style.transform=`translateX(-${s.index*(100/pv)}%)`; renderStaffDots(); }
-      window.addEventListener('resize', ()=>{ mentorState.staff.index=0; const t=document.getElementById('staffGrid'); if(t) t.style.transform='translateX(0%)'; renderStaffDots(); });
-
-      // ===== INIT =====
-      window.addEventListener('load', () => { renderStaffDots(); });
+      function learnMore() { document.getElementById('mengenal').scrollIntoView({ behavior:'smooth' }); }
     </script>
   </body>
 </html>
