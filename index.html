@@ -224,12 +224,37 @@
       .testi-modal-card .testi-text { font-size: 0.9rem; line-height: 1.7; color: #555; margin: 0; }
       .testi-modal-footer { text-align: center; margin-top: 36px; padding-top: 24px; border-top: 2px dashed #c8f0d0; color: #888; font-size: 0.9rem; }
 
-      /* ===== CTA — BACKGROUND PUTIH ===== */
-      .section-cta { position: relative; width: 100%; min-height: 60vh; background: #ffffff; display: flex; align-items: center; justify-content: center; padding: 80px 20px; }
+      /* ===== CTA — DISAMAKAN DENGAN GAMBAR REFERENSI ===== */
+      .section-cta { position: relative; width: 100%; background: #ffffff; display: flex; align-items: center; justify-content: center; padding: 60px 20px; }
       .cta-container { text-align: center; max-width: 900px; }
-      .cta-title { font-family: "Coolvetica-Regular","Arial Black",sans-serif; font-size: 3.5rem; font-weight: 700; color: #00a832; margin: 0 0 40px 0; line-height: 1.3; }
-      .btn-cta-ppdb { padding: 18px 50px; border: none; border-radius: 100px; background: linear-gradient(102deg, #00af29 0%, #00cc30 100%); color: #ffffff; font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 6px 25px rgba(0,168,50,0.35); }
-      .btn-cta-ppdb:hover { background: linear-gradient(102deg, #009a24 0%, #00b82c 100%); transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,168,50,0.5); }
+      .cta-title {
+        font-family: "Arial Black", "Coolvetica-Regular", sans-serif;
+        font-size: 2.8rem;
+        font-weight: 900;
+        color: #00a832;
+        margin: 0 0 30px 0;
+        line-height: 1.25;
+      }
+      .btn-cta-ppdb {
+        display: inline-block;
+        padding: 12px 36px;
+        border: none;
+        border-radius: 100px;
+        background: linear-gradient(102deg, #00af29 0%, #00cc30 100%);
+        color: #ffffff;
+        font-size: 0.95rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 18px rgba(0,168,50,0.35);
+        text-decoration: none;
+      }
+      .btn-cta-ppdb:hover {
+        background: linear-gradient(102deg, #009a24 0%, #00b82c 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 22px rgba(0,168,50,0.5);
+      }
 
       /* FOOTER */
       .footer { position: relative; width: 100%; background: #00a832; padding: 35px 60px; }
@@ -286,19 +311,19 @@
       <nav class="navbar">
         <div class="nav-logo">
           <div class="logo-wrapper"><img class="logo-img" src="LogoTk.png" alt="Logo TK Aisyiyah" /></div>
-          <span class="nav-brand text-scalable">TK Aisyiyah Timika</span>
+          <span class="nav-brand text-scalable">TK Aisyiyah Mimika</span>
         </div>
         <div class="nav-right">
           <div class="nav-item text-scalable">Beranda</div>
           <div class="nav-item text-scalable" onclick="window.location.href='profil_sekolah.html'">Profil Sekolah</div>
-          <div class="nav-item text-scalable"onclick="window.location.href='Fasilitas.html'">Fasilitas</div>
+          <div class="nav-item text-scalable" onclick="window.location.href='Fasilitas.html'">Fasilitas</div>
           <button class="btn-admin" onclick="window.location.href='Login-Admin.html'">Admin Login</button>
-          <button class="btn-ppdb text-scalable">PPDB 2026/2027</button>
+          <button class="btn-ppdb text-scalable" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSfHN9S8RSsGs-huLbVv7qaaqlOKi-tCzG9veoakL9N_4LPr7g/viewform','_blank')">PPDB 2026/2027</button>
         </div>
       </nav>
       
       <div class="hero-content">
-        <h1 class="hero-title text-scalable">Tenaga Pendidik dan Kependidikan</h1>
+        <h1 class="hero-title text-scalable">TK AISYIYAH MIMIKA</h1>
         <p class="hero-text text-scalable">Kami menciptakan lingkungan yang aman dan penuh kasih untuk mendukung setiap tahap tumbuh kembang si kecil melalui bermain dan belajar.</p>
       </div>
     </section>
@@ -396,7 +421,7 @@
       </div>
     </section>
 
-    <!-- SECTION 4: FASILITAS — STATIS 6 FOTO -->
+    <!-- SECTION 4: FASILITAS -->
     <section class="section-gallery-new" id="gallery-new">
       <div class="gallery-new-container">
         <div class="breadcrumb-new">
@@ -425,14 +450,14 @@
           </div>
           <div class="mentor-grid-outer">
             <div class="mentor-grid" id="staffGrid">
-              <div class="mentor-grid-slide"><div class="mentor-card"><div class="mentor-image-wrapper"><img src="1.jpg" alt="Kepsek" class="mentor-image" /><div class="img-overlay"><p class="img-overlay-title">Kepsek : Parliyah, S.Pd, Gr</p><p class="img-overlay-desc">Kepala Sekolah TK AISYIYAH.</p></div></div></div></div>
-              <div class="mentor-grid-slide"><div class="mentor-card"><div class="mentor-image-wrapper"><img src="7.png" alt="Operator" class="mentor-image" /><div class="img-overlay"><p class="img-overlay-title">Operator : Nur Wahyu Widodo</p><p class="img-overlay-desc">Operator Sekolah TK AISYIYAH.</p></div></div></div></div>
-              <div class="mentor-grid-slide"><div class="mentor-card"><div class="mentor-image-wrapper"><img src="" alt="TU" class="mentor-image" /><div class="img-overlay"><p class="img-overlay-title">TU : Fatimah Salsabila</p><p class="img-overlay-desc">Tata Usaha/ Tenaga Administrasi.</p></div></div></div></div>
-              <div class="mentor-grid-slide"><div class="mentor-card"><div class="mentor-image-wrapper"><img src="2.jpg" alt="Guru 1" class="mentor-image" /><div class="img-overlay"><p class="img-overlay-title">Guru : Nur Octaviani</p><p class="img-overlay-desc">Guru / wali kelas TK B.</p></div></div></div></div>
-              <div class="mentor-grid-slide"><div class="mentor-card"><div class="mentor-image-wrapper"><img src="3.jpg" alt="Guru 2" class="mentor-image" /><div class="img-overlay"><p class="img-overlay-title">Guru : Mila Manne, S.Sos, S.Pd, Gr</p><p class="img-overlay-desc">Guru / wali kelas TK B.</p></div></div></div></div>
-              <div class="mentor-grid-slide"><div class="mentor-card"><div class="mentor-image-wrapper"><img src="4.jpg" alt="Guru 3" class="mentor-image" /><div class="img-overlay"><p class="img-overlay-title">Guru : Anggi Mutiara</p><p class="img-overlay-desc">Guru / wali kelas TK A.</p></div></div></div></div>
-              <div class="mentor-grid-slide"><div class="mentor-card"><div class="mentor-image-wrapper"><img src="5.jpg" alt="Guru 4" class="mentor-image" /><div class="img-overlay"><p class="img-overlay-title">Guru : Marwa, AMD</p><p class="img-overlay-desc">Guru / wali kelas TK B.</p></div></div></div></div>
-              <div class="mentor-grid-slide"><div class="mentor-card"><div class="mentor-image-wrapper"><img src="6.jpg" alt="Guru 5" class="mentor-image" /><div class="img-overlay"><p class="img-overlay-title">Guru : Yurdayin Aliah</p><p class="img-overlay-desc">Guru / wali kelas Pendamping.</p></div></div></div></div>
+              <div class="mentor-grid-slide"><div class="mentor-card"><div class="mentor-image-wrapper"><img src="1.png" alt="Kepsek" class="mentor-image" /><div class="img-overlay"><p class="img-overlay-title">Kepsek : Parliyah, S.Pd, Gr</p><p class="img-overlay-desc">Kepala Sekolah TK AISYIYAH.</p></div></div></div></div>
+              <div class="mentor-grid-slide"><div class="mentor-card"><div class="mentor-image-wrapper"><img src="2.png" alt="Operator" class="mentor-image" /><div class="img-overlay"><p class="img-overlay-title">Operator : Nur Wahyu Widodo</p><p class="img-overlay-desc">Operator Sekolah TK AISYIYAH.</p></div></div></div></div>
+              <div class="mentor-grid-slide"><div class="mentor-card"><div class="mentor-image-wrapper"><img src="8.png" alt="TU" class="mentor-image" /><div class="img-overlay"><p class="img-overlay-title">TU : Fatimah Salsabila</p><p class="img-overlay-desc">Tata Usaha/ Tenaga Administrasi.</p></div></div></div></div>
+              <div class="mentor-grid-slide"><div class="mentor-card"><div class="mentor-image-wrapper"><img src="3.png" alt="Guru 1" class="mentor-image" /><div class="img-overlay"><p class="img-overlay-title">Guru : Nur Octaviani</p><p class="img-overlay-desc">Guru / wali kelas TK B.</p></div></div></div></div>
+              <div class="mentor-grid-slide"><div class="mentor-card"><div class="mentor-image-wrapper"><img src="4.png" alt="Guru 2" class="mentor-image" /><div class="img-overlay"><p class="img-overlay-title">Guru : Mila Manne, S.Sos, S.Pd, Gr</p><p class="img-overlay-desc">Guru / wali kelas TK B.</p></div></div></div></div>
+              <div class="mentor-grid-slide"><div class="mentor-card"><div class="mentor-image-wrapper"><img src="5.png" alt="Guru 3" class="mentor-image" /><div class="img-overlay"><p class="img-overlay-title">Guru : Anggi Mutiara</p><p class="img-overlay-desc">Guru / wali kelas TK A.</p></div></div></div></div>
+              <div class="mentor-grid-slide"><div class="mentor-card"><div class="mentor-image-wrapper"><img src="6.png" alt="Guru 4" class="mentor-image" /><div class="img-overlay"><p class="img-overlay-title">Guru : Marwa, AMD</p><p class="img-overlay-desc">Guru / wali kelas TK B.</p></div></div></div></div>
+              <div class="mentor-grid-slide"><div class="mentor-card"><div class="mentor-image-wrapper"><img src="7.png" alt="Guru 5" class="mentor-image" /><div class="img-overlay"><p class="img-overlay-title">Guru : Yurdayin Aliah</p><p class="img-overlay-desc">Guru / wali kelas Pendamping.</p></div></div></div></div>
             </div>
           </div>
           <div class="mentor-slider-dots" id="staffDots"></div>
@@ -479,7 +504,7 @@
     <section class="section-cta" id="cta">
       <div class="cta-container">
         <h2 class="cta-title">Mulai Petualangan Si Kecil bersama kami!<br>Daftar Sekarang !</h2>
-        <button class="btn-cta-ppdb">PPDB 2027/2028</button>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfHN9S8RSsGs-huLbVv7qaaqlOKi-tCzG9veoakL9N_4LPr7g/viewform" target="_blank" class="btn-cta-ppdb">PPDB 2026/2027</a>
       </div>
     </section>
 
@@ -521,7 +546,6 @@
       // ===== GALERI SEKOLAH SLIDER =====
       let gsIdx = 0;
       const GS_PAGES = 2;
-
       function buildGallerySliderDots() {
         const c = document.getElementById('gallerySliderDots');
         c.innerHTML = '';
@@ -575,14 +599,12 @@
       const chatbotTyping = document.getElementById('chatbotTyping');
       const chatbotBadge = document.getElementById('chatbotBadge');
       const chatbotToggleIcon = document.getElementById('chatbotToggleIcon');
-
       function toggleChatbot() {
         isChatbotOpen = !isChatbotOpen;
         if (isChatbotOpen) { chatbotContainer.classList.add('show'); chatbotToggleIcon.textContent = '✕'; chatbotBadge.style.display = 'none'; chatbotInput.focus(); hasSeenWelcome = true; }
         else { chatbotContainer.classList.remove('show'); chatbotToggleIcon.textContent = '💬'; }
       }
       setTimeout(() => { if (!hasSeenWelcome && !isChatbotOpen) chatbotBadge.style.display = 'flex'; }, 5000);
-
       const botResponses = { 'halo':'Halo! 👋 Ada yang bisa saya bantu?', 'hai':'Hai! 😊 Ada yang ingin ditanyakan?', 'ppdb':'Untuk info PPDB:\n📞 Hubungi kami\n📍 Datang langsung ke sekolah', 'biaya':'💰 Untuk info biaya, hubungi kantor kami!', 'fasilitas':'🏫 Fasilitas lengkap:\n✅ Ruang kelas nyaman\n✅ Playground aman', 'lokasi':'📍 Jl. Pendidikan No. 123, Timika, Papua', 'terima kasih':'Sama-sama! 😊' };
       function addChatMessage(msg, isUser) { const d=document.createElement('div'); d.className=`chatbot-message ${isUser?'user':'bot'}`; const b=document.createElement('div'); b.className='chatbot-message-bubble'; b.innerHTML=msg.replace(/\n/g,'<br>'); d.appendChild(b); chatbotMessages.insertBefore(d,chatbotTyping); chatbotMessages.scrollTop=chatbotMessages.scrollHeight; }
       function getBotResponse(msg) { const l=msg.toLowerCase(); for(let k in botResponses){if(l.includes(k))return botResponses[k];} return 'Terima kasih! 😊 Hubungi kantor TK Aisyiyah untuk info lebih lanjut.'; }
