@@ -54,15 +54,36 @@
       .btn-learn-more:hover { background: linear-gradient(102deg, #009a24 0%, #00b82c 100%); transform: translateY(-3px); box-shadow: 0 6px 25px rgba(0,168,50,0.5); }
       .btn-learn-more::after { content: '›'; font-size: 1.5rem; font-weight: bold; }
 
-      /* SECTION MENGENAL */
+      /* SECTION MENGENAL — FIXED */
       .section-profil-home { background: #fff; padding: 80px 0; }
       .profil-home-inner { max-width: 1300px; margin: 0 auto; padding: 0 60px; }
-      .profil-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+      .profil-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        align-items: center;
+      }
       .profil-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; background: rgba(0,137,1,.1); border-radius: 100px; color: #008901; font-size: .8rem; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; margin-bottom: 20px; }
       .profil-badge::before { content: ''; width: 7px; height: 7px; background: #008901; border-radius: 50%; }
-      .profil-heading { font-family: "Coolvetica-Regular","Arial Black",sans-serif; font-size: 2.3rem; font-weight: 900; color: #008901; line-height: 1.2; margin-bottom: 28px; }
-      .profil-text p { font-size: .97rem; line-height: 1.92; color: #555; margin-bottom: 16px; }
+      .profil-heading {
+        font-family: "Coolvetica-Regular","Arial Black",sans-serif;
+        font-size: 2.3rem; font-weight: 900; color: #008901;
+        line-height: 1.2; margin-bottom: 28px;
+      }
+      /* TEKS JUSTIFY RATA KANAN KIRI */
+      .profil-text p {
+        font-size: .97rem;
+        line-height: 1.92;
+        color: #555;
+        margin-bottom: 16px;
+        text-align: justify;
+        text-justify: inter-word;
+        hyphens: auto;
+        -webkit-hyphens: auto;
+        -ms-hyphens: auto;
+      }
       .profil-text p:last-child { margin-bottom: 0; }
+
       .profil-img-wrap { position: relative; }
       .profil-img-main { width: 100%; aspect-ratio: 4/3; border-radius: 24px; overflow: hidden; box-shadow: 0 24px 64px rgba(0,0,0,.16); }
       .profil-img-main img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; display: block; }
@@ -80,7 +101,10 @@
       .kenapa-top { display: grid; grid-template-columns: 300px 1fr; gap: 80px; align-items: start; }
       .kenapa-title { font-family: "Coolvetica-Regular","Arial Black",sans-serif; font-size: 3.2rem; font-weight: 900; color: #008901; line-height: 1.1; }
       .kenapa-title::after { content: ''; display: block; width: 56px; height: 5px; background: #008901; border-radius: 4px; margin-top: 20px; }
-      .kenapa-desc p { font-size: .97rem; line-height: 1.9; color: #555; margin-bottom: 16px; }
+      .kenapa-desc p {
+        font-size: .97rem; line-height: 1.9; color: #555; margin-bottom: 16px;
+        text-align: justify; text-justify: inter-word;
+      }
       .kenapa-desc p:last-child { margin-bottom: 0; }
 
       /* CHATBOT */
@@ -171,20 +195,49 @@
       .footer-map:hover .map-overlay { opacity: 1; }
       .map-overlay-text { color: #ffffff; font-size: 1.1rem; font-weight: 600; text-align: center; padding: 10px; }
 
+      /* ===================== RESPONSIVE ===================== */
       @media (max-width: 1100px) {
         .profil-grid { grid-template-columns: 1fr; gap: 36px; }
         .kenapa-top { grid-template-columns: 1fr; gap: 28px; }
-        .profil-home-inner, .kenapa-home-inner { padding: 0 32px; }
+        .profil-home-inner, .kenapa-home-inner, .sec-divider-home { padding: 0 32px; }
       }
+
+      @media (max-width: 900px) {
+        .navbar { min-width: unset; width: 96%; top: 16px; padding: 8px 12px 8px 14px; }
+        .nav-item { padding: 8px 10px; font-size: 0.9rem; }
+        .btn-admin { padding: 8px 14px; font-size: 0.9rem; }
+        .btn-ppdb { padding: 8px 14px; font-size: 0.9rem; }
+      }
+
       @media (max-width: 768px) {
-        .navbar { top: 20px; }
+        .navbar { top: 14px; }
         .hero-title { font-size: 2.5rem; }
-        .cta-title { font-size: 2rem; }
-        .profil-home-inner, .kenapa-home-inner { padding: 0 20px; }
-        .section-profil-home, .section-kenapa-home { padding: 50px 0; }
+        .colorful-heading { font-size: 3rem; }
+        .cta-title { font-size: 1.8rem; }
+        .profil-home-inner, .kenapa-home-inner, .sec-divider-home { padding: 0 20px; }
+        .section-profil-home { padding: 50px 0; }
+        .section-kenapa-home { padding: 40px 0 60px; }
+        .profil-heading { font-size: 1.8rem; }
+        .kenapa-title { font-size: 2.4rem; }
         .footer { padding: 28px 24px; }
         .footer-container { flex-direction: column; gap: 28px; align-items: flex-start; }
         .footer-center { border: none; margin: 0; padding: 0; }
+        .footer-contact p { white-space: normal; }
+        /* Stack gambar di bawah teks pada mobile */
+        .profil-grid { grid-template-columns: 1fr; }
+        .profil-img-wrap { order: -1; } /* gambar di atas di mobile */
+      }
+
+      @media (max-width: 480px) {
+        .hero-title { font-size: 1.9rem; letter-spacing: 1px; }
+        .hero-text { font-size: 1rem; }
+        .colorful-heading { font-size: 2.2rem; }
+        .colorful-paragraph { font-size: 1.05rem; }
+        .profil-heading { font-size: 1.5rem; }
+        .kenapa-title { font-size: 2rem; }
+        .cta-title { font-size: 1.5rem; }
+        .profil-text p { font-size: 0.92rem; }
+        .chatbot-container { width: 95vw; right: 2.5vw; }
       }
     </style>
   </head>
@@ -214,7 +267,7 @@
       
       <div class="hero-content">
         <h1 class="hero-title text-scalable">TK AISYIYAH MIMIKA</h1>
-        <p class="hero-text text-scalable">Tempat Yang Aman dan Nyaman Untuk Belajar Sambil Bermain dan Mendidik Karakter Anak Usia Dini Di Wilayah Mimika Papua Tengah</p>
+        <p class="hero-text text-scalable">Tempat yang aman dan nyaman untuk belajar sambil bermain dan mendidik karakter anak usia dini di wilayah Mimika Papua Tengah</p>
       </div>
     </section>
     
@@ -259,7 +312,7 @@
       </div>
       <div class="colorful-content">
         <h2 class="colorful-heading text-scalable">Lebih dari Sekadar Belajar</h2>
-        <p class="colorful-paragraph text-scalable">Kami Juga Membangun Terbentuknya Tunas Pelajar yang Bertaqwa, Berakhlak Mulia, Mandiri, Cakap, Kreatif dan Peduli.</p>
+        <p class="colorful-paragraph text-scalable">Kami juga membangun terbentuknya tunas pelajar yang bertaqwa, berakhlak mulia, mandiri, cakap, kreatif dan peduli.</p>
         <button class="btn-learn-more text-scalable" onclick="learnMore()">Selengkapnya</button>
       </div>
     </section>
@@ -278,12 +331,11 @@
       <div class="profil-home-inner">
         <div class="profil-grid">
           <div>
-            <div class="profil-badge">Profil Kami</div>
             <h2 class="profil-heading">Mengenal TK Aisyiyah Mimika</h2>
             <div class="profil-text">
-              <p>TK Aisyiyah Mimika Berdiri Sejak Tahun 2011, Berada Di Bawah Naungan Organisasi Pimpinan Daerah Aisyiyah (PDA) dan Pimpinan Daerah Muhammadiyah (PDM) Mimika, NPSN : 60304918, NSS : 002251201507 dan Terakreditasi B Tahun 2024.</p>
-              <p>Berdiri Dengan Komitmen Penuh Untuk Membentuk Tunas Pelajar dan Bertakwa, Berahlak Mulia, Mandiri, Cakap, Kreatif dan Peduli. Dengan Pendekatan Pembelajaran Yang Holistik Integratif dan Berbasis Nilai-Nilai Islami.</p>
-              <p>Kami Memastikan Setiap Anak Mendapatkan Pengalaman Belajar Yang Menyenangkan, Aman, dan Bermakna. Karena Kami Percaya Masa Depan Anak Adalah Pondasi Penting Dalam Kehidupan Setiap Anak.</p>
+              <p>TK Aisyiyah Mimika berdiri sejak tahun 2011, berada di bawah naungan organisasi Pimpinan Daerah Aisyiyah (PDA) dan Pimpinan Daerah Muhammadiyah (PDM) Mimika, NPSN : 60304918, NSS : 002251201507 dan terakreditasi B Tahun 2024.</p>
+              <p>Berdiri dengan komitmen untuk membentuk tunas pelajar yang bertakwa, berahlak mulia, mandiri, cakap, kreatif dan peduli, dengan pendekatan pembelajaran yang holistik integratif dan berbasis nilai-nilai islami.</p>
+              <p>Kami memastikan setiap anak mendapatkan pengalaman belajar yang iteratif, menyenangkan dan bermakna. Karena kami percaya bahwa pendidikan anak usia dini yang berkualitas merupakan pondasi penting dalam kehidupan setiap anak.</p>
             </div>
           </div>
           <div class="profil-img-wrap">
@@ -304,8 +356,8 @@
         <div class="kenapa-top">
           <div><h2 class="kenapa-title">KENAPA<br>HARUS TK<br>AISYIYAH??</h2></div>
           <div class="kenapa-desc">
-            <p>Karena TK Aisyiyah Berada Di Tempat Yang Aman, Nyaman, dan Menyenangkan. Diampuh Oleh Para Guru Yang Profesional, Sabar, dan Berdedikasi Tinggi.</p>
-            <p>Biaya Pendidikan Yang Terjangkau Dengan Fasilitas Yang Memuaskan.</p>
+            <p>Karena TK Aisyiyah berada di tempat yang aman, nyaman, dan menyenangkan. Diampuh oleh para guru yang profesional, sabar, dan berdedikasi tinggi.</p>
+            <p>Biaya pendidikan yang terjangkau dengan fasilitas dan pelayanan yang memuaskan.</p>
           </div>
         </div>
       </div>
@@ -320,7 +372,7 @@
     </section>
 
     <!-- FOOTER -->
-     <footer class="footer">
+    <footer class="footer">
       <div class="footer-container">
         <div class="footer-left">
           <div class="footer-logo"><img src="LogoTk.png" alt="Logo TK Aisyiyah" class="footer-logo-img" /></div>
