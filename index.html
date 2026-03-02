@@ -47,7 +47,6 @@
       .logo-img { width: 80%; height: 80%; object-fit: contain; }
       .nav-brand { font-size: clamp(.85rem,1.5vw,1.25rem); font-weight: 400; color: #fff; white-space: nowrap; transition: color .3s; }
 
-      /* Desktop nav links */
       .nav-right { display: flex; align-items: center; gap: clamp(4px,1vw,10px); flex-shrink: 0; }
       .nav-item {
         padding: clamp(6px,1vw,10px) clamp(8px,1.2vw,15px);
@@ -69,14 +68,12 @@
       }
       .btn-ppdb:hover { background: linear-gradient(102deg,#009a24 0%,#00b82c 100%); transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,204,48,.4); }
 
-      /* Hamburger */
       .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; flex-shrink: 0; z-index: 1002; }
       .nav-hamburger span { display: block; width: 24px; height: 2.5px; background: #fff; border-radius: 2px; transition: all .3s; }
       .nav-hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
       .nav-hamburger.open span:nth-child(2) { opacity: 0; }
       .nav-hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
 
-      /* Mobile fullscreen menu */
       .nav-mobile-menu {
         display: none; position: fixed; inset: 0;
         background: rgba(0,140,40,0.97); z-index: 999;
@@ -241,110 +238,111 @@
       .footer-map:hover .map-overlay { opacity: 1; }
       .map-overlay-text { color: #fff; font-size: clamp(.78rem,1.1vw,1.1rem); font-weight: 600; text-align: center; padding: 10px; }
 
-      /* ==================== CHATBOT ==================== */
-      .chatbot-toggle {
-        position: fixed; bottom: clamp(80px,12vw,110px); right: clamp(12px,3vw,30px);
-        width: clamp(48px,7vw,60px); height: clamp(48px,7vw,60px);
-        background: linear-gradient(135deg,#00af29 0%,#00cc30 100%);
-        border-radius: 50%; display: flex; align-items: center; justify-content: center;
-        cursor: pointer; box-shadow: 0 4px 20px rgba(0,204,48,.4); z-index: 9997;
-        transition: all .3s; border: 3px solid white;
-      }
-      .chatbot-toggle:hover { transform: scale(1.1); box-shadow: 0 6px 25px rgba(0,204,48,.6); }
+/* ===== CHATBOT ===== */
+      .chatbot-toggle { position: fixed; bottom: clamp(80px,12vw,110px); right: clamp(16px,3vw,30px); width: clamp(50px,7vw,60px); height: clamp(50px,7vw,60px); background: linear-gradient(135deg,#00af29,#00cc30); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 20px rgba(0,204,48,.4); z-index: 9997; transition: all .3s; border: 3px solid white; }
+      .chatbot-toggle:hover { transform: scale(1.1); }
       .chatbot-toggle-icon { font-size: clamp(1.4rem,2.5vw,1.8rem); color: white; }
-      .chatbot-badge { position: absolute; top: -5px; right: -5px; width: 22px; height: 22px; background: #f00; border-radius: 50%; display: none; align-items: center; justify-content: center; font-size: .72rem; color: #fff; font-weight: bold; border: 2px solid white; animation: pulse 2s infinite; }
-      @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+      .chatbot-badge { position: absolute; top: -5px; right: -5px; width: 22px; height: 22px; background: #f00; border-radius: 50%; display: none; align-items: center; justify-content: center; font-size: .7rem; color: white; font-weight: bold; border: 2px solid white; animation: pulse 2s infinite; }
+      @keyframes pulse { 0%,100%{transform:scale(1);}50%{transform:scale(1.1);} }
 
-      .chatbot-container {
-        position: fixed; bottom: clamp(140px,20vw,180px); right: clamp(12px,3vw,30px);
-        width: min(380px,calc(100vw - 24px)); height: clamp(380px,55vh,550px);
-        background: white; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,.3);
-        z-index: 9998; display: none; flex-direction: column; overflow: hidden; opacity: 0;
-      }
+      .chatbot-container { position: fixed; bottom: clamp(140px,18vw,180px); right: clamp(12px,3vw,30px); width: min(400px,calc(100vw - 24px)); height: clamp(480px,72vh,630px); background: white; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,.3); z-index: 9998; display: none; flex-direction: column; overflow: hidden; opacity: 0; }
       .chatbot-container.show { display: flex; opacity: 1; animation: slideUpChat .4s ease; }
-      @keyframes slideUpChat { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-      .chatbot-header { background: linear-gradient(135deg,#00af29 0%,#00cc30 100%); color: #fff; padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; }
+      @keyframes slideUpChat { from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);} }
+      .chatbot-header { background: linear-gradient(135deg,#00af29,#00cc30); color: white; padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
       .chatbot-header-content { display: flex; align-items: center; gap: 10px; }
-      .chatbot-avatar { width: 38px; height: 38px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
-      .chatbot-header-text h3 { margin: 0; font-size: clamp(.9rem,1.3vw,1.1rem); font-weight: 600; }
-      .chatbot-header-text p { margin: 0; font-size: .78rem; opacity: .9; }
-      .chatbot-minimize { background: rgba(255,255,255,.2); border: none; color: #fff; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; }
-      .chatbot-messages { flex: 1; padding: 16px; overflow-y: auto; background: #f8f9fa; }
-      .chatbot-messages::-webkit-scrollbar { width: 5px; }
+      .chatbot-avatar { width: 40px; height: 40px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+      .chatbot-header-text h3 { margin: 0; font-size: 1rem; font-weight: 600; }
+      .chatbot-header-text p { margin: 0; font-size: .75rem; opacity: .9; }
+      .chatbot-minimize { background: rgba(255,255,255,.2); border: none; color: white; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; }
+      .chatbot-messages { flex: 1; padding: 16px; overflow-y: auto; background: #f8f9fa; min-height: 0; }
+      .chatbot-messages::-webkit-scrollbar { width: 6px; }
       .chatbot-messages::-webkit-scrollbar-thumb { background: #00cc30; border-radius: 3px; }
-      .chatbot-message { margin-bottom: 12px; display: flex; animation: chatFadeIn .4s ease; }
-      @keyframes chatFadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+      .chatbot-message { margin-bottom: 12px; display: flex; }
       .chatbot-message.bot { justify-content: flex-start; }
       .chatbot-message.user { justify-content: flex-end; }
-      .chatbot-message-bubble { max-width: 78%; padding: 10px 14px; border-radius: 14px; word-wrap: break-word; line-height: 1.5; font-size: clamp(.82rem,1.2vw,.9rem); }
-      .chatbot-message.bot .chatbot-message-bubble { background: #fff; color: #333; border-bottom-left-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
-      .chatbot-message.user .chatbot-message-bubble { background: linear-gradient(135deg,#00af29 0%,#00cc30 100%); color: #fff; border-bottom-right-radius: 4px; }
-      .chatbot-typing { display: none; padding: 10px 14px; background: #fff; border-radius: 14px; border-bottom-left-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,.08); width: fit-content; }
-      .chatbot-typing span { height: 7px; width: 7px; background: #00cc30; border-radius: 50%; display: inline-block; margin-right: 4px; animation: chatTyping 1.4s infinite; }
-      .chatbot-typing span:nth-child(2) { animation-delay: .2s; }
-      .chatbot-typing span:nth-child(3) { animation-delay: .4s; }
-      @keyframes chatTyping { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-8px)} }
-      .chatbot-input-container { padding: 12px; background: #fff; border-top: 1px solid #e0e0e0; display: flex; gap: 8px; }
-      .chatbot-input { flex: 1; padding: 9px 14px; border: 2px solid #e0e0e0; border-radius: 20px; font-size: .88rem; outline: none; transition: border-color .3s; }
-      .chatbot-input:focus { border-color: #00cc30; }
-      .chatbot-send { padding: 9px 16px; background: linear-gradient(135deg,#00af29 0%,#00cc30 100%); color: #fff; border: none; border-radius: 20px; cursor: pointer; font-size: .88rem; font-weight: 600; transition: all .3s; }
-      .chatbot-send:hover { transform: scale(1.05); }
-      .chatbot-quick-replies { display: flex; flex-wrap: wrap; gap: 7px; padding: 0 14px 12px; background: #f8f9fa; }
-      .quick-reply-btn { padding: 6px 12px; background: #fff; border: 1px solid #00cc30; border-radius: 15px; color: #00cc30; font-size: clamp(.74rem,1vw,.85rem); cursor: pointer; transition: all .3s; white-space: nowrap; }
-      .quick-reply-btn:hover { background: #00cc30; color: #fff; }
+      .chatbot-message-bubble { max-width: 82%; padding: 10px 14px; border-radius: 16px; word-wrap: break-word; line-height: 1.5; font-size: .88rem; }
+      .chatbot-message.bot .chatbot-message-bubble { background: white; color: #333; border-bottom-left-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+      .chatbot-message.user .chatbot-message-bubble { background: linear-gradient(135deg,#00af29,#00cc30); color: white; border-bottom-right-radius: 4px; }
+      .chatbot-typing { display: none; padding: 10px 14px; background: white; border-radius: 16px; border-bottom-left-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,.08); width: fit-content; }
+      .chatbot-typing span { height: 8px; width: 8px; background: #00cc30; border-radius: 50%; display: inline-block; margin-right: 4px; animation: chatTyping 1.4s infinite; }
+      .chatbot-typing span:nth-child(2){animation-delay:.2s;} .chatbot-typing span:nth-child(3){animation-delay:.4s;}
+      @keyframes chatTyping{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-10px);}}
 
-      /* ==================== BACK TO TOP ==================== */
-      .btn-back-to-top {
-        position: fixed; bottom: clamp(16px,3vw,30px); right: clamp(12px,3vw,30px);
-        padding: clamp(10px,1.8vw,15px) clamp(16px,3vw,30px); border: none; border-radius: 100px;
-        background: linear-gradient(102deg,#00af29 0%,#00cc30 100%); color: #fff;
-        font-size: clamp(.82rem,1.2vw,1.05rem); font-weight: 500; cursor: pointer;
-        transition: all .3s; box-shadow: 0 4px 15px rgba(0,168,50,.4); z-index: 9996; display: none;
+      /* QUICK REPLIES */
+      .chatbot-quick-replies { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 14px 10px; background: #f8f9fa; flex-shrink: 0; border-top: 1px solid #eee; }
+      .quick-reply-btn { padding: 7px 12px; background: white; border: 1.5px solid #00cc30; border-radius: 15px; color: #00cc30; font-size: .82rem; cursor: pointer; transition: all .3s; white-space: nowrap; font-weight: 600; }
+      .quick-reply-btn:hover { background: #00cc30; color: white; }
+      .quick-reply-btn.masukan-btn { border-color: #0077cc; color: #0077cc; }
+      .quick-reply-btn.masukan-btn:hover { background: #0077cc; color: white; }
+
+      /* ===== FORM MASUKAN DALAM CHATBOT ===== */
+      .chatbot-form-masukan {
+        padding: 14px 16px 12px; background: #ffffff;
+        border-top: 2px solid #e0f5e0; flex-shrink: 0;
+        display: none; flex-direction: column; gap: 9px;
+        max-height: 280px; overflow-y: auto;
       }
+      .chatbot-form-masukan.show { display: flex; }
+      .form-masukan-title { font-size: .84rem; font-weight: 800; color: #00a832; display: flex; align-items: center; gap: 6px; margin-bottom: 2px; }
+      .masukan-form-name, .masukan-form-text {
+        padding: 9px 12px; border: 2px solid #c8f0d0; border-radius: 12px;
+        font-size: .84rem; outline: none; font-family: inherit;
+        transition: border-color .25s; width: 100%;
+      }
+      .masukan-form-name:focus, .masukan-form-text:focus { border-color: #00cc30; }
+      .masukan-form-text { resize: none; height: 68px; line-height: 1.5; }
+      .masukan-stars-wrap { display: flex; align-items: center; gap: 8px; }
+      .masukan-stars-wrap label { font-size: .78rem; color: #777; white-space: nowrap; }
+      .masukan-stars-select { display: flex; gap: 3px; }
+      .masukan-stars-select span { font-size: 1.25rem; cursor: pointer; transition: transform .15s; color: #ddd; user-select: none; line-height: 1; }
+      .masukan-stars-select span.lit { color: #f59e0b; }
+      .masukan-stars-select span:hover { transform: scale(1.25); }
+      .form-btns { display: flex; gap: 8px; }
+      .btn-submit-masukan { flex: 2; padding: 9px; background: linear-gradient(135deg,#00af29,#00cc30); color: white; border: none; border-radius: 12px; cursor: pointer; font-size: .88rem; font-weight: 700; transition: opacity .2s; }
+      .btn-submit-masukan:hover { opacity: .9; }
+      .btn-cancel-masukan { flex: 1; padding: 9px; background: #f0f0f0; color: #888; border: none; border-radius: 12px; cursor: pointer; font-size: .84rem; transition: background .2s; }
+      .btn-cancel-masukan:hover { background: #e0e0e0; }
+
+      /* INPUT ROW */
+      .chatbot-input-container { padding: 10px 12px; background: white; border-top: 1px solid #e0e0e0; display: flex; gap: 8px; flex-shrink: 0; }
+      .chatbot-input { flex: 1; padding: 9px 14px; border: 2px solid #e0e0e0; border-radius: 20px; font-size: .88rem; outline: none; transition: border-color .3s; font-family: inherit; }
+      .chatbot-input:focus { border-color: #00cc30; }
+      .chatbot-send { padding: 9px 18px; background: linear-gradient(135deg,#00af29,#00cc30); color: white; border: none; border-radius: 20px; cursor: pointer; font-size: .88rem; font-weight: 600; white-space: nowrap; }
+
+      /* BACK TO TOP */
+      .btn-back-to-top { position: fixed; bottom: clamp(16px,3vw,30px); right: clamp(16px,3vw,30px); padding: clamp(10px,2vw,15px) clamp(18px,3vw,30px); border: none; border-radius: 100px; background: linear-gradient(102deg,#00af29,#00cc30); color: #fff; font-size: clamp(.85rem,1.5vw,1.05rem); font-weight: 500; cursor: pointer; transition: all .3s; box-shadow: 0 4px 15px rgba(0,168,50,.4); z-index: 9996; display: none; }
       .btn-back-to-top.show { display: inline-flex; align-items: center; gap: 8px; }
-      .btn-back-to-top:hover { background: linear-gradient(102deg,#009a24 0%,#00b82c 100%); transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,168,50,.5); }
-      .btn-back-to-top::after { content:'⌃'; font-size:1.2rem; font-weight:bold; }
+      .btn-back-to-top:hover { transform: translateY(-3px); }
+      .btn-back-to-top::after { content: '⌃'; font-size: 1.2rem; font-weight: bold; }
 
-      /* ==================== RESPONSIVE BREAKPOINTS ==================== */
+      /* TOAST */
+      .toast-notif { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(60px); background: linear-gradient(135deg,#00af29,#00cc30); color: white; padding: 14px 30px; border-radius: 100px; font-size: .95rem; font-weight: 700; box-shadow: 0 8px 28px rgba(0,204,48,.4); z-index: 99999; transition: transform .4s cubic-bezier(.22,1,.36,1), opacity .4s; opacity: 0; pointer-events: none; white-space: nowrap; }
+      .toast-notif.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-      /* Large tablet */
       @media (max-width: 1100px) {
         .profil-grid { grid-template-columns: 1fr; gap: 36px; }
         .kenapa-top { grid-template-columns: 1fr; gap: 24px; }
       }
-
-      /* Tablet — show hamburger */
       @media (max-width: 860px) {
         .nav-right { display: none; }
         .nav-hamburger { display: flex; }
       }
-
-      /* Small tablet / large phone */
       @media (max-width: 768px) {
         .profil-img-wrap { order: -1; }
-
-        /* Footer stack */
         .footer-container { flex-direction: column; align-items: flex-start; gap: 20px; }
         .footer-center { border-left: none; border-right: none; border-top: 1px solid rgba(255,255,255,.3); border-bottom: 1px solid rgba(255,255,255,.3); margin: 0; padding: 16px 0; width: 100%; }
         .footer-contact p { white-space: normal; }
         .footer-right { width: 100%; }
         .footer-map { width: min(180px, 50vw); }
       }
-
-      /* Mobile portrait */
       @media (max-width: 480px) {
         .footer-left { flex-direction: column; align-items: flex-start; gap: 14px; }
         .footer-nav { padding-left: 0; margin-left: 0; border-left: none; border-top: 1px solid rgba(255,255,255,.3); padding-top: 14px; width: 100%; }
-
-        .chatbot-container { right: 8px; }
-        .chatbot-toggle { right: 8px; }
+        .chatbot-container { right: 8px; left: 8px; width: auto; bottom: 90px; }
+        .chatbot-toggle { right: 12px; }
         .btn-back-to-top { right: 8px; }
-
-        /* section colorful ornaments — smaller on tiny screens */
         .box .union-green, .box .union-blue { opacity: .5; }
       }
-
-      /* Very small phones */
       @media (max-width: 360px) {
         .nav-brand { font-size: .75rem; }
         .logo-wrapper { width: 34px; height: 34px; }
@@ -380,8 +378,6 @@
           <div class="logo-wrapper"><img class="logo-img" src="LogoTk.png" alt="Logo TK Aisyiyah" /></div>
           <span class="nav-brand">TK Aisyiyah Mimika</span>
         </div>
-
-        <!-- Desktop nav -->
         <div class="nav-right">
           <div class="nav-item">Beranda</div>
           <div class="nav-item" onclick="window.location.href='profil_sekolah.html'">Profil Sekolah</div>
@@ -389,8 +385,6 @@
           <button class="btn-admin" onclick="window.location.href='Login-Admin.html'">Admin Login</button>
           <button class="btn-ppdb" onclick="openPpdb()">PPDB 2026/2027</button>
         </div>
-
-        <!-- Hamburger -->
         <div class="nav-hamburger" id="hamburger" onclick="toggleMobileMenu()">
           <span></span><span></span><span></span>
         </div>
@@ -402,34 +396,60 @@
       </div>
     </section>
 
-    <!-- CHATBOT -->
-    <div class="chatbot-toggle" id="chatbotToggle" onclick="toggleChatbot()">
-      <div class="chatbot-toggle-icon" id="chatbotToggleIcon">💬</div>
-      <div class="chatbot-badge" id="chatbotBadge">1</div>
+  <!-- CHATBOT -->
+  <div class="chatbot-toggle" id="chatbotToggle" onclick="toggleChatbot()">
+    <div class="chatbot-toggle-icon" id="chatbotToggleIcon">💬</div>
+    <div class="chatbot-badge" id="chatbotBadge">1</div>
+  </div>
+
+  <div class="chatbot-container" id="chatbotContainer">
+    <div class="chatbot-header">
+      <div class="chatbot-header-content">
+        <div class="chatbot-avatar">🤖</div>
+        <div class="chatbot-header-text"><h3>Asisten TK Aisyiyah</h3><p>Online - Siap membantu</p></div>
+      </div>
+      <button class="chatbot-minimize" onclick="toggleChatbot()">−</button>
     </div>
-    <div class="chatbot-container" id="chatbotContainer">
-      <div class="chatbot-header">
-        <div class="chatbot-header-content">
-          <div class="chatbot-avatar">🤖</div>
-          <div class="chatbot-header-text"><h3>Asisten TK Aisyiyah</h3><p>Online - Siap membantu</p></div>
+
+    <div class="chatbot-messages" id="chatbotMessages">
+      <div class="chatbot-message bot"><div class="chatbot-message-bubble">Halo! 👋 Selamat datang di TK Aisyiyah Timika. Saya siap membantu Anda! Gunakan tombol di bawah atau ketik pesan. 😊</div></div>
+      <div class="chatbot-typing" id="chatbotTyping"><span></span><span></span><span></span></div>
+    </div>
+
+    <div class="chatbot-quick-replies">
+      <button class="quick-reply-btn" onclick="sendQuickReply('PPDB')">📋 PPDB</button>
+      <button class="quick-reply-btn" onclick="sendQuickReply('Fasilitas')">🏫 Fasilitas</button>
+      <button class="quick-reply-btn" onclick="sendQuickReply('Biaya')">💰 Biaya</button>
+      <button class="quick-reply-btn" onclick="sendQuickReply('Lokasi')">📍 Lokasi</button>
+      <button class="quick-reply-btn masukan-btn" onclick="bukaFormMasukan()">📝 Beri Masukan</button>
+    </div>
+
+    <!-- FORM MASUKAN -->
+    <div class="chatbot-form-masukan" id="chatbotFormMasukan">
+      <div class="form-masukan-title">Form Masukan / Testimoni</div>
+      <input type="text" class="masukan-form-name" id="masukanNama" placeholder="Nama Anda (cth: Ibu Sari)" maxlength="50" />
+      <div class="masukan-stars-wrap">
+        <label>Rating:</label>
+        <div class="masukan-stars-select" id="masukanStars">
+          <span data-v="1">★</span>
+          <span data-v="2">★</span>
+          <span data-v="3">★</span>
+          <span data-v="4">★</span>
+          <span data-v="5">★</span>
         </div>
-        <button class="chatbot-minimize" onclick="toggleChatbot()">−</button>
       </div>
-      <div class="chatbot-messages" id="chatbotMessages">
-        <div class="chatbot-message bot"><div class="chatbot-message-bubble">Halo! 👋 Selamat datang di TK Aisyiyah Timika. Saya siap membantu Anda!</div></div>
-        <div class="chatbot-typing" id="chatbotTyping"><span></span><span></span><span></span></div>
-      </div>
-      <div class="chatbot-quick-replies">
-        <button class="quick-reply-btn" onclick="sendQuickReply('PPDB')">📋 PPDB</button>
-        <button class="quick-reply-btn" onclick="sendQuickReply('Fasilitas')">🏫 Fasilitas</button>
-        <button class="quick-reply-btn" onclick="sendQuickReply('Biaya')">💰 Biaya</button>
-        <button class="quick-reply-btn" onclick="sendQuickReply('Lokasi')">📍 Lokasi</button>
-      </div>
-      <div class="chatbot-input-container">
-        <input type="text" class="chatbot-input" id="chatbotInput" placeholder="Ketik pesan..." autocomplete="off" />
-        <button class="chatbot-send" onclick="sendChatMessage()">Kirim</button>
+      <textarea class="masukan-form-text" id="masukanTeks" placeholder="Ceritakan pengalaman Anda bersama TK Aisyiyah Timika..." maxlength="300"></textarea>
+      <div class="form-btns">
+        <button class="btn-submit-masukan" onclick="kirimMasukan()">📨 Kirim Masukan</button>
+        <button class="btn-cancel-masukan" onclick="tutupFormMasukan()">Batal</button>
       </div>
     </div>
+
+    <div class="chatbot-input-container">
+      <input type="text" class="chatbot-input" id="chatbotInput" placeholder="Ketik pesan..." autocomplete="off" />
+      <button class="chatbot-send" onclick="sendChatMessage()">Kirim</button>
+    </div>
+  </div>
 
     <button class="btn-back-to-top" id="backToTop" onclick="scrollToTop()">Back To The Top</button>
 
@@ -538,11 +558,23 @@
     </footer>
 
     <script>
-      // ── HELPERS ──
+      /* ============= STORAGE (shared dengan Galeri.html) ============= */
+      const STORAGE_KEY = 'tk_aisyiyah_masukan_v1';
+      function getMasukan() {
+        try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) { return []; }
+      }
+      function simpanMasukan(list) {
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); } catch(e) {}
+      }
+      function escHtml(s) {
+        return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      }
+
+      /* ============= HELPERS ============= */
       function openPpdb() { window.open('https://docs.google.com/forms/d/e/1FAIpQLSfHN9S8RSsGs-huLbVv7qaaqlOKi-tCzG9veoakL9N_4LPr7g/viewform','_blank'); }
       function goTo(url) { closeMobileMenu(); window.location.href = url; }
 
-      // ── MOBILE MENU ──
+      /* ============= MOBILE MENU ============= */
       function toggleMobileMenu() {
         const menu = document.getElementById('mobileMenu');
         const ham  = document.getElementById('hamburger');
@@ -555,14 +587,13 @@
         document.getElementById('hamburger').classList.remove('open');
         document.body.style.overflow = '';
       }
-      // Close on ESC
       document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMobileMenu(); });
 
-      // ── NAVBAR scroll style ──
+      /* ============= NAVBAR scroll style ============= */
       const navbar = document.getElementById('navbar');
       window.addEventListener('scroll', () => navbar.classList.toggle('white-bg', window.pageYOffset > 100));
 
-      // ── HERO SLIDESHOW ──
+      /* ============= HERO SLIDESHOW ============= */
       const backgrounds = document.querySelectorAll('.hero-background');
       let currentBg = 0;
       setInterval(() => {
@@ -571,66 +602,135 @@
         backgrounds[currentBg].classList.add('active');
       }, 5000);
 
-      // ── CHATBOT ──
-      let isChatbotOpen = false, hasSeenWelcome = false;
-      const chatbotContainer = document.getElementById('chatbotContainer');
-      const chatbotMessages  = document.getElementById('chatbotMessages');
-      const chatbotInput     = document.getElementById('chatbotInput');
-      const chatbotTyping    = document.getElementById('chatbotTyping');
-      const chatbotBadge     = document.getElementById('chatbotBadge');
-      const chatbotToggleIcon= document.getElementById('chatbotToggleIcon');
-
-      function toggleChatbot() {
-        isChatbotOpen = !isChatbotOpen;
-        if (isChatbotOpen) {
-          chatbotContainer.classList.add('show');
-          chatbotToggleIcon.textContent = '✕';
-          chatbotBadge.style.display = 'none';
-          chatbotInput.focus();
-          hasSeenWelcome = true;
-        } else {
-          chatbotContainer.classList.remove('show');
-          chatbotToggleIcon.textContent = '💬';
-        }
-      }
-      setTimeout(() => { if (!hasSeenWelcome && !isChatbotOpen) chatbotBadge.style.display = 'flex'; }, 5000);
-
-      const botResponses = {
-        'halo':'Halo! 👋 Ada yang bisa saya bantu?',
-        'hai':'Hai! 😊 Ada yang ingin ditanyakan?',
-        'ppdb':'Untuk info PPDB:\n📞 Hubungi kami\n📍 Datang langsung ke sekolah',
-        'biaya':'💰 Untuk info biaya, hubungi kantor kami!',
-        'fasilitas':'🏫 Fasilitas lengkap:\n✅ Ruang kelas nyaman\n✅ Playground aman',
-        'lokasi':'📍 Jl. Pendidikan No. 123, Timika, Papua',
-        'terima kasih':'Sama-sama! 😊'
-      };
-      function addChatMessage(msg, isUser) {
-        const d = document.createElement('div'); d.className = `chatbot-message ${isUser?'user':'bot'}`;
-        const b = document.createElement('div'); b.className = 'chatbot-message-bubble';
-        b.innerHTML = msg.replace(/\n/g,'<br>'); d.appendChild(b);
-        chatbotMessages.insertBefore(d, chatbotTyping);
-        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-      }
-      function getBotResponse(msg) {
-        const l = msg.toLowerCase();
-        for (let k in botResponses) { if (l.includes(k)) return botResponses[k]; }
-        return 'Terima kasih! 😊 Hubungi kantor TK Aisyiyah untuk info lebih lanjut.';
-      }
-      function sendChatMessage() {
-        const m = chatbotInput.value.trim(); if (!m) return;
-        addChatMessage(m, true); chatbotInput.value = '';
-        chatbotTyping.style.display = 'block';
-        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-        setTimeout(() => { chatbotTyping.style.display = 'none'; addChatMessage(getBotResponse(m), false); }, 600 + Math.random() * 600);
-      }
-      function sendQuickReply(t) { chatbotInput.value = t; sendChatMessage(); }
-      chatbotInput.addEventListener('keypress', e => { if (e.key === 'Enter') sendChatMessage(); });
-
-      // ── BACK TO TOP ──
+      /* ============= BACK TO TOP ============= */
       const backToTopBtn = document.getElementById('backToTop');
       window.addEventListener('scroll', () => backToTopBtn.classList.toggle('show', window.pageYOffset > window.innerHeight / 2));
       function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
       function learnMore() { document.getElementById('mengenal').scrollIntoView({ behavior: 'smooth' }); }
+
+      /* ============= CHATBOT ============= */
+    let isChatbotOpen=false, hasSeenWelcome=false;
+    const chatbotContainer = document.getElementById('chatbotContainer');
+    const chatbotMessages  = document.getElementById('chatbotMessages');
+    const chatbotInput     = document.getElementById('chatbotInput');
+    const chatbotTyping    = document.getElementById('chatbotTyping');
+    const chatbotBadge     = document.getElementById('chatbotBadge');
+    const chatbotToggleIcon= document.getElementById('chatbotToggleIcon');
+
+    function toggleChatbot() {
+      isChatbotOpen = !isChatbotOpen;
+      if(isChatbotOpen){ chatbotContainer.classList.add('show'); chatbotToggleIcon.textContent='✕'; chatbotBadge.style.display='none'; chatbotInput.focus(); hasSeenWelcome=true; }
+      else { chatbotContainer.classList.remove('show'); chatbotToggleIcon.textContent='💬'; }
+    }
+    setTimeout(()=>{ if(!hasSeenWelcome&&!isChatbotOpen) chatbotBadge.style.display='flex'; }, 5000);
+
+    const botResponses = {
+      'halo': 'Halo! 👋 Ada yang bisa saya bantu?\n\nKlik "📝 Beri Masukan" untuk berbagi pengalaman Anda bersama kami!',
+      'hai': 'Hai! 😊 Ada yang ingin ditanyakan atau ingin berbagi masukan?',
+      'ppdb': 'Untuk info PPDB 2026/2027:\n📞 0812-3456-7890\n📍 Datang langsung ke sekolah\n📋 Isi form PPDB online kami!',
+      'biaya': '💰 Biaya pendidikan sangat terjangkau untuk semua kalangan.\nHubungi kami di 0812-3456-7890 untuk info lengkap!',
+      'fasilitas': '🏫 Fasilitas TK Aisyiyah:\n✅ Ruang kelas nyaman & terang\n✅ Halaman luas & asri\n✅ Aula serbaguna\n✅ TV layar lebar\n✅ Perpustakaan\n✅ Area bermain aman',
+      'lokasi': '📍 Jl. Pendidikan No. 123, Timika, Papua Tengah\nCek Google Maps di footer halaman ini!',
+      'masukan': 'Terima kasih ingin berbagi! 😊\nKlik tombol "📝 Beri Masukan" di bawah untuk mengisi masukan Anda!',
+      'testimoni': 'Senang mendengar Anda ingin berbagi! Klik "📝 Beri Masukan" dan masukan Anda akan langsung tampil di halaman ini 🙏',
+      'terima kasih': 'Sama-sama! 😊 Jangan ragu bertanya kapan saja ya!',
+    };
+    function addChatMessage(msg, isUser) {
+      const d=document.createElement('div'); d.className=`chatbot-message ${isUser?'user':'bot'}`;
+      const b=document.createElement('div'); b.className='chatbot-message-bubble';
+      b.innerHTML=msg.replace(/\n/g,'<br>'); d.appendChild(b);
+      chatbotMessages.insertBefore(d, chatbotTyping);
+      chatbotMessages.scrollTop=chatbotMessages.scrollHeight;
+    }
+    function getBotResponse(msg) {
+      const l=msg.toLowerCase();
+      for(let k in botResponses){ if(l.includes(k)) return botResponses[k]; }
+      return 'Terima kasih! 😊 Untuk info lebih lanjut hubungi 0812-3456-7890.\n\nAnda juga bisa klik "📝 Beri Masukan" untuk berbagi pengalaman!';
+    }
+    function sendChatMessage() {
+      const m=chatbotInput.value.trim(); if(!m) return;
+      addChatMessage(m,true); chatbotInput.value='';
+      chatbotTyping.style.display='block';
+      chatbotMessages.scrollTop=chatbotMessages.scrollHeight;
+      setTimeout(()=>{ chatbotTyping.style.display='none'; addChatMessage(getBotResponse(m),false); }, 600+Math.random()*600);
+    }
+    function sendQuickReply(t){ chatbotInput.value=t; sendChatMessage(); }
+    chatbotInput.addEventListener('keypress', e=>{ if(e.key==='Enter') sendChatMessage(); });
+
+    /* ============= FORM MASUKAN ============= */
+    let selectedBintang = 5;
+
+    function bukaFormMasukan() {
+      document.getElementById('chatbotFormMasukan').classList.add('show');
+      chatbotInput.disabled = true;
+      document.querySelector('.chatbot-send').disabled = true;
+      updateBintangUI(5); selectedBintang = 5;
+      document.getElementById('masukanNama').focus();
+    }
+    function bukaChatbotMasukan() {
+      if(!isChatbotOpen) toggleChatbot();
+      setTimeout(bukaFormMasukan, 450);
+    }
+    function tutupFormMasukan() {
+      document.getElementById('chatbotFormMasukan').classList.remove('show');
+      chatbotInput.disabled = false;
+      document.querySelector('.chatbot-send').disabled = false;
+      document.getElementById('masukanNama').value = '';
+      document.getElementById('masukanTeks').value = '';
+      selectedBintang = 5; updateBintangUI(5);
+    }
+
+    // Bintang interaktif
+    document.querySelectorAll('#masukanStars span').forEach(el => {
+      el.addEventListener('click', ()=>{ selectedBintang=parseInt(el.dataset.v); updateBintangUI(selectedBintang); });
+      el.addEventListener('mouseover', ()=> updateBintangUI(parseInt(el.dataset.v)));
+      el.addEventListener('mouseleave', ()=> updateBintangUI(selectedBintang));
+    });
+    function updateBintangUI(val) {
+      document.querySelectorAll('#masukanStars span').forEach(el => {
+        el.classList.toggle('lit', parseInt(el.dataset.v) <= val);
+      });
+    }
+    updateBintangUI(5); // default 5 bintang
+
+    function kirimMasukan() {
+      const nama = document.getElementById('masukanNama').value.trim();
+      const teks = document.getElementById('masukanTeks').value.trim();
+
+      if(!nama) {
+        const inp = document.getElementById('masukanNama');
+        inp.style.borderColor='#f00'; inp.focus();
+        setTimeout(()=>inp.style.borderColor='',1800); return;
+      }
+      if(teks.length < 10) {
+        const ta = document.getElementById('masukanTeks');
+        ta.style.borderColor='#f00'; ta.focus();
+        setTimeout(()=>ta.style.borderColor='',1800); return;
+      }
+
+      const list = getMasukan();
+      list.push({ nama, teks, bintang: selectedBintang, ts: Date.now() });
+      simpanMasukan(list);
+
+      tutupFormMasukan();
+      addChatMessage(`Terima kasih, ${escHtml(nama)}! ✅
+
+Masukan Anda sudah diterima dan tampil di bagian Testimoni di bawah. Semoga harimu menyenangkan! 😊🌿`, false);
+
+      renderMasukanBaru();
+      showToast('✅ Masukan berhasil dikirim! Terima kasih ' + nama + '!');
+
+      setTimeout(()=>{
+        document.getElementById('testimonial').scrollIntoView({behavior:'smooth',block:'start'});
+      }, 900);
+    }
+
+    /* ============= TOAST ============= */
+    function showToast(msg) {
+      const t = document.getElementById('toastNotif');
+      t.textContent = msg; t.classList.add('show');
+      setTimeout(()=> t.classList.remove('show'), 3800);
+    }
     </script>
   </body>
 </html>

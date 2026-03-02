@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Help Center – TK Aisyiyah Timika</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; font-family: "Segoe UI", Helvetica, Arial, sans-serif; background: #e8f5e8; color: #222; overflow-x: hidden; }
+    .app { display: flex; min-height: 100vh; }
+
+    /* SIDEBAR */
+    .sidebar { width: 260px; min-width: 260px; background: #f4fbf4; border-right: 1px solid #e0ede0; display: flex; flex-direction: column; position: fixed; top: 0; left: 0; height: 100vh; z-index: 200; overflow-y: auto; transition: transform .3s cubic-bezier(.4,0,.2,1); }
+    .sidebar-brand { display: flex; align-items: center; gap: 14px; padding: 24px 20px 20px; border: 2px solid #00cc30; border-radius: 16px; margin: 18px 16px 24px; }
+    .sidebar-logo { width: 52px; height: 52px; background: #fff; border: 2px solid #00cc30; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .sidebar-logo img { width: 40px; height: 40px; object-fit: contain; }
+    .sidebar-brand-name { font-size: 1rem; font-weight: 700; color: #222; line-height: 1.3; }
+    .sidebar-nav { flex: 1; padding: 0 12px; }
+    .nav-item { display: flex; align-items: center; gap: 12px; padding: 11px 16px; border-radius: 10px; font-size: .93rem; color: #444; cursor: pointer; transition: background .2s, color .2s; margin-bottom: 4px; border: 1px solid transparent; text-decoration: none; }
+    .nav-item:hover { background: #f0fdf0; color: #00a832; border-color: #d0f0d0; }
+    .nav-item.active { background: #00cc30; color: #fff; font-weight: 600; }
+    .nav-item.nav-ppdb { background: #00cc30; color: #fff; font-weight: 700; }
+    .nav-item .nav-icon { font-size: 1rem; width: 20px; text-align: center; flex-shrink: 0; }
+    .nav-item .nav-arrow { margin-left: auto; font-size: .75rem; opacity: .6; transition: transform .3s; }
+    .nav-item .nav-arrow.open { transform: rotate(180deg); }
+    .manage-dropdown { display: none; flex-direction: column; background: #f7fdf7; border-radius: 10px; margin: 2px 0 4px 8px; overflow: hidden; border-left: 3px solid #00cc30; }
+    .manage-dropdown.open { display: flex; }
+    .dropdown-item { padding: 10px 16px 10px 20px; font-size: .88rem; color: #555; cursor: pointer; transition: background .2s, color .2s; display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .dropdown-item:hover { background: #e0f7e0; color: #00a832; }
+    .sidebar-bottom { padding: 12px; border-top: 1px solid #c8e6c8; background: #f4fbf4; }
+    .nav-item-sm { display: flex; align-items: center; gap: 10px; padding: 9px 14px; border-radius: 8px; font-size: .88rem; color: #888; cursor: pointer; transition: background .2s, color .2s; margin-bottom: 2px; text-decoration: none; }
+    .nav-item-sm:hover { background: #f9fdf9; color: #00a832; }
+    .nav-item-sm.active-sm { background: #e8f8e8; color: #00a832; font-weight: 600; }
+    .nav-item-sm.logout { color: #cc3300; }
+    .nav-item-sm.logout:hover { background: #fff5f5; }
+    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 199; }
+    .sidebar-overlay.show { display: block; }
+
+    /* MAIN */
+    .main { margin-left: 260px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; background: linear-gradient(160deg,#eaf6ea 0%,#f0f9f0 100%); }
+
+    /* TOPBAR */
+    .topbar { background: #f4fbf4; border-bottom: 1px solid #c8e6c8; padding: 12px 20px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 50; }
+    .hamburger-btn { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 6px; border: none; background: none; flex-shrink: 0; }
+    .hamburger-btn span { display: block; width: 22px; height: 2px; background: #333; border-radius: 2px; transition: all .3s; }
+    .hamburger-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger-btn.open span:nth-child(2) { opacity: 0; }
+    .hamburger-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .search-wrap { flex: 1; position: relative; }
+    .search-box { display: flex; align-items: center; gap: 10px; background: #edf7ed; border: 1px solid #b8ddb8; border-radius: 100px; padding: 9px 16px; }
+    .search-box input { border: none; background: transparent; outline: none; font-size: .93rem; color: #444; width: 100%; font-style: italic; }
+    .search-box input::placeholder { color: #aaa; }
+    .search-icon { color: #aaa; font-size: .95rem; flex-shrink: 0; }
+    .topbar-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .btn-notif { width: 40px; height: 40px; border-radius: 10px; border: 1px solid #d0e8d0; background: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.1rem; position: relative; flex-shrink: 0; }
+    .btn-notif:hover { background: #f0fdf0; }
+    .notif-dot { position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; background: #cc0000; border-radius: 50%; border: 2px solid #fff; }
+    .btn-saran { display: flex; align-items: center; gap: 6px; padding: 9px 14px; border-radius: 10px; border: 1px solid #d0e8d0; background: #fff; font-size: .85rem; color: #444; cursor: pointer; white-space: nowrap; }
+    .btn-saran:hover { background: #f0fdf0; color: #00a832; }
+    .btn-saran-text { display: inline; }
+
+    /* CONTENT */
+    .content { padding: clamp(16px,3vw,28px); flex: 1; }
+    .breadcrumb { font-size: .92rem; color: #888; margin-bottom: 20px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .breadcrumb a { color: #00a832; text-decoration: none; font-weight: 600; }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .breadcrumb .sep { color: #bbb; }
+    .breadcrumb .current { color: #444; font-weight: 600; }
+
+    /* HERO */
+    .help-hero { background: linear-gradient(135deg,#00af29,#00cc30); border-radius: 18px; padding: clamp(24px,4vw,36px); margin-bottom: 24px; text-align: center; }
+    .help-hero-title { font-size: clamp(1.3rem,3vw,1.8rem); font-weight: 800; color: #fff; margin-bottom: 10px; }
+    .help-hero-sub { font-size: .95rem; color: rgba(255,255,255,.85); margin-bottom: 20px; }
+    .help-search-wrap { max-width: 480px; margin: 0 auto; position: relative; }
+    .help-search-box { display: flex; align-items: center; gap: 10px; background: #fff; border-radius: 100px; padding: 12px 20px; box-shadow: 0 4px 20px rgba(0,0,0,.1); }
+    .help-search-box input { border: none; outline: none; font-size: .95rem; color: #444; flex: 1; background: transparent; }
+    .help-search-box input::placeholder { color: #bbb; }
+    .help-search-results { position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: #fff; border-radius: 14px; box-shadow: 0 8px 32px rgba(0,0,0,.12); border: 1px solid #e0e0e0; display: none; z-index: 10; overflow: hidden; }
+    .help-search-results.show { display: block; }
+    .help-result-item { padding: 12px 16px; cursor: pointer; font-size: .88rem; color: #333; border-bottom: 1px solid #f5f5f5; transition: background .2s; display: flex; align-items: center; gap: 10px; }
+    .help-result-item:hover { background: #f0fdf0; color: #00a832; }
+    .help-result-item:last-child { border-bottom: none; }
+
+    /* QUICK LINKS */
+    .quick-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 24px; }
+    .quick-card { background: #fff; border-radius: 14px; padding: 20px 16px; text-align: center; cursor: pointer; border: 1.5px solid rgba(0,204,48,.1); box-shadow: 0 2px 12px rgba(0,168,50,.07); transition: transform .2s, box-shadow .2s; }
+    .quick-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,168,50,.15); border-color: #00cc30; }
+    .quick-card-icon { font-size: 2rem; margin-bottom: 10px; }
+    .quick-card-title { font-size: .9rem; font-weight: 700; color: #333; margin-bottom: 4px; }
+    .quick-card-desc { font-size: .75rem; color: #aaa; line-height: 1.5; }
+
+    /* MAIN LAYOUT */
+    .help-layout { display: grid; grid-template-columns: 260px 1fr; gap: 20px; }
+
+    /* CATEGORIES SIDEBAR */
+    .help-categories { background: #fff; border-radius: 16px; box-shadow: 0 2px 16px rgba(0,168,50,.08); border: 1px solid rgba(0,204,48,.08); padding: 18px; height: fit-content; position: sticky; top: 80px; }
+    .help-cat-title { font-size: .85rem; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 12px; }
+    .help-cat-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; font-size: .88rem; color: #555; cursor: pointer; margin-bottom: 4px; transition: background .2s, color .2s; }
+    .help-cat-item:hover { background: #f0fdf0; color: #00a832; }
+    .help-cat-item.active { background: #00cc30; color: #fff; font-weight: 600; }
+    .help-cat-count { margin-left: auto; font-size: .72rem; background: rgba(0,0,0,.08); padding: 2px 7px; border-radius: 100px; font-weight: 600; }
+    .help-cat-item.active .help-cat-count { background: rgba(255,255,255,.25); }
+
+    /* FAQ MAIN */
+    .help-main { flex: 1; }
+    .faq-section { display: none; }
+    .faq-section.active { display: block; }
+    .faq-section-title { font-size: 1rem; font-weight: 700; color: #222; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+
+    .faq-item { background: #fff; border-radius: 12px; margin-bottom: 10px; border: 1px solid rgba(0,204,48,.1); box-shadow: 0 1px 8px rgba(0,168,50,.05); overflow: hidden; }
+    .faq-question { display: flex; align-items: center; justify-content: space-between; padding: 16px 18px; cursor: pointer; font-size: .92rem; font-weight: 600; color: #333; gap: 12px; transition: background .2s; }
+    .faq-question:hover { background: #f9fdf9; }
+    .faq-question.open { color: #00a832; }
+    .faq-arrow { font-size: .75rem; color: #aaa; flex-shrink: 0; transition: transform .3s; }
+    .faq-question.open .faq-arrow { transform: rotate(180deg); color: #00a832; }
+    .faq-answer { display: none; padding: 0 18px 16px; font-size: .88rem; color: #666; line-height: 1.8; border-top: 1px solid #f0f8f0; }
+    .faq-answer.open { display: block; }
+    .faq-answer p { margin-top: 12px; }
+    .faq-answer ol, .faq-answer ul { margin: 10px 0 0 18px; }
+    .faq-answer li { margin-bottom: 6px; }
+
+    /* CONTACT CARD */
+    .contact-card { background: #fff; border-radius: 16px; box-shadow: 0 2px 16px rgba(0,168,50,.08); border: 1px solid rgba(0,204,48,.08); padding: clamp(18px,2.5vw,24px); margin-top: 20px; }
+    .contact-card-title { font-size: 1rem; font-weight: 700; color: #222; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .contact-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .contact-option { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border: 1.5px solid #d0e8d0; border-radius: 12px; cursor: pointer; transition: all .2s; }
+    .contact-option:hover { border-color: #00cc30; background: #f0fdf0; }
+    .contact-option-icon { width: 40px; height: 40px; background: #f0fdf0; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+    .contact-option-label { font-size: .88rem; font-weight: 600; color: #333; }
+    .contact-option-desc { font-size: .75rem; color: #aaa; }
+
+    /* TICKET FORM */
+    .ticket-form { margin-top: 16px; }
+    .form-group { margin-bottom: 14px; }
+    .form-label { font-size: .82rem; font-weight: 600; color: #555; margin-bottom: 6px; display: block; }
+    .form-input { width: 100%; padding: 10px 14px; border: 1.5px solid #d0e8d0; border-radius: 10px; font-size: .9rem; outline: none; font-family: inherit; background: #fafff9; transition: border-color .2s; }
+    .form-input:focus { border-color: #00cc30; }
+    .form-textarea { width: 100%; height: 100px; padding: 10px 14px; border: 1.5px solid #d0e8d0; border-radius: 10px; font-size: .9rem; outline: none; font-family: inherit; background: #fafff9; resize: none; }
+    .form-textarea:focus { border-color: #00cc30; }
+    .form-select { width: 100%; padding: 10px 14px; border: 1.5px solid #d0e8d0; border-radius: 10px; font-size: .9rem; outline: none; font-family: inherit; background: #fafff9; cursor: pointer; }
+    .btn-submit-ticket { width: 100%; padding: 12px; border: none; border-radius: 10px; background: linear-gradient(102deg,#00af29,#00cc30); color: #fff; font-size: .95rem; font-weight: 700; cursor: pointer; margin-top: 4px; transition: opacity .2s; }
+    .btn-submit-ticket:hover { opacity: .88; }
+
+    /* SEARCH RESULTS */
+    .search-results { position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: #fff; border-radius: 14px; box-shadow: 0 8px 32px rgba(0,168,50,.15); border: 1px solid #c8e6c8; display: none; z-index: 999; overflow: hidden; max-height: 300px; overflow-y: auto; }
+    .search-results.show { display: block; }
+    .search-result-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; cursor: pointer; transition: background .2s; border-bottom: 1px solid #f0f8f0; font-size: .88rem; color: #333; }
+    .search-result-item:hover { background: #f0fdf0; color: #00a832; }
+    .search-result-icon { font-size: 1rem; width: 24px; text-align: center; flex-shrink: 0; }
+    .search-result-label { flex: 1; }
+    .search-result-label strong { color: #00a832; }
+    .search-result-cat { font-size: .72rem; color: #aaa; margin-left: auto; }
+    .search-empty { padding: 18px; text-align: center; color: #aaa; font-size: .88rem; }
+
+    /* NOTIF PANEL */
+    .notif-panel { display: none; position: fixed; top: 64px; right: 16px; width: min(300px,calc(100vw - 32px)); background: #fff; border-radius: 14px; box-shadow: 0 12px 40px rgba(0,0,0,.15); z-index: 300; padding: 16px; border: 1px solid #e8f5e8; }
+    .notif-panel.show { display: block; }
+    .notif-panel-title { font-weight: 700; font-size: .95rem; color: #00a832; margin-bottom: 12px; }
+    .notif-item { padding: 10px 0; border-bottom: 1px solid #f0f0f0; font-size: .85rem; color: #555; line-height: 1.5; }
+    .notif-item:last-child { border-bottom: none; }
+    .notif-item span { font-weight: 600; color: #00a832; }
+
+    /* MODAL */
+    .modal-overlay { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.35); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 20px; }
+    .modal-overlay.show { display: flex; }
+    .modal-box { background: #fff; border-radius: 18px; padding: clamp(22px,4vw,32px) clamp(22px,4vw,36px); width: 100%; max-width: 440px; box-shadow: 0 20px 60px rgba(0,0,0,.2); animation: popIn .3s cubic-bezier(.22,1,.36,1); }
+    @keyframes popIn { from{opacity:0;transform:scale(.9);}to{opacity:1;transform:scale(1);} }
+    .modal-title { font-size: 1.1rem; font-weight: 700; color: #00a832; margin-bottom: 14px; }
+    .modal-box textarea { width: 100%; height: 100px; padding: 12px; border: 1px solid #d0e8d0; border-radius: 10px; resize: none; font-size: .9rem; outline: none; font-family: inherit; }
+    .modal-box textarea:focus { border-color: #00cc30; }
+    .modal-actions { display: flex; gap: 10px; margin-top: 12px; justify-content: flex-end; }
+    .btn-cancel { padding: 9px 20px; border: 1px solid #ddd; border-radius: 8px; background: #fff; cursor: pointer; font-size: .9rem; }
+    .btn-submit { padding: 9px 20px; border: none; border-radius: 8px; background: linear-gradient(102deg,#00af29,#00cc30); color: #fff; cursor: pointer; font-size: .9rem; font-weight: 600; }
+
+    /* LOGOUT MODAL */
+    .logout-overlay { display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,.45); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 20px; }
+    .logout-overlay.show { display: flex; }
+    .logout-card { width: 100%; max-width: 320px; background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.25); border-radius: 22px; padding: clamp(24px,5vw,36px) clamp(20px,4vw,32px) 28px; text-align: center; backdrop-filter: blur(24px) saturate(150%); box-shadow: 0 24px 60px rgba(0,0,0,.4); animation: popIn .35s cubic-bezier(.22,1,.36,1); }
+    .logout-logo { width: 70px; height: 70px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; }
+    .logout-logo img { width: 56px; height: 56px; object-fit: contain; }
+    .logout-title { font-size: 1.05rem; font-weight: 800; color: #fff; letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
+    .logout-msg { font-size: .88rem; color: rgba(255,255,255,.8); line-height: 1.6; margin-bottom: 22px; }
+    .logout-btn-confirm { width: 100%; padding: 13px; margin-bottom: 10px; border: none; border-radius: 10px; background: linear-gradient(102deg,#cc0000,#ee0000); color: #fff; font-size: .95rem; font-weight: 700; cursor: pointer; }
+    .logout-btn-cancel { width: 100%; padding: 12px; border: 1px solid rgba(255,255,255,.35); border-radius: 10px; background: rgba(255,255,255,.1); color: rgba(255,255,255,.85); font-size: .9rem; cursor: pointer; }
+
+    /* TOAST */
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); background: #222; color: #fff; padding: 12px 24px; border-radius: 100px; font-size: .88rem; z-index: 9999; opacity: 0; transition: opacity .3s, transform .3s; pointer-events: none; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.success { background: linear-gradient(102deg,#00af29,#00cc30); }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) { .help-layout { grid-template-columns: 1fr; } .help-categories { position: static; display: flex; gap: 6px; flex-wrap: wrap; padding: 12px; } .help-cat-item { margin-bottom: 0; } .help-cat-title { display: none; } }
+    @media (max-width: 768px) { .sidebar { transform: translateX(-100%); } .sidebar.open { transform: translateX(0); } .main { margin-left: 0; } .hamburger-btn { display: flex; } .quick-grid { grid-template-columns: 1fr 1fr; } .contact-options { grid-template-columns: 1fr; } }
+    @media (max-width: 600px) { .btn-saran-text { display: none; } .quick-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .topbar { padding: 10px 12px; gap: 8px; } .content { padding: 14px; } .quick-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-logo"><img src="LogoTk.png" alt="Logo" onerror="this.parentElement.innerHTML='🏫'" /></div>
+      <div class="sidebar-brand-name">TK Aisyiyah Timika</div>
+    </div>
+    <nav class="sidebar-nav">
+      <a class="nav-item" href="dashboard_admin.html"><span class="nav-icon">🏠</span> Dashboard</a>
+      <div class="nav-item" onclick="toggleManage()">
+        <span class="nav-icon">⚙️</span> Manage
+        <span class="nav-arrow" id="manageArrow">▾</span>
+      </div>
+      <div class="manage-dropdown" id="manageDropdown">
+        <a class="dropdown-item" href="DashboardProfilSekolah.html">🏫 Profil Sekolah</a>
+        <a class="dropdown-item" href="DashboardStaff-Pengajar.html">👩‍🏫 Staff Pengajar & Tenaga Kependidikan</a>
+        <a class="dropdown-item" href="DashboardFasilitas.html">🏗️ Fasilitas</a>
+        <a class="dropdown-item" href="DashboardGaleri.html">🖼️ Galeri</a>
+        <a class="dropdown-item" href="DashboardKalender.html">📅 Kalender</a>
+      </div>
+      <a class="nav-item nav-ppdb" href="DashboardPPDB.html"><span class="nav-icon">📋</span> PPDB 2027/2028</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a class="nav-item-sm" href="DashboardSettings.html">⚙️ Settings</a>
+      <a class="nav-item-sm" href="DashboardManageAccount.html">👤 Manage Account</a>
+      <a class="nav-item-sm active-sm" href="DashboardHelpCenter.html">❓ Help Center</a>
+      <div class="nav-item-sm logout" onclick="confirmLogout()">↩ Log Out</div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+      <div class="search-wrap">
+        <div class="search-box"><span class="search-icon">🔍</span><input type="text" id="searchInput" placeholder="Search Here" oninput="doSearch(this.value)" autocomplete="off" /></div>
+        <div class="search-results" id="searchResults"></div>
+      </div>
+      <div class="topbar-actions">
+        <div class="btn-notif" onclick="toggleNotif()">🔔<div class="notif-dot"></div></div>
+        <div class="btn-saran" onclick="openSaran()">💬 <span class="btn-saran-text">Saran dan Masukan</span></div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="breadcrumb">
+        <a href="dashboard_admin.html">Dashboard</a>
+        <span class="sep">›</span>
+        <span class="current">Help Center</span>
+      </div>
+
+      <!-- HERO -->
+      <div class="help-hero">
+        <div class="help-hero-title">👋 Ada yang bisa kami bantu?</div>
+        <div class="help-hero-sub">Cari jawaban dari pertanyaan yang sering diajukan atau hubungi tim support kami.</div>
+        <div class="help-search-wrap">
+          <div class="help-search-box">
+            <span>🔍</span>
+            <input type="text" placeholder="Cari pertanyaan atau topik..." oninput="helpSearch(this.value)" autocomplete="off" id="helpSearchInput" />
+          </div>
+          <div class="help-search-results" id="helpSearchResults"></div>
+        </div>
+      </div>
+
+      <!-- QUICK LINKS -->
+      <div class="quick-grid">
+        <div class="quick-card" onclick="switchCat('ppdb',this)">
+          <div class="quick-card-icon">📋</div>
+          <div class="quick-card-title">PPDB</div>
+          <div class="quick-card-desc">Panduan pendaftaran dan pengelolaan PPDB</div>
+        </div>
+        <div class="quick-card" onclick="switchCat('manage',this)">
+          <div class="quick-card-icon">⚙️</div>
+          <div class="quick-card-title">Kelola Konten</div>
+          <div class="quick-card-desc">Profil, fasilitas, galeri, dan kalender</div>
+        </div>
+        <div class="quick-card" onclick="switchCat('akun',this)">
+          <div class="quick-card-icon">👤</div>
+          <div class="quick-card-title">Akun & Keamanan</div>
+          <div class="quick-card-desc">Password, sesi, dan pengaturan akun</div>
+        </div>
+        <div class="quick-card" onclick="switchCat('teknis',this)">
+          <div class="quick-card-icon">🔧</div>
+          <div class="quick-card-title">Teknis</div>
+          <div class="quick-card-desc">Masalah teknis dan troubleshooting</div>
+        </div>
+        <div class="quick-card" onclick="switchCat('kontak',this)">
+          <div class="quick-card-icon">💬</div>
+          <div class="quick-card-title">Hubungi Kami</div>
+          <div class="quick-card-desc">Kirim pertanyaan atau laporan masalah</div>
+        </div>
+        <div class="quick-card" onclick="switchCat('umum',this)">
+          <div class="quick-card-icon">❓</div>
+          <div class="quick-card-title">FAQ Umum</div>
+          <div class="quick-card-desc">Pertanyaan yang paling sering ditanyakan</div>
+        </div>
+      </div>
+
+      <!-- MAIN LAYOUT -->
+      <div class="help-layout">
+
+        <!-- CATEGORIES -->
+        <div class="help-categories">
+          <div class="help-cat-title">Kategori</div>
+          <div class="help-cat-item active" onclick="switchCat('umum',this)">❓ FAQ Umum <span class="help-cat-count">6</span></div>
+          <div class="help-cat-item" onclick="switchCat('ppdb',this)">📋 PPDB <span class="help-cat-count">5</span></div>
+          <div class="help-cat-item" onclick="switchCat('manage',this)">⚙️ Kelola Konten <span class="help-cat-count">5</span></div>
+          <div class="help-cat-item" onclick="switchCat('akun',this)">👤 Akun & Keamanan <span class="help-cat-count">4</span></div>
+          <div class="help-cat-item" onclick="switchCat('teknis',this)">🔧 Teknis <span class="help-cat-count">4</span></div>
+          <div class="help-cat-item" onclick="switchCat('kontak',this)">💬 Hubungi Kami <span class="help-cat-count">-</span></div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="help-main">
+
+          <!-- FAQ UMUM -->
+          <div class="faq-section active" id="faq-umum">
+            <div class="faq-section-title">❓ FAQ Umum</div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Apa itu Dashboard Admin TK Aisyiyah? <span class="faq-arrow">▾</span></div><div class="faq-answer"><p>Dashboard Admin adalah sistem manajemen berbasis web khusus untuk pengelola TK Aisyiyah Timika. Melalui dashboard ini, admin dapat mengelola data profil sekolah, staff pengajar, fasilitas, galeri foto, kalender event, dan pendaftaran PPDB secara terpusat.</p></div></div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Siapa yang bisa mengakses dashboard ini? <span class="faq-arrow">▾</span></div><div class="faq-answer"><p>Hanya akun dengan hak akses Admin (Super Admin) yang dapat masuk ke dashboard ini. Akses diberikan oleh kepala sekolah atau pengelola utama TK Aisyiyah Timika.</p></div></div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Bagaimana cara login ke dashboard? <span class="faq-arrow">▾</span></div><div class="faq-answer"><p>Buka halaman Login Admin, masukkan username dan password yang telah diberikan oleh kepala sekolah. Klik tombol "Login". Jika lupa password, gunakan fitur "Lupa Password" atau hubungi administrator sistem.</p></div></div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Bagaimana cara menggunakan fitur pencarian? <span class="faq-arrow">▾</span></div><div class="faq-answer"><p>Kolom pencarian berada di bagian atas (topbar) di setiap halaman. Ketik kata kunci seperti "Galeri", "PPDB", atau "Fasilitas" untuk langsung diarahkan ke menu yang relevan.</p></div></div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Apakah dashboard ini bisa diakses dari HP? <span class="faq-arrow">▾</span></div><div class="faq-answer"><p>Ya! Dashboard ini telah didesain responsif dan dapat diakses melalui perangkat mobile (HP/tablet). Gunakan browser modern seperti Chrome, Safari, atau Firefox untuk pengalaman terbaik. Pada perangkat mobile, sidebar dapat dibuka menggunakan tombol menu (☰) di pojok kiri atas.</p></div></div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Bagaimana cara mengirim saran dan masukan? <span class="faq-arrow">▾</span></div><div class="faq-answer"><p>Klik tombol "💬 Saran dan Masukan" di pojok kanan atas topbar. Sebuah form akan muncul — tuliskan saran atau masukan Anda, lalu klik "Kirim". Masukan Anda sangat berharga untuk pengembangan sistem ini.</p></div></div>
+          </div>
+
+          <!-- FAQ PPDB -->
+          <div class="faq-section" id="faq-ppdb">
+            <div class="faq-section-title">📋 Pertanyaan Seputar PPDB</div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Bagaimana cara membuka PPDB? <span class="faq-arrow">▾</span></div><div class="faq-answer"><p>Buka menu PPDB 2027/2028 dari sidebar. Klik tombol "Buka PPDB 2027/2028" berwarna hijau. Konfirmasi tindakan pada dialog yang muncul. Setelah dibuka, formulir PPDB akan aktif dan dapat diisi oleh calon peserta didik.</p></div></div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Bagaimana cara menutup PPDB? <span class="faq-arrow">▾</span></div><div class="faq-answer"><p>Saat PPDB sedang buka, tombol merah "Tutup PPDB 2027/2028" akan muncul. Klik tombol tersebut dan konfirmasi pada dialog. Setelah ditutup, Anda kembali dapat mengedit field formulir PPDB.</p></div></div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Apakah field formulir PPDB bisa diedit saat PPDB aktif? <span class="faq-arrow">▾</span></div><div class="faq-answer"><p>Tidak. Saat PPDB dalam status "Buka", pengeditan field formulir dinonaktifkan untuk mencegah perubahan yang dapat mengganggu proses pendaftaran yang sedang berjalan. Tutup dulu PPDB untuk dapat mengedit field.</p></div></div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Bagaimana menambah field baru di formulir PPDB? <span class="faq-arrow">▾</span></div><div class="faq-answer"><p>Saat PPDB dalam status tutup, klik Edit pada baris yang ingin diubah, atau gunakan tombol tambah di bawah tabel. Isi nama field, pilih tipe input (text, date, dropdown, dll.), dan atur apakah field wajib diisi atau tidak.</p></div></div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Apa arti tipe input pada field PPDB? <span class="faq-arrow">▾</span></div><div class="faq-answer"><p>Tipe input menentukan jenis data yang bisa dimasukkan pendaftar:</p><ul><li><b>text</b> – Teks bebas (nama, alamat)</li><li><b>date</b> – Tanggal (tanggal lahir)</li><li><b>number</b> – Angka (no. HP)</li><li><b>dropdown</b> – Pilihan menu (jenis kelamin)</li><li><b>file</b> – Upload dokumen/foto</li><li><b>email</b> – Alamat email</li></ul></div></div>
+          </div>
+
+          <!-- FAQ MANAGE -->
+          <div class="faq-section" id="faq-manage">
+            <div class="faq-section-title">⚙️ Mengelola Konten</div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Bagaimana cara mengedit profil sekolah? <span class="faq-arrow">▾</span></div><div class="faq-answer"><p>Masuk ke Manage → Profil Sekolah. Klik tombol "Edit" pada section yang ingin diubah. Ubah nama section, deskripsi, dan file yang ditautkan, lalu klik "Simpan".</p></div></div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Bagaimana cara upload foto ke Galeri? <span class="faq-arrow">▾</span></div><div class="faq-answer"><p>Buka Manage → Galeri. Klik "Edit Pict" pada foto yang ingin diganti, atau klik "+ Add Photo" untuk menambah foto baru. Pilih file gambar dari perangkat Anda, tambahkan keterangan (opsional), lalu klik "Simpan".</p></div></div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Bagaimana cara menandai event sebagai selesai di Kalender? <span class="faq-arrow">▾</span></div><div class="faq-answer"><p>Buka Manage → Kalender. Cari event yang ingin ditandai, lalu klik tombol "Mark Complete". Tombol akan berubah menjadi "✓ Done" dan event akan tampak lebih redup sebagai tanda telah selesai.</p></div></div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Apakah data yang dihapus bisa dipulihkan? <span class="faq-arrow">▾</span></div><div class="faq-answer"><p>Saat ini, penghapusan data bersifat permanen dan tidak dapat dipulihkan langsung dari dashboard. Pastikan Anda membuat backup data secara rutin melalui Settings → Lanjutan → Unduh Backup sebelum menghapus data penting.</p></div></div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Berapa banyak staff yang bisa ditambahkan? <span class="faq-arrow">▾</span></div><div class="faq-answer"><p>Tidak ada batasan jumlah staff yang dapat ditambahkan. Klik tombol "+ add more" di halaman Staff Pengajar & Tenaga Kependidikan untuk menambah data staff baru.</p></div></div>
+          </div>
+
+          <!-- FAQ AKUN -->
+          <div class="faq-section" id="faq-akun">
+            <div class="faq-section-title">👤 Akun & Keamanan</div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Bagaimana cara mengganti password? <span class="faq-arrow">▾</span></div><div class="faq-answer"><p>Buka Manage Account atau Settings → Keamanan. Isi kolom "Password Lama" dengan password saat ini, lalu masukkan "Password Baru" dan konfirmasi ulang. Klik "Update Password" untuk menyimpan.</p></div></div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Bagaimana jika lupa password? <span class="faq-arrow">▾</span></div><div class="faq-answer"><p>Pada halaman login, klik link "Lupa Password". Masukkan email yang terdaftar dan ikuti instruksi yang dikirimkan ke email tersebut. Jika tidak berhasil, hubungi kepala sekolah atau pengelola sistem untuk reset password manual.</p></div></div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Bagaimana cara mencabut akses sesi yang mencurigakan? <span class="faq-arrow">▾</span></div><div class="faq-answer"><p>Buka Manage Account → bagian "Sesi Aktif". Anda dapat melihat semua sesi yang aktif beserta perangkat dan lokasinya. Klik tombol "Cabut" pada sesi yang tidak dikenal, atau gunakan "Cabut Semua Sesi Lain" untuk keamanan lebih.</p></div></div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Apa itu Autentikasi Dua Langkah (2FA)? <span class="faq-arrow">▾</span></div><div class="faq-answer"><p>2FA adalah lapisan keamanan tambahan. Selain password, Anda perlu memasukkan kode verifikasi yang dikirim ke HP atau aplikasi authenticator setiap kali login. Fitur ini dapat diaktifkan di Settings → Keamanan atau Manage Account.</p></div></div>
+          </div>
+
+          <!-- FAQ TEKNIS -->
+          <div class="faq-section" id="faq-teknis">
+            <div class="faq-section-title">🔧 Troubleshooting Teknis</div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Dashboard lambat atau tidak merespons? <span class="faq-arrow">▾</span></div><div class="faq-answer"><p>Coba langkah-langkah berikut:</p><ol><li>Refresh halaman (tekan F5 atau Ctrl+R)</li><li>Bersihkan cache browser (Ctrl+Shift+Delete)</li><li>Coba gunakan browser lain (Chrome, Firefox, Edge)</li><li>Pastikan koneksi internet stabil</li><li>Jika masalah berlanjut, hubungi tim teknis</li></ol></div></div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Foto gagal diupload? <span class="faq-arrow">▾</span></div><div class="faq-answer"><p>Pastikan:</p><ul><li>Format file yang didukung: JPG, PNG, WEBP</li><li>Ukuran file tidak melebihi 5MB</li><li>Koneksi internet stabil saat upload</li><li>Coba kompres foto terlebih dahulu menggunakan tools online</li></ul></div></div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Tombol atau fitur tidak berfungsi? <span class="faq-arrow">▾</span></div><div class="faq-answer"><p>Kemungkinan penyebab:</p><ul><li>Browser versi lama – perbarui ke versi terbaru</li><li>JavaScript dinonaktifkan – aktifkan di pengaturan browser</li><li>Ekstensi browser memblokir fungsi – coba mode Incognito</li><li>Cache yang rusak – bersihkan cache browser</li></ul></div></div>
+            <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">Bagaimana melaporkan bug atau error? <span class="faq-arrow">▾</span></div><div class="faq-answer"><p>Gunakan formulir "Hubungi Kami" di halaman ini atau klik tombol "💬 Saran dan Masukan". Sertakan informasi:</p><ul><li>Halaman dan fitur yang bermasalah</li><li>Langkah untuk mereproduksi error</li><li>Screenshot jika memungkinkan</li><li>Browser dan perangkat yang digunakan</li></ul></div></div>
+          </div>
+
+          <!-- KONTAK -->
+          <div class="faq-section" id="faq-kontak">
+            <div class="faq-section-title">💬 Hubungi Kami</div>
+            <div class="contact-card">
+              <div class="contact-card-title">📞 Pilih Cara Menghubungi</div>
+              <div class="contact-options">
+                <div class="contact-option" onclick="showToast('Membuka WhatsApp...')">
+                  <div class="contact-option-icon">💬</div>
+                  <div><div class="contact-option-label">WhatsApp</div><div class="contact-option-desc">Respons cepat dalam 1x24 jam</div></div>
+                </div>
+                <div class="contact-option" onclick="showToast('Membuka email...')">
+                  <div class="contact-option-icon">📧</div>
+                  <div><div class="contact-option-label">Email</div><div class="contact-option-desc">admin@tkaisyiyahtimika.sch.id</div></div>
+                </div>
+                <div class="contact-option" onclick="showToast('Menghubungi telepon...')">
+                  <div class="contact-option-icon">📞</div>
+                  <div><div class="contact-option-label">Telepon</div><div class="contact-option-desc">0901-234-5678 (Jam kerja)</div></div>
+                </div>
+                <div class="contact-option" onclick="showToast('Membuka peta lokasi...')">
+                  <div class="contact-option-icon">📍</div>
+                  <div><div class="contact-option-label">Kunjungi Langsung</div><div class="contact-option-desc">Jl. Cenderawasih No.10, Timika</div></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="contact-card" style="margin-top:16px">
+              <div class="contact-card-title">📝 Kirim Tiket Dukungan</div>
+              <div class="ticket-form">
+                <div class="form-group"><label class="form-label">Nama Admin</label><input class="form-input" type="text" value="Admin TK Aisyiyah" /></div>
+                <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" value="admin@tkaisyiyahtimika.sch.id" /></div>
+                <div class="form-group"><label class="form-label">Kategori Masalah</label>
+                  <select class="form-select">
+                    <option>-- Pilih Kategori --</option>
+                    <option>PPDB</option>
+                    <option>Kelola Konten</option>
+                    <option>Akun & Keamanan</option>
+                    <option>Teknis / Bug</option>
+                    <option>Lainnya</option>
+                  </select>
+                </div>
+                <div class="form-group"><label class="form-label">Deskripsi Masalah</label><textarea class="form-textarea" placeholder="Jelaskan masalah yang Anda alami secara detail..."></textarea></div>
+                <button class="btn-submit-ticket" onclick="showToast('✅ Tiket dukungan berhasil dikirim! Tim kami akan merespons segera.')">📨 Kirim Tiket</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NOTIF PANEL -->
+<div class="notif-panel" id="notifPanel">
+  <div class="notif-panel-title">🔔 Notifikasi</div>
+  <div class="notif-item"><span>PPDB Baru:</span> 3 pendaftar baru hari ini</div>
+  <div class="notif-item"><span>Review:</span> Ibu Fauziah memberikan ulasan bintang 5</div>
+  <div class="notif-item"><span>Event:</span> Outing Class tinggal 6 hari lagi</div>
+</div>
+
+<!-- MODAL SARAN -->
+<div class="modal-overlay" id="saranModal">
+  <div class="modal-box">
+    <div class="modal-title">💬 Saran dan Masukan</div>
+    <textarea placeholder="Tulis saran atau masukan Anda di sini..."></textarea>
+    <div class="modal-actions"><button class="btn-cancel" onclick="closeSaran()">Batal</button><button class="btn-submit" onclick="submitSaran()">Kirim</button></div>
+  </div>
+</div>
+
+<!-- LOGOUT MODAL -->
+<div class="logout-overlay" id="logoutModal">
+  <div class="logout-card">
+    <div class="logout-logo"><img src="LogoTk.png" alt="Logo" onerror="this.parentElement.innerHTML='🏫'" /></div>
+    <div class="logout-title">ADMIN LOGIN</div>
+    <div class="logout-msg">Apakah Anda yakin ingin<br>keluar dari dashboard?</div>
+    <button class="logout-btn-confirm" onclick="doLogout()">↩ Ya, Log Out</button>
+    <button class="logout-btn-cancel" onclick="closeLogout()">Kembali ke Dashboard</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  function toggleSidebar(){const s=document.getElementById('sidebar'),o=document.getElementById('sidebarOverlay'),b=document.getElementById('hamburgerBtn');const open=s.classList.toggle('open');o.classList.toggle('show',open);b.classList.toggle('open',open);document.body.style.overflow=open?'hidden':'';}
+  function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebarOverlay').classList.remove('show');document.getElementById('hamburgerBtn').classList.remove('open');document.body.style.overflow='';}
+  function toggleManage(){document.getElementById('manageDropdown').classList.toggle('open');document.getElementById('manageArrow').classList.toggle('open');}
+
+  function toggleFaq(el){
+    const isOpen=el.classList.toggle('open');
+    el.nextElementSibling.classList.toggle('open',isOpen);
+    // close others in same section
+    el.closest('.faq-section').querySelectorAll('.faq-question').forEach(q=>{
+      if(q!==el){q.classList.remove('open');q.nextElementSibling.classList.remove('open');}
+    });
+  }
+
+  function switchCat(name, trigger){
+    document.querySelectorAll('.faq-section').forEach(s=>s.classList.remove('active'));
+    document.querySelectorAll('.help-cat-item').forEach(c=>c.classList.remove('active'));
+    document.getElementById('faq-'+name)?.classList.add('active');
+    // find matching cat item
+    document.querySelectorAll('.help-cat-item').forEach(c=>{
+      if(c.textContent.toLowerCase().includes(name==='umum'?'faq':name==='manage'?'konten':name==='ppdb'?'ppdb':name==='akun'?'akun':name==='teknis'?'teknis':'hubungi'))
+        c.classList.add('active');
+    });
+    // scroll to main
+    document.querySelector('.help-main')?.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+
+  // Help center search
+  const faqData=[
+    {q:'Apa itu Dashboard Admin?',cat:'umum'},{q:'Siapa yang bisa mengakses?',cat:'umum'},{q:'Bagaimana cara login?',cat:'umum'},
+    {q:'Bagaimana cara membuka PPDB?',cat:'ppdb'},{q:'Bagaimana cara menutup PPDB?',cat:'ppdb'},{q:'Apa arti tipe input PPDB?',cat:'ppdb'},
+    {q:'Bagaimana cara upload foto galeri?',cat:'manage'},{q:'Bagaimana cara mengedit profil sekolah?',cat:'manage'},
+    {q:'Bagaimana cara mengganti password?',cat:'akun'},{q:'Bagaimana jika lupa password?',cat:'akun'},
+    {q:'Dashboard lambat atau tidak merespons?',cat:'teknis'},{q:'Foto gagal diupload?',cat:'teknis'},
+  ];
+  function helpSearch(val){
+    const box=document.getElementById('helpSearchResults');
+    if(!val.trim()){box.classList.remove('show');return;}
+    const q=val.toLowerCase();
+    const matches=faqData.filter(f=>f.q.toLowerCase().includes(q));
+    box.innerHTML=matches.length
+      ?matches.map(f=>`<div class="help-result-item" onclick="switchCat('${f.cat}',null)">❓ ${f.q}</div>`).join('')
+      :'<div class="help-result-item" style="color:#aaa;cursor:default">Tidak ada hasil ditemukan</div>';
+    box.classList.add('show');
+  }
+  document.addEventListener('click',e=>{if(!e.target.closest('.help-search-wrap'))document.getElementById('helpSearchResults').classList.remove('show');});
+
+  function toggleNotif(){document.getElementById('notifPanel').classList.toggle('show');}
+  document.addEventListener('click',e=>{if(!e.target.closest('.btn-notif')&&!e.target.closest('.notif-panel'))document.getElementById('notifPanel').classList.remove('show');});
+  function openSaran(){document.getElementById('saranModal').classList.add('show');}
+  function closeSaran(){document.getElementById('saranModal').classList.remove('show');}
+  function submitSaran(){showToast('Saran berhasil dikirim! Terima kasih 😊');closeSaran();}
+  document.getElementById('saranModal').addEventListener('click',e=>{if(e.target===document.getElementById('saranModal'))closeSaran();});
+  function confirmLogout(){document.getElementById('logoutModal').classList.add('show');}
+  function doLogout(){window.location.href='Login-Admin.html';}
+  function closeLogout(){document.getElementById('logoutModal').classList.remove('show');}
+  function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show','success');setTimeout(()=>t.classList.remove('show','success'),3500);}
+
+  const searchData=[{icon:'🏠',label:'Dashboard',cat:'Menu',href:'dashboard_admin.html'},{icon:'🏫',label:'Profil Sekolah',cat:'Manage',href:'DashboardProfilSekolah.html'},{icon:'👩‍🏫',label:'Staff Pengajar',cat:'Manage',href:'DashboardStaff-Pengajar.html'},{icon:'🏗️',label:'Fasilitas',cat:'Manage',href:'DashboardFasilitas.html'},{icon:'🖼️',label:'Galeri',cat:'Manage',href:'DashboardGaleri.html'},{icon:'📅',label:'Kalender',cat:'Manage',href:'DashboardKalender.html'},{icon:'📋',label:'PPDB 2027/2028',cat:'Menu',href:'DashboardPPDB.html'},{icon:'⚙️',label:'Settings',cat:'Pengaturan',href:'DashboardSettings.html'},{icon:'👤',label:'Manage Account',cat:'Pengaturan',href:'DashboardManageAccount.html'},{icon:'❓',label:'Help Center',cat:'Bantuan',href:'DashboardHelpCenter.html'}];
+  let _filtered=[];
+  function doSearch(val){const box=document.getElementById('searchResults'),q=val.trim().toLowerCase();if(!q){box.classList.remove('show');box.innerHTML='';return;}_filtered=searchData.filter(d=>d.label.toLowerCase().includes(q));box.innerHTML=_filtered.length?_filtered.map((d,i)=>`<div class="search-result-item" onclick="searchGo(${i})"><span class="search-result-icon">${d.icon}</span><span class="search-result-label">${d.label.replace(new RegExp(val.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),m=>'<strong>'+m+'</strong>')}</span><span class="search-result-cat">${d.cat}</span></div>`).join(''):'<div class="search-empty">😕 Tidak ada hasil</div>';box.classList.add('show');}
+  function searchGo(i){if(_filtered[i]?.href)window.location.href=_filtered[i].href;document.getElementById('searchResults').classList.remove('show');document.getElementById('searchInput').value='';}
+  document.addEventListener('click',e=>{if(!e.target.closest('.search-wrap'))document.getElementById('searchResults').classList.remove('show');});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSaran();closeLogout();closeSidebar();}});
+</script>
+</body>
+</html>

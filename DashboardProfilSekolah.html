@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profil Sekolah – TK Aisyiyah Timika</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; font-family: "Segoe UI", Helvetica, Arial, sans-serif; background: #e8f5e8; color: #222; overflow-x: hidden; }
+
+    .app { display: flex; min-height: 100vh; }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: 260px; min-width: 260px; background: #f4fbf4;
+      border-right: 1px solid #e0ede0;
+      display: flex; flex-direction: column;
+      position: fixed; top: 0; left: 0; height: 100vh;
+      z-index: 200; overflow-y: auto;
+      transition: transform .3s cubic-bezier(.4,0,.2,1);
+    }
+    .sidebar-brand {
+      display: flex; align-items: center; gap: 14px;
+      padding: 24px 20px 20px;
+      border: 2px solid #00cc30; border-radius: 16px;
+      margin: 18px 16px 24px;
+    }
+    .sidebar-logo {
+      width: 52px; height: 52px; background: #fff;
+      border: 2px solid #00cc30; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .sidebar-logo img { width: 40px; height: 40px; object-fit: contain; }
+    .sidebar-logo-placeholder {
+      width: 40px; height: 40px; background: linear-gradient(135deg,#00cc30,#00a832);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; color: #fff;
+    }
+    .sidebar-brand-name { font-size: 1rem; font-weight: 700; color: #222; line-height: 1.3; }
+
+    .sidebar-nav { flex: 1; padding: 0 12px; }
+    .nav-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 11px 16px; border-radius: 10px;
+      font-size: .93rem; color: #444; cursor: pointer;
+      transition: background .2s, color .2s; margin-bottom: 4px;
+      border: 1px solid transparent; text-decoration: none;
+    }
+    .nav-item:hover { background: #f0fdf0; color: #00a832; border-color: #d0f0d0; }
+    .nav-item.active { background: #00cc30; color: #fff; font-weight: 600; }
+    .nav-item.nav-ppdb { background: #00cc30; color: #fff; font-weight: 700; }
+    .nav-item.nav-ppdb:hover { background: #00b82c; }
+    .nav-item .nav-icon { font-size: 1rem; width: 20px; text-align: center; flex-shrink: 0; }
+    .nav-item .nav-arrow { margin-left: auto; font-size: .75rem; opacity: .6; transition: transform .3s; }
+    .nav-item .nav-arrow.open { transform: rotate(180deg); }
+
+    .manage-dropdown {
+      display: none; flex-direction: column;
+      background: #f7fdf7; border-radius: 10px;
+      margin: 2px 0 4px 8px; overflow: hidden;
+      border-left: 3px solid #00cc30;
+    }
+    .manage-dropdown.open { display: flex; }
+    .dropdown-item {
+      padding: 10px 16px 10px 20px;
+      font-size: .88rem; color: #555; cursor: pointer;
+      transition: background .2s, color .2s;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .dropdown-item:hover { background: #e0f7e0; color: #00a832; }
+    .dropdown-item.active-sub { color: #00a832; font-weight: 600; background: #e8fce8; }
+
+    .nav-divider { height: 1px; background: #e8f5e8; margin: 12px 4px; }
+
+    .sidebar-bottom { padding: 12px; border-top: 1px solid #c8e6c8; background: #f4fbf4; }
+    .nav-item-sm {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 14px; border-radius: 8px;
+      font-size: .88rem; color: #888; cursor: pointer;
+      transition: background .2s, color .2s; margin-bottom: 2px;
+    }
+    .nav-item-sm:hover { background: #f9fdf9; color: #00a832; }
+    .nav-item-sm.logout { color: #cc3300; }
+    .nav-item-sm.logout:hover { background: #fff5f5; }
+
+    .sidebar-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.4); z-index: 199;
+    }
+    .sidebar-overlay.show { display: block; }
+
+    /* ── MAIN ── */
+    .main { margin-left: 260px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; background: linear-gradient(160deg, #eaf6ea 0%, #f0f9f0 100%); transition: margin-left .3s; }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background: #f4fbf4; border-bottom: 1px solid #c8e6c8;
+      padding: 12px 20px; display: flex; align-items: center; gap: 12px;
+      position: sticky; top: 0; z-index: 50;
+    }
+    .hamburger-btn {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 6px; border: none; background: none; flex-shrink: 0;
+    }
+    .hamburger-btn span { display: block; width: 22px; height: 2px; background: #333; border-radius: 2px; }
+
+    .search-wrap { flex: 1; position: relative; }
+    .search-box {
+      display: flex; align-items: center; gap: 10px;
+      background: #edf7ed; border: 1px solid #b8ddb8; border-radius: 100px;
+      padding: 9px 16px;
+    }
+    .search-box input { border: none; background: transparent; outline: none; font-size: .93rem; color: #444; width: 100%; font-style: italic; }
+    .search-box input::placeholder { color: #aaa; }
+    .search-icon { color: #aaa; font-size: .95rem; flex-shrink: 0; }
+
+    .topbar-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .btn-notif {
+      width: 40px; height: 40px; border-radius: 10px;
+      border: 1px solid #d0e8d0; background: #fff;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1.1rem; transition: background .2s;
+      position: relative; flex-shrink: 0;
+    }
+    .btn-notif:hover { background: #f0fdf0; }
+    .notif-dot {
+      position: absolute; top: 6px; right: 6px;
+      width: 8px; height: 8px; background: #cc0000; border-radius: 50%;
+      border: 2px solid #fff;
+    }
+    .btn-saran {
+      display: flex; align-items: center; gap: 6px;
+      padding: 9px 14px; border-radius: 10px;
+      border: 1px solid #d0e8d0; background: #fff;
+      font-size: .85rem; color: #444; cursor: pointer;
+      transition: background .2s; white-space: nowrap;
+    }
+    .btn-saran:hover { background: #f0fdf0; color: #00a832; }
+
+    /* ── CONTENT ── */
+    .content { padding: clamp(16px,3vw,28px); flex: 1; }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      display: flex; align-items: center; gap: 8px;
+      font-size: .92rem; color: #555; margin-bottom: 20px;
+    }
+    .breadcrumb a { color: #555; text-decoration: none; }
+    .breadcrumb a:hover { color: #00a832; }
+    .breadcrumb .sep { color: #aaa; font-size: .8rem; }
+    .breadcrumb .current { color: #00a832; font-weight: 600; }
+
+    /* Main card */
+    .page-card {
+      background: #fff; border-radius: 18px;
+      box-shadow: 0 2px 20px rgba(0,168,50,.09);
+      border: 1px solid rgba(0,204,48,.08);
+      overflow: hidden;
+    }
+
+    .page-card-header {
+      padding: 20px 24px 18px;
+      border-bottom: 1px solid #f0f8f0;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      flex-wrap: wrap;
+    }
+    .page-card-title { font-size: 1.05rem; font-weight: 700; color: #222; }
+
+    .btn-add {
+      display: flex; align-items: center; gap: 7px;
+      padding: 10px 18px; border-radius: 10px;
+      border: none; background: linear-gradient(102deg,#00af29,#00cc30);
+      color: #fff; font-size: .88rem; font-weight: 600; cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 3px 12px rgba(0,168,50,.25);
+      white-space: nowrap;
+    }
+    .btn-add:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(0,168,50,.35); }
+
+    /* Table */
+    .table-wrap { overflow-x: auto; }
+    table {
+      width: 100%; border-collapse: collapse; min-width: 560px;
+    }
+    thead tr {
+      background: #f7fdf7; border-bottom: 2px solid #e8f5e8;
+    }
+    thead th {
+      padding: 14px 16px; text-align: left;
+      font-size: .78rem; font-weight: 700; color: #00a832;
+      text-transform: uppercase; letter-spacing: .04em; white-space: nowrap;
+    }
+    thead th:first-child { width: 48px; text-align: center; }
+    thead th:last-child { text-align: center; }
+
+    tbody tr { border-bottom: 1px solid #f0f8f0; transition: background .15s; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #f9fef9; }
+
+    tbody td { padding: 14px 16px; font-size: .88rem; color: #444; vertical-align: middle; }
+    tbody td:first-child { text-align: center; font-weight: 700; color: #aaa; font-size: .85rem; }
+    td.section-name { font-weight: 700; color: #222; font-size: .92rem; }
+    td.description { color: #777; max-width: 260px; }
+    .desc-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; max-width: 260px; }
+
+    .linked-file {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 12px; border-radius: 100px;
+      background: #f0fdf0; border: 1px solid #b8e6c0;
+      font-size: .78rem; color: #00a832; font-weight: 600;
+      white-space: nowrap; cursor: pointer; transition: background .2s;
+    }
+    .linked-file:hover { background: #d8f5e0; }
+
+    td.actions { text-align: center; }
+    .action-btns { display: flex; align-items: center; justify-content: center; gap: 8px; }
+
+    .btn-edit {
+      padding: 7px 16px; border-radius: 8px;
+      border: none; background: #00cc30; color: #fff;
+      font-size: .82rem; font-weight: 700; cursor: pointer;
+      transition: background .2s, transform .15s;
+    }
+    .btn-edit:hover { background: #00b82c; transform: translateY(-1px); }
+
+    .btn-delete {
+      padding: 7px 14px; border-radius: 8px;
+      border: none; background: #ee1111; color: #fff;
+      font-size: .82rem; font-weight: 700; cursor: pointer;
+      transition: background .2s, transform .15s;
+    }
+    .btn-delete:hover { background: #cc0000; transform: translateY(-1px); }
+
+    /* Empty row */
+    .empty-row td { text-align: center; padding: 40px; color: #ccc; font-size: .9rem; }
+
+    /* ── MODAL EDIT ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(0,0,0,.35); backdrop-filter: blur(4px);
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-box {
+      background: #fff; border-radius: 20px;
+      padding: clamp(22px,4vw,32px) clamp(22px,4vw,36px);
+      width: 100%; max-width: 500px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.2);
+      animation: popIn .3s cubic-bezier(.22,1,.36,1);
+    }
+    @keyframes popIn { from{opacity:0;transform:scale(.9);}to{opacity:1;transform:scale(1);} }
+    .modal-title {
+      font-size: 1.1rem; font-weight: 700; color: #00a832;
+      margin-bottom: 20px; padding-bottom: 14px;
+      border-bottom: 1px solid #e8f5e8;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .form-group { margin-bottom: 16px; }
+    .form-label { font-size: .82rem; font-weight: 600; color: #555; margin-bottom: 6px; display: block; }
+    .form-input, .form-textarea, .form-select {
+      width: 100%; padding: 10px 14px;
+      border: 1px solid #d0e8d0; border-radius: 10px;
+      font-size: .9rem; outline: none; font-family: inherit;
+      transition: border-color .2s; background: #fafff a;
+    }
+    .form-input:focus, .form-textarea:focus, .form-select:focus { border-color: #00cc30; }
+    .form-textarea { height: 90px; resize: none; }
+
+    .file-upload-area {
+      border: 2px dashed #b8ddb8; border-radius: 10px;
+      padding: 18px; text-align: center; cursor: pointer;
+      transition: border-color .2s, background .2s; background: #f7fdf7;
+    }
+    .file-upload-area:hover { border-color: #00cc30; background: #f0fdf0; }
+    .file-upload-area .upload-icon { font-size: 1.6rem; margin-bottom: 6px; }
+    .file-upload-area .upload-text { font-size: .82rem; color: #888; }
+    .file-upload-area .upload-text span { color: #00a832; font-weight: 600; }
+    .file-upload-area input[type=file] { display: none; }
+    .file-name-preview { font-size: .8rem; color: #00a832; margin-top: 6px; font-weight: 600; }
+
+    .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
+    .btn-cancel-modal {
+      padding: 10px 22px; border: 1px solid #ddd; border-radius: 10px;
+      background: #fff; cursor: pointer; font-size: .9rem; transition: background .2s;
+    }
+    .btn-cancel-modal:hover { background: #f5f5f5; }
+    .btn-save {
+      padding: 10px 24px; border: none; border-radius: 10px;
+      background: linear-gradient(102deg,#00af29,#00cc30); color: #fff;
+      cursor: pointer; font-size: .9rem; font-weight: 700;
+      box-shadow: 0 3px 12px rgba(0,168,50,.25); transition: transform .2s;
+    }
+    .btn-save:hover { transform: translateY(-1px); }
+
+    /* ── CONFIRM DELETE MODAL ── */
+    .confirm-overlay {
+      display: none; position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,.45); backdrop-filter: blur(6px);
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .confirm-overlay.show { display: flex; }
+    .confirm-box {
+      background: #fff; border-radius: 18px;
+      padding: 32px 36px; width: 100%; max-width: 360px; text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+      animation: popIn .3s cubic-bezier(.22,1,.36,1);
+    }
+    .confirm-icon { font-size: 2.8rem; margin-bottom: 12px; }
+    .confirm-title { font-size: 1.05rem; font-weight: 700; color: #222; margin-bottom: 8px; }
+    .confirm-msg { font-size: .88rem; color: #777; line-height: 1.6; margin-bottom: 22px; }
+    .confirm-msg span { font-weight: 700; color: #222; }
+    .confirm-btns { display: flex; gap: 10px; }
+    .btn-confirm-cancel {
+      flex: 1; padding: 11px; border: 1.5px solid #ddd; border-radius: 10px;
+      background: #fff; font-size: .9rem; cursor: pointer; transition: background .2s;
+    }
+    .btn-confirm-cancel:hover { background: #f5f5f5; }
+    .btn-confirm-delete {
+      flex: 1; padding: 11px; border: none; border-radius: 10px;
+      background: linear-gradient(102deg,#cc0000,#ee1111); color: #fff;
+      font-size: .9rem; font-weight: 700; cursor: pointer;
+      box-shadow: 0 3px 12px rgba(200,0,0,.3); transition: transform .2s;
+    }
+    .btn-confirm-delete:hover { transform: translateY(-1px); }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: #222; color: #fff; padding: 12px 24px; border-radius: 100px;
+      font-size: .88rem; z-index: 9999; opacity: 0;
+      transition: opacity .3s, transform .3s; pointer-events: none;
+      box-shadow: 0 8px 24px rgba(0,0,0,.3);
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.success { background: linear-gradient(102deg,#00af29,#00cc30); }
+    .toast.error { background: linear-gradient(102deg,#cc0000,#ee1111); }
+
+    /* LOGOUT MODAL */
+    .logout-overlay {
+      display: none; position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,.45); backdrop-filter: blur(8px);
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .logout-overlay.show { display: flex; }
+    .logout-card {
+      width: 100%; max-width: 320px;
+      background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25);
+      border-radius: 22px; padding: 36px 32px 28px; text-align: center;
+      backdrop-filter: blur(24px); box-shadow: 0 24px 60px rgba(0,0,0,.4);
+      animation: popIn .35s cubic-bezier(.22,1,.36,1);
+    }
+    .logout-logo {
+      width: 70px; height: 70px; background: #fff; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 14px; box-shadow: 0 4px 20px rgba(0,0,0,.2);
+      font-size: 2rem;
+    }
+    .logout-title { font-size: 1.05rem; font-weight: 800; color: #fff; letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
+    .logout-msg { font-size: .88rem; color: rgba(255,255,255,.8); line-height: 1.6; margin-bottom: 22px; }
+    .logout-btn-confirm {
+      width: 100%; padding: 13px; margin-bottom: 10px; border: none; border-radius: 10px;
+      background: linear-gradient(102deg,#cc0000,#ee0000); color: #fff;
+      font-size: .95rem; font-weight: 700; cursor: pointer;
+    }
+    .logout-btn-cancel {
+      width: 100%; padding: 12px; border: 1px solid rgba(255,255,255,.35); border-radius: 10px;
+      background: rgba(255,255,255,.1); color: rgba(255,255,255,.85);
+      font-size: .9rem; cursor: pointer;
+    }
+
+    /* SEARCH RESULTS */
+    .search-results {
+      position: absolute; top: calc(100% + 6px); left: 0; right: 0;
+      background: #fff; border-radius: 14px;
+      box-shadow: 0 8px 32px rgba(0,168,50,.15);
+      border: 1px solid #c8e6c8; display: none; z-index: 999;
+      overflow: hidden; max-height: 300px; overflow-y: auto;
+    }
+    .search-results.show { display: block; }
+    .search-result-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 16px; cursor: pointer; transition: background .2s;
+      border-bottom: 1px solid #f0f8f0; font-size: .88rem; color: #333;
+    }
+    .search-result-item:last-child { border-bottom: none; }
+    .search-result-item:hover { background: #f0fdf0; color: #00a832; }
+    .search-result-icon { font-size: 1rem; width: 24px; text-align: center; flex-shrink: 0; }
+    .search-result-label { flex: 1; }
+    .search-result-label strong { color: #00a832; }
+    .search-result-cat { font-size: .72rem; color: #aaa; margin-left: auto; }
+    .search-empty { padding: 18px; text-align: center; color: #aaa; font-size: .88rem; }
+
+    /* NOTIF PANEL */
+    .notif-panel {
+      display: none; position: fixed; top: 64px; right: 16px;
+      width: min(300px, calc(100vw - 32px)); background: #fff; border-radius: 14px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.15); z-index: 300;
+      padding: 16px; border: 1px solid #e8f5e8;
+    }
+    .notif-panel.show { display: block; }
+    .notif-panel-title { font-weight: 700; font-size: .95rem; color: #00a832; margin-bottom: 12px; }
+    .notif-item { padding: 10px 0; border-bottom: 1px solid #f0f0f0; font-size: .85rem; color: #555; line-height: 1.5; }
+    .notif-item:last-child { border-bottom: none; }
+    .notif-item span { font-weight: 600; color: #00a832; }
+
+    /* SARAN MODAL */
+    .saran-overlay {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(0,0,0,.35); backdrop-filter: blur(4px);
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .saran-overlay.show { display: flex; }
+    .saran-box {
+      background: #fff; border-radius: 18px; padding: 28px 32px;
+      width: 100%; max-width: 440px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.2);
+      animation: popIn .3s cubic-bezier(.22,1,.36,1);
+    }
+    .saran-title { font-size: 1.1rem; font-weight: 700; color: #00a832; margin-bottom: 14px; }
+    .saran-box textarea {
+      width: 100%; height: 100px; padding: 12px;
+      border: 1px solid #d0e8d0; border-radius: 10px;
+      resize: none; font-size: .9rem; outline: none; font-family: inherit;
+    }
+    .saran-box textarea:focus { border-color: #00cc30; }
+    .saran-actions { display: flex; gap: 10px; margin-top: 12px; justify-content: flex-end; }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); }
+      .main { margin-left: 0; }
+      .hamburger-btn { display: flex; }
+    }
+    @media (max-width: 480px) {
+      .page-card-header { flex-direction: column; align-items: flex-start; }
+      .topbar { padding: 10px 12px; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-logo">
+        <img src="LogoTk.png" alt="Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+        <div class="sidebar-logo-placeholder" style="display:none">🏫</div>
+      </div>
+      <div class="sidebar-brand-name">TK Aisyiyah Timika</div>
+    </div>
+ <nav class="sidebar-nav">
+      <a class="nav-item" href="dashboard_admin.html"><span class="nav-icon">🏠</span> Dashboard</a>
+      <div class="nav-item active" onclick="toggleManage(this)">
+        <span class="nav-icon">⚙️</span> Manage
+        <span class="nav-arrow open" id="manageArrow">▾</span>
+      </div>
+      <div class="manage-dropdown open" id="manageDropdown">
+        <a class="dropdown-item" href="DashboardProfilSekolah.html">🏫 Profil Sekolah</a>
+        <a class="dropdown-item active-sub" href="DashboardStaff-Pengajar.html">👩‍🏫 Staff Pengajar & Tenaga Kependidikan</a>
+        <a class="dropdown-item" href="DashboardFasilitas.html">🏗️ Fasilitas</a>
+        <a class="dropdown-item" href="DashboardGaleri.html">🖼️ Galeri</a>
+        <a class="dropdown-item" href="Dashboardkalender.html">📅 Kalender</a>
+      </div>
+      <a class="nav-item nav-ppdb" href="DashboardPPDB.html"><span class="nav-icon">📋</span> PPDB 2027/2028</a>
+    </nav>
+    <div class="sidebar-bottom">
+     <a class="nav-item-sm" href="DashboardSettings.html">⚙️ Settings</a>
+      <a class="nav-item-sm" href="DashboardManageAccount.html">👤 Manage Account</a>
+      <a class="nav-item-sm active-sm" href="DashboardHelpCenter.html">❓ Help Center</a>
+      <div class="nav-item-sm logout" onclick="confirmLogout()">↩ Log Out</div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main" id="main">
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleSidebar()">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="search-wrap">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="Search Here" oninput="doSearch(this.value)" autocomplete="off" />
+        </div>
+        <div class="search-results" id="searchResults"></div>
+      </div>
+      <div class="topbar-actions">
+        <div class="btn-notif" onclick="toggleNotif()">
+          🔔<div class="notif-dot"></div>
+        </div>
+        <div class="btn-saran" onclick="openSaran()">💬 <span>Saran dan Masukan</span></div>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+      <!-- Breadcrumb -->
+      <div class="breadcrumb">
+        <a href="Dashboard.html">Dashboard</a>
+        <span class="sep">›</span>
+        <span class="current">Profil Sekolah</span>
+      </div>
+
+      <!-- Main Card -->
+      <div class="page-card">
+        <div class="page-card-header">
+          <div class="page-card-title">📋 Profil Sekolah</div>
+          <button class="btn-add" onclick="openAdd()">＋ Tambah Section</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Section Name</th>
+                <th>Description</th>
+                <th>Linked File</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              <!-- Rows rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NOTIF PANEL -->
+<div class="notif-panel" id="notifPanel">
+  <div class="notif-panel-title">🔔 Notifikasi</div>
+  <div class="notif-item"><span>PPDB Baru:</span> 3 pendaftar baru hari ini</div>
+  <div class="notif-item"><span>Review:</span> Ibu Fauziah memberikan ulasan bintang 5</div>
+  <div class="notif-item"><span>Event:</span> Outing Class tinggal 6 hari lagi</div>
+</div>
+
+<!-- SARAN MODAL -->
+<div class="saran-overlay" id="saranModal">
+  <div class="saran-box">
+    <div class="saran-title">💬 Saran dan Masukan</div>
+    <textarea placeholder="Tulis saran atau masukan Anda di sini..."></textarea>
+    <div class="saran-actions">
+      <button class="btn-cancel-modal" onclick="closeSaran()">Batal</button>
+      <button class="btn-save" onclick="submitSaran()">Kirim</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT / ADD MODAL -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal-box">
+    <div class="modal-title" id="modalTitle">✏️ Edit Section</div>
+    <div class="form-group">
+      <label class="form-label">Section Name</label>
+      <input type="text" class="form-input" id="fieldName" placeholder="e.g. Profil Sekolah" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Description</label>
+      <textarea class="form-textarea" id="fieldDesc" placeholder="Tulis deskripsi singkat..."></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Linked File / Photo</label>
+      <div class="file-upload-area" onclick="document.getElementById('fileInput').click()">
+        <div class="upload-icon">📁</div>
+        <div class="upload-text">Klik untuk <span>upload file</span> atau drag & drop</div>
+        <div class="file-name-preview" id="fileNamePreview"></div>
+        <input type="file" id="fileInput" accept="image/*,.pdf" onchange="previewFile(this)" />
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel-modal" onclick="closeEdit()">Batal</button>
+      <button class="btn-save" onclick="saveRow()">💾 Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM DELETE -->
+<div class="confirm-overlay" id="confirmModal">
+  <div class="confirm-box">
+    <div class="confirm-icon">🗑️</div>
+    <div class="confirm-title">Hapus Section?</div>
+    <div class="confirm-msg">Apakah Anda yakin ingin menghapus section <span id="deleteTargetName">"..."</span>? Tindakan ini tidak dapat dibatalkan.</div>
+    <div class="confirm-btns">
+      <button class="btn-confirm-cancel" onclick="closeConfirm()">Batal</button>
+      <button class="btn-confirm-delete" onclick="doDelete()">Ya, Hapus</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOGOUT -->
+<div class="logout-overlay" id="logoutModal">
+  <div class="logout-card">
+    <div class="logout-logo">🏫</div>
+    <div class="logout-title">ADMIN LOGIN</div>
+    <div class="logout-msg">Apakah Anda yakin ingin<br>keluar dari dashboard?</div>
+    <button class="logout-btn-confirm" onclick="doLogout()">↩ Ya, Log Out</button>
+    <button class="logout-btn-cancel" onclick="closeLogout()">Kembali ke Dashboard</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ─── DATA ─── */
+let data = [
+  { id: 1, name: 'Profil Sekolah',   desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.', file: '1 Photo' },
+  { id: 2, name: 'Kenapa Harus',     desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.', file: '1 Photo' },
+  { id: 3, name: 'Visi & Misi',      desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.', file: '1 Photo' },
+  { id: 4, name: 'Profil Sekolah',   desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.', file: '1 Photo' },
+];
+let nextId = 5;
+let editingId = null;
+let deleteId = null;
+
+/* ─── RENDER TABLE ─── */
+function render() {
+  const tbody = document.getElementById('tableBody');
+  if (data.length === 0) {
+    tbody.innerHTML = '<tr class="empty-row"><td colspan="5">😕 Belum ada data. Klik "Tambah Section" untuk menambahkan.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = data.map((row, i) => `
+    <tr>
+      <td>${i + 1}</td>
+      <td class="section-name">${escHtml(row.name)}</td>
+      <td class="description"><span class="desc-text" title="${escHtml(row.desc)}">${escHtml(row.desc)}</span></td>
+      <td><span class="linked-file">🔗 ${escHtml(row.file)}</span></td>
+      <td class="actions">
+        <div class="action-btns">
+          <button class="btn-edit" onclick="openEdit(${row.id})">Edit</button>
+          <button class="btn-delete" onclick="openConfirm(${row.id})">Delete</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ─── ADD ─── */
+function openAdd() {
+  editingId = null;
+  document.getElementById('modalTitle').textContent = '➕ Tambah Section';
+  document.getElementById('fieldName').value = '';
+  document.getElementById('fieldDesc').value = '';
+  document.getElementById('fileNamePreview').textContent = '';
+  document.getElementById('fileInput').value = '';
+  document.getElementById('editModal').classList.add('show');
+}
+
+/* ─── EDIT ─── */
+function openEdit(id) {
+  const row = data.find(r => r.id === id);
+  if (!row) return;
+  editingId = id;
+  document.getElementById('modalTitle').textContent = '✏️ Edit Section';
+  document.getElementById('fieldName').value = row.name;
+  document.getElementById('fieldDesc').value = row.desc;
+  document.getElementById('fileNamePreview').textContent = row.file;
+  document.getElementById('fileInput').value = '';
+  document.getElementById('editModal').classList.add('show');
+}
+
+function closeEdit() {
+  document.getElementById('editModal').classList.remove('show');
+}
+
+function saveRow() {
+  const name = document.getElementById('fieldName').value.trim();
+  const desc = document.getElementById('fieldDesc').value.trim();
+  const filePreview = document.getElementById('fileNamePreview').textContent;
+
+  if (!name) { showToast('Section Name tidak boleh kosong.', 'error'); return; }
+  if (!desc)  { showToast('Description tidak boleh kosong.', 'error'); return; }
+
+  const fileLbl = filePreview || '1 Photo';
+
+  if (editingId) {
+    const idx = data.findIndex(r => r.id === editingId);
+    if (idx !== -1) data[idx] = { ...data[idx], name, desc, file: fileLbl };
+    showToast('✅ Section berhasil diperbarui!', 'success');
+  } else {
+    data.push({ id: nextId++, name, desc, file: fileLbl });
+    showToast('✅ Section berhasil ditambahkan!', 'success');
+  }
+  render();
+  closeEdit();
+}
+
+/* ─── DELETE ─── */
+function openConfirm(id) {
+  deleteId = id;
+  const row = data.find(r => r.id === id);
+  document.getElementById('deleteTargetName').textContent = '"' + (row ? row.name : '') + '"';
+  document.getElementById('confirmModal').classList.add('show');
+}
+
+function closeConfirm() {
+  document.getElementById('confirmModal').classList.remove('show');
+  deleteId = null;
+}
+
+function doDelete() {
+  if (!deleteId) return;
+  data = data.filter(r => r.id !== deleteId);
+  closeConfirm();
+  render();
+  showToast('🗑️ Section berhasil dihapus.', 'success');
+}
+
+/* ─── FILE PREVIEW ─── */
+function previewFile(input) {
+  if (input.files && input.files[0]) {
+    document.getElementById('fileNamePreview').textContent = input.files[0].name;
+  }
+}
+
+/* ─── TOAST ─── */
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast' + (type ? ' ' + type : '') + ' show';
+  setTimeout(() => t.className = 'toast', 3000);
+}
+
+/* ─── SIDEBAR ─── */
+function toggleSidebar() {
+  const s = document.getElementById('sidebar');
+  const o = document.getElementById('sidebarOverlay');
+  const b = document.getElementById('hamburgerBtn');
+  const open = s.classList.toggle('open');
+  o.classList.toggle('show', open);
+  b.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('show');
+  document.getElementById('hamburgerBtn').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ─── MANAGE DROPDOWN ─── */
+function toggleManage(el) {
+  const dd = document.getElementById('manageDropdown');
+  const arrow = document.getElementById('manageArrow');
+  dd.classList.toggle('open');
+  arrow.classList.toggle('open');
+}
+
+/* ─── NOTIF ─── */
+function toggleNotif() { document.getElementById('notifPanel').classList.toggle('show'); }
+document.addEventListener('click', e => {
+  if (!e.target.closest('.btn-notif') && !e.target.closest('.notif-panel'))
+    document.getElementById('notifPanel').classList.remove('show');
+});
+
+/* ─── SARAN ─── */
+function openSaran()  { document.getElementById('saranModal').classList.add('show'); }
+function closeSaran() { document.getElementById('saranModal').classList.remove('show'); }
+function submitSaran() { showToast('Saran berhasil dikirim! Terima kasih 😊', 'success'); closeSaran(); }
+
+/* ─── LOGOUT ─── */
+function confirmLogout() { document.getElementById('logoutModal').classList.add('show'); }
+function closeLogout()   { document.getElementById('logoutModal').classList.remove('show'); }
+function doLogout()      { window.location.href = 'Login-Admin.html'; }
+
+/* ─── ESC ─── */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeEdit(); closeConfirm(); closeSaran(); closeLogout(); closeSidebar(); }
+});
+
+/* Dismiss modal on bg click */
+document.getElementById('editModal').addEventListener('click', e => { if (e.target === document.getElementById('editModal')) closeEdit(); });
+document.getElementById('saranModal').addEventListener('click', e => { if (e.target === document.getElementById('saranModal')) closeSaran(); });
+
+/* ─── SEARCH ─── */
+const searchData = [
+  { icon: '🏠', label: 'Dashboard', cat: 'Menu' },
+  { icon: '🏫', label: 'Profil Sekolah', cat: 'Manage' },
+  { icon: '👩‍🏫', label: 'Staff Pengajar & Tenaga Kependidikan', cat: 'Manage' },
+  { icon: '🏗️', label: 'Fasilitas', cat: 'Manage' },
+  { icon: '🖼️', label: 'Galeri', cat: 'Manage' },
+  { icon: '📅', label: 'Kalender', cat: 'Manage' },
+  { icon: '📋', label: 'PPDB 2027/2028', cat: 'Menu' },
+  { icon: '⚙️', label: 'Settings', cat: 'Pengaturan' },
+  { icon: '👤', label: 'Manage Account', cat: 'Pengaturan' },
+  { icon: '❓', label: 'Help Center', cat: 'Bantuan' },
+  { icon: '🔔', label: 'Notifikasi', cat: 'Info' },
+  { icon: '💬', label: 'Saran dan Masukan', cat: 'Info' },
+  { icon: '↩', label: 'Log Out', cat: 'Akun' },
+];
+
+let _filtered = [];
+function doSearch(val) {
+  const box = document.getElementById('searchResults');
+  const q = val.trim().toLowerCase();
+  if (!q) { box.classList.remove('show'); box.innerHTML = ''; return; }
+  _filtered = searchData.filter(d => d.label.toLowerCase().includes(q));
+  if (!_filtered.length) {
+    box.innerHTML = '<div class="search-empty">😕 Tidak ada hasil untuk "<b>' + val + '</b>"</div>';
+  } else {
+    box.innerHTML = _filtered.map((d, i) =>
+      `<div class="search-result-item" onclick="searchGo(${i})">
+        <span class="search-result-icon">${d.icon}</span>
+        <span class="search-result-label">${d.label.replace(new RegExp(val.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'), m => '<strong>'+m+'</strong>')}</span>
+        <span class="search-result-cat">${d.cat}</span>
+      </div>`
+    ).join('');
+  }
+  box.classList.add('show');
+}
+function searchGo(i) {
+  document.getElementById('searchResults').classList.remove('show');
+  document.getElementById('searchInput').value = '';
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('.search-wrap'))
+    document.getElementById('searchResults').classList.remove('show');
+});
+
+/* ─── INIT ─── */
+render();
+</script>
+</body>
+</html>

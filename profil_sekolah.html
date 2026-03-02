@@ -30,7 +30,6 @@
     .logo-img { width: 36px; height: 36px; object-fit: contain; }
     .nav-brand { font-size: clamp(.85rem, 1.5vw, 1.18rem); font-weight: 600; color: #fff; white-space: nowrap; }
 
-    /* Desktop nav links */
     .nav-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
     .nav-item { padding: 8px 12px; font-size: clamp(.8rem, 1.2vw, 1rem); color: #fff; cursor: pointer; white-space: nowrap; transition: color .25s; }
     .nav-item:hover { color: rgba(255,255,255,.75); }
@@ -47,14 +46,12 @@
     .btn-ppdb { padding: 8px 18px; border: none; border-radius: 100px; background: #fff; color: #1fb149; font-size: clamp(.78rem, 1.1vw, 1rem); font-weight: 700; cursor: pointer; transition: all .25s; white-space: nowrap; }
     .btn-ppdb:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,.2); background: #f0f0f0; }
 
-    /* Hamburger */
     .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; flex-shrink: 0; }
     .nav-hamburger span { display: block; width: 24px; height: 2.5px; background: #fff; border-radius: 2px; transition: all .3s; }
     .nav-hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
     .nav-hamburger.open span:nth-child(2) { opacity: 0; }
     .nav-hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
 
-    /* Mobile menu */
     .nav-mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(20,150,60,0.98); z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 24px; }
     .nav-mobile-menu.open { display: flex; }
     .nav-mobile-item { color: #fff; font-size: 1.4rem; font-weight: 600; cursor: pointer; padding: 10px 24px; border-radius: 12px; transition: background .2s; }
@@ -202,12 +199,9 @@
     .staff-card:hover .staff-card-overlay { opacity: 1; }
     .staff-card-name { color: #fff; font-size: clamp(.82rem, 1.2vw, 1rem); font-weight: 700; margin-bottom: 3px; }
     .staff-card-role { color: rgba(255,255,255,.8); font-size: clamp(.72rem, 1vw, .82rem); }
-
-    /* Mobile: always show name below card */
     .staff-card-info { display: none; padding: 12px 14px; background: #fff; }
     .staff-card-info-name { font-size: .88rem; font-weight: 700; color: #222; }
     .staff-card-info-role { font-size: .78rem; color: #1fb149; }
-
     .staff-dots { display: flex; justify-content: center; gap: 8px; margin-top: 20px; flex-wrap: wrap; }
     .sd-dot { width: 8px; height: 8px; border-radius: 50%; background: #ccc; cursor: pointer; transition: all .25s; }
     .sd-dot.active { background: #1fb149; transform: scale(1.4); }
@@ -263,121 +257,124 @@
     .footer-map:hover .map-overlay { opacity: 1; }
     .map-overlay-text { color: #fff; font-size: clamp(.8rem, 1.2vw, 1.1rem); font-weight: 600; text-align: center; padding: 10px; }
 
-    /* ===================== FLOATING BUTTONS ===================== */
-    .btn-back-to-top {
-      position: fixed; bottom: 24px; right: 24px;
-      padding: clamp(10px, 2vw, 15px) clamp(16px, 3vw, 30px);
-      border: none; border-radius: 100px; background: #1fb149; color: #fff;
-      font-size: clamp(.85rem, 1.2vw, 1.05rem); font-weight: 500; cursor: pointer;
-      transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(31,177,73,.4);
-      z-index: 9996; display: none;
-    }
-    .btn-back-to-top.show { display: inline-flex; align-items: center; gap: 8px; }
-    .btn-back-to-top:hover { background: #178c3a; transform: translateY(-3px); }
-    .btn-back-to-top::after { content: '⌃'; font-size: 1.2rem; font-weight: bold; }
-
-    .chatbot-toggle {
-      position: fixed; bottom: 90px; right: 24px; width: 54px; height: 54px;
-      background: #1fb149; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      cursor: pointer; box-shadow: 0 4px 20px rgba(31,177,73,.4); z-index: 9997;
-      transition: all 0.3s ease; border: 3px solid white;
-    }
+    /* ===== CHATBOT ===== */
+    .chatbot-toggle { position: fixed; bottom: clamp(80px,12vw,110px); right: clamp(16px,3vw,30px); width: clamp(50px,7vw,60px); height: clamp(50px,7vw,60px); background: linear-gradient(135deg,#00af29,#00cc30); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 20px rgba(0,204,48,.4); z-index: 9997; transition: all .3s; border: 3px solid white; }
     .chatbot-toggle:hover { transform: scale(1.1); }
-    .chatbot-toggle-icon { font-size: 1.6rem; color: white; }
-    .chatbot-badge { position: absolute; top: -5px; right: -5px; width: 22px; height: 22px; background: #ff0000; border-radius: 50%; display: none; align-items: center; justify-content: center; font-size: .72rem; color: white; font-weight: bold; border: 2px solid white; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+    .chatbot-toggle-icon { font-size: clamp(1.4rem,2.5vw,1.8rem); color: white; }
+    .chatbot-badge { position: absolute; top: -5px; right: -5px; width: 22px; height: 22px; background: #f00; border-radius: 50%; display: none; align-items: center; justify-content: center; font-size: .7rem; color: white; font-weight: bold; border: 2px solid white; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{transform:scale(1);}50%{transform:scale(1.1);} }
 
-    .chatbot-container {
-      position: fixed; bottom: 158px; right: 24px;
-      width: min(360px, calc(100vw - 32px)); height: clamp(400px, 60vh, 550px);
-      background: white; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,.3);
-      z-index: 9998; display: none; flex-direction: column; overflow: hidden; opacity: 0;
-    }
-    .chatbot-container.show { display: flex; opacity: 1; animation: slideUpChat 0.4s ease; }
-    @keyframes slideUpChat { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    .chatbot-header { background: #1fb149; color: white; padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; }
+    .chatbot-container { position: fixed; bottom: clamp(140px,18vw,180px); right: clamp(12px,3vw,30px); width: min(400px,calc(100vw - 24px)); height: clamp(480px,72vh,630px); background: white; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,.3); z-index: 9998; display: none; flex-direction: column; overflow: hidden; opacity: 0; }
+    .chatbot-container.show { display: flex; opacity: 1; animation: slideUpChat .4s ease; }
+    @keyframes slideUpChat { from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);} }
+    .chatbot-header { background: linear-gradient(135deg,#00af29,#00cc30); color: white; padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
     .chatbot-header-content { display: flex; align-items: center; gap: 10px; }
-    .chatbot-avatar { width: 38px; height: 38px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+    .chatbot-avatar { width: 40px; height: 40px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
     .chatbot-header-text h3 { margin: 0; font-size: 1rem; font-weight: 600; }
-    .chatbot-header-text p { margin: 0; font-size: .78rem; opacity: 0.9; }
-    .chatbot-minimize { background: rgba(255,255,255,.2); border: none; color: white; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; }
-    .chatbot-messages { flex: 1; padding: 16px; overflow-y: auto; background: #f8f9fa; }
-    .chatbot-messages::-webkit-scrollbar { width: 5px; }
-    .chatbot-messages::-webkit-scrollbar-thumb { background: #1fb149; border-radius: 3px; }
+    .chatbot-header-text p { margin: 0; font-size: .75rem; opacity: .9; }
+    .chatbot-minimize { background: rgba(255,255,255,.2); border: none; color: white; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; }
+    .chatbot-messages { flex: 1; padding: 16px; overflow-y: auto; background: #f8f9fa; min-height: 0; }
+    .chatbot-messages::-webkit-scrollbar { width: 6px; }
+    .chatbot-messages::-webkit-scrollbar-thumb { background: #00cc30; border-radius: 3px; }
     .chatbot-message { margin-bottom: 12px; display: flex; }
     .chatbot-message.bot { justify-content: flex-start; }
     .chatbot-message.user { justify-content: flex-end; }
-    .chatbot-message-bubble { max-width: 78%; padding: 10px 14px; border-radius: 14px; word-wrap: break-word; line-height: 1.5; font-size: clamp(.82rem, 1.2vw, .9rem); }
+    .chatbot-message-bubble { max-width: 82%; padding: 10px 14px; border-radius: 16px; word-wrap: break-word; line-height: 1.5; font-size: .88rem; }
     .chatbot-message.bot .chatbot-message-bubble { background: white; color: #333; border-bottom-left-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
-    .chatbot-message.user .chatbot-message-bubble { background: #1fb149; color: white; border-bottom-right-radius: 4px; }
-    .chatbot-typing { display: none; padding: 10px 14px; background: white; border-radius: 14px; border-bottom-left-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,.08); width: fit-content; }
-    .chatbot-typing span { height: 7px; width: 7px; background: #1fb149; border-radius: 50%; display: inline-block; margin-right: 4px; animation: chatTyping 1.4s infinite; }
-    .chatbot-typing span:nth-child(2) { animation-delay: 0.2s; }
-    .chatbot-typing span:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes chatTyping { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-8px); } }
-    .chatbot-input-container { padding: 12px; background: white; border-top: 1px solid #e0e0e0; display: flex; gap: 8px; }
-    .chatbot-input { flex: 1; padding: 9px 14px; border: 2px solid #e0e0e0; border-radius: 20px; font-size: .88rem; outline: none; transition: border-color 0.3s; }
-    .chatbot-input:focus { border-color: #1fb149; }
-    .chatbot-send { padding: 9px 16px; background: #1fb149; color: white; border: none; border-radius: 20px; cursor: pointer; font-size: .88rem; font-weight: 600; }
-    .chatbot-quick-replies { display: flex; flex-wrap: wrap; gap: 7px; padding: 0 16px 12px; background: #f8f9fa; }
-    .quick-reply-btn { padding: 6px 12px; background: white; border: 1.5px solid #1fb149; border-radius: 100px; color: #1fb149; font-size: clamp(.74rem, 1vw, .82rem); font-weight: 600; cursor: pointer; transition: all 0.25s; }
-    .quick-reply-btn:hover { background: #1fb149; color: white; }
+    .chatbot-message.user .chatbot-message-bubble { background: linear-gradient(135deg,#00af29,#00cc30); color: white; border-bottom-right-radius: 4px; }
+    .chatbot-typing { display: none; padding: 10px 14px; background: white; border-radius: 16px; border-bottom-left-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,.08); width: fit-content; }
+    .chatbot-typing span { height: 8px; width: 8px; background: #00cc30; border-radius: 50%; display: inline-block; margin-right: 4px; animation: chatTyping 1.4s infinite; }
+    .chatbot-typing span:nth-child(2){animation-delay:.2s;} .chatbot-typing span:nth-child(3){animation-delay:.4s;}
+    @keyframes chatTyping{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-10px);}}
 
-    /* ===================== RESPONSIVE BREAKPOINTS ===================== */
+    /* QUICK REPLIES */
+    .chatbot-quick-replies { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 14px 10px; background: #f8f9fa; flex-shrink: 0; border-top: 1px solid #eee; }
+    .quick-reply-btn { padding: 7px 12px; background: white; border: 1.5px solid #00cc30; border-radius: 15px; color: #00cc30; font-size: .82rem; cursor: pointer; transition: all .3s; white-space: nowrap; font-weight: 600; }
+    .quick-reply-btn:hover { background: #00cc30; color: white; }
+    .quick-reply-btn.masukan-btn { border-color: #0077cc; color: #0077cc; }
+    .quick-reply-btn.masukan-btn:hover { background: #0077cc; color: white; }
 
-    /* Large tablets & small desktops */
+    /* ===== FORM MASUKAN DALAM CHATBOT ===== */
+    .chatbot-form-masukan {
+      padding: 14px 16px 12px; background: #ffffff;
+      border-top: 2px solid #e0f5e0; flex-shrink: 0;
+      display: none; flex-direction: column; gap: 9px;
+      max-height: 280px; overflow-y: auto;
+    }
+    .chatbot-form-masukan.show { display: flex; }
+    .form-masukan-title { font-size: .84rem; font-weight: 800; color: #00a832; display: flex; align-items: center; gap: 6px; margin-bottom: 2px; }
+    .masukan-form-name, .masukan-form-text {
+      padding: 9px 12px; border: 2px solid #c8f0d0; border-radius: 12px;
+      font-size: .84rem; outline: none; font-family: inherit;
+      transition: border-color .25s; width: 100%;
+    }
+    .masukan-form-name:focus, .masukan-form-text:focus { border-color: #00cc30; }
+    .masukan-form-text { resize: none; height: 68px; line-height: 1.5; }
+    .masukan-stars-wrap { display: flex; align-items: center; gap: 8px; }
+    .masukan-stars-wrap label { font-size: .78rem; color: #777; white-space: nowrap; }
+    .masukan-stars-select { display: flex; gap: 3px; }
+    .masukan-stars-select span { font-size: 1.25rem; cursor: pointer; transition: transform .15s; color: #ddd; user-select: none; line-height: 1; }
+    .masukan-stars-select span.lit { color: #f59e0b; }
+    .masukan-stars-select span:hover { transform: scale(1.25); }
+    .form-btns { display: flex; gap: 8px; }
+    .btn-submit-masukan { flex: 2; padding: 9px; background: linear-gradient(135deg,#00af29,#00cc30); color: white; border: none; border-radius: 12px; cursor: pointer; font-size: .88rem; font-weight: 700; transition: opacity .2s; }
+    .btn-submit-masukan:hover { opacity: .9; }
+    .btn-cancel-masukan { flex: 1; padding: 9px; background: #f0f0f0; color: #888; border: none; border-radius: 12px; cursor: pointer; font-size: .84rem; transition: background .2s; }
+    .btn-cancel-masukan:hover { background: #e0e0e0; }
+
+    /* INPUT ROW */
+    .chatbot-input-container { padding: 10px 12px; background: white; border-top: 1px solid #e0e0e0; display: flex; gap: 8px; flex-shrink: 0; }
+    .chatbot-input { flex: 1; padding: 9px 14px; border: 2px solid #e0e0e0; border-radius: 20px; font-size: .88rem; outline: none; transition: border-color .3s; font-family: inherit; }
+    .chatbot-input:focus { border-color: #00cc30; }
+    .chatbot-send { padding: 9px 18px; background: linear-gradient(135deg,#00af29,#00cc30); color: white; border: none; border-radius: 20px; cursor: pointer; font-size: .88rem; font-weight: 600; white-space: nowrap; }
+
+    /* BACK TO TOP */
+    .btn-back-to-top { position: fixed; bottom: clamp(16px,3vw,30px); right: clamp(16px,3vw,30px); padding: clamp(10px,2vw,15px) clamp(18px,3vw,30px); border: none; border-radius: 100px; background: linear-gradient(102deg,#00af29,#00cc30); color: #fff; font-size: clamp(.85rem,1.5vw,1.05rem); font-weight: 500; cursor: pointer; transition: all .3s; box-shadow: 0 4px 15px rgba(0,168,50,.4); z-index: 9996; display: none; }
+    .btn-back-to-top.show { display: inline-flex; align-items: center; gap: 8px; }
+    .btn-back-to-top:hover { transform: translateY(-3px); }
+    .btn-back-to-top::after { content: '⌃'; font-size: 1.2rem; font-weight: bold; }
+
+    /* TOAST */
+    .toast-notif { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(60px); background: linear-gradient(135deg,#00af29,#00cc30); color: white; padding: 14px 30px; border-radius: 100px; font-size: .95rem; font-weight: 700; box-shadow: 0 8px 28px rgba(0,204,48,.4); z-index: 99999; transition: transform .4s cubic-bezier(.22,1,.36,1), opacity .4s; opacity: 0; pointer-events: none; white-space: nowrap; }
+    .toast-notif.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    
     @media (max-width: 1100px) {
       .vm-body { grid-template-columns: 1fr; }
       .vm-visi-col { border-right: none; border-bottom: 2px solid #e0f4e0; }
       .kurikulum-inner { grid-template-columns: 1fr; }
       .staff-slide { flex: 0 0 33.333%; }
     }
-
-    /* Tablets */
     @media (max-width: 900px) {
       .footer-container { justify-content: flex-start; }
       .footer-center { border-left: none; border-right: none; border-top: 1px solid rgba(255,255,255,.3); border-bottom: 1px solid rgba(255,255,255,.3); margin: 0; padding: 16px 0; width: 100%; }
       .footer-right { width: 100%; justify-content: flex-start; }
     }
-
-    /* Mobile landscape / small tablet */
     @media (max-width: 768px) {
       .page-wrapper { padding-top: 80px; }
       .navbar { top: 12px; width: 96%; }
       .logo-wrapper { width: 40px; height: 40px; }
       .logo-img { width: 30px; height: 30px; }
-
-      /* Hide desktop nav, show hamburger */
       .nav-right { display: none; }
       .nav-hamburger { display: flex; }
-
       .vm-misi-grid { grid-template-columns: 1fr 1fr; }
       .staff-slide { flex: 0 0 50%; }
-
-      /* Staff: show info below card on mobile */
       .staff-card-overlay { display: none; }
       .staff-card-info { display: block; }
-
       .footer-container { flex-direction: column; align-items: flex-start; }
       .footer-center { border: none; padding: 0; margin: 0; width: 100%; }
       .footer-left { width: 100%; }
       .footer-right { width: 100%; }
     }
-
-    /* Mobile portrait */
     @media (max-width: 480px) {
       .staff-slide { flex: 0 0 100%; }
       .vm-misi-grid { grid-template-columns: 1fr; }
-
       .chatbot-container { right: 12px; bottom: 140px; width: calc(100vw - 24px); }
       .chatbot-toggle { right: 12px; }
       .btn-back-to-top { right: 12px; bottom: 18px; padding: 10px 16px; font-size: .82rem; }
-
       .footer-left { flex-direction: column; align-items: flex-start; gap: 16px; }
       .footer-nav { padding-left: 0; margin-left: 0; border-left: none; border-top: 1px solid rgba(255,255,255,.3); padding-top: 14px; width: 100%; }
     }
-
-    /* Very small phones */
     @media (max-width: 360px) {
       .logo-wrapper { width: 36px; height: 36px; }
       .logo-img { width: 26px; height: 26px; }
@@ -410,8 +407,6 @@
       <div class="logo-wrapper"><img class="logo-img" src="LogoTk.png" alt="Logo" /></div>
       <span class="nav-brand">TK Aisyiyah Timika</span>
     </div>
-
-    <!-- Desktop nav -->
     <div class="nav-right">
       <div class="nav-item" onclick="window.location.href='index.html'">Beranda</div>
       <div class="nav-dropdown" id="navDd">
@@ -427,8 +422,6 @@
       <button class="btn-admin" onclick="window.location.href='Login-Admin.html'">Admin Login</button>
       <button class="btn-ppdb" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSfHN9S8RSsGs-huLbVv7qaaqlOKi-tCzG9veoakL9N_4LPr7g/viewform','_blank')">PPDB 2026/2027</button>
     </div>
-
-    <!-- Mobile hamburger -->
     <div class="nav-hamburger" id="hamburger" onclick="toggleMobileMenu()">
       <span></span><span></span><span></span>
     </div>
@@ -521,115 +514,43 @@
             <div class="staff-track" id="staffTrack">
 
               <div class="staff-slide"><div class="staff-card">
-                <div class="staff-card-img-wrap">
-                  <img src="1.png" alt="Parliyah" class="staff-card-img" />
-                  <div class="staff-card-overlay">
-                    <div class="staff-card-name">Parliyah, S.Pd, Gr</div>
-                    <div class="staff-card-role">Kepala Sekolah</div>
-                  </div>
-                </div>
-                <div class="staff-card-info">
-                  <div class="staff-card-info-name">Parliyah, S.Pd, Gr</div>
-                  <div class="staff-card-info-role">Kepala Sekolah</div>
-                </div>
+                <div class="staff-card-img-wrap"><img src="1.png" alt="Parliyah" class="staff-card-img" /><div class="staff-card-overlay"><div class="staff-card-name">Parliyah, S.Pd, Gr</div><div class="staff-card-role">Kepala Sekolah</div></div></div>
+                <div class="staff-card-info"><div class="staff-card-info-name">Parliyah, S.Pd, Gr</div><div class="staff-card-info-role">Kepala Sekolah</div></div>
               </div></div>
 
               <div class="staff-slide"><div class="staff-card">
-                <div class="staff-card-img-wrap">
-                  <img src="2.png" alt="Nur Wahyu Widodo" class="staff-card-img" />
-                  <div class="staff-card-overlay">
-                    <div class="staff-card-name">Nur Wahyu Widodo</div>
-                    <div class="staff-card-role">Operator</div>
-                  </div>
-                </div>
-                <div class="staff-card-info">
-                  <div class="staff-card-info-name">Nur Wahyu Widodo</div>
-                  <div class="staff-card-info-role">Operator</div>
-                </div>
+                <div class="staff-card-img-wrap"><img src="2.png" alt="Nur Wahyu Widodo" class="staff-card-img" /><div class="staff-card-overlay"><div class="staff-card-name">Nur Wahyu Widodo</div><div class="staff-card-role">Operator</div></div></div>
+                <div class="staff-card-info"><div class="staff-card-info-name">Nur Wahyu Widodo</div><div class="staff-card-info-role">Operator</div></div>
               </div></div>
 
               <div class="staff-slide"><div class="staff-card">
-                <div class="staff-card-img-wrap">
-                  <img src="8.png" alt="Fatimah Salsabila" class="staff-card-img" />
-                  <div class="staff-card-overlay">
-                    <div class="staff-card-name">Fatimah Salsabila</div>
-                    <div class="staff-card-role">TU</div>
-                  </div>
-                </div>
-                <div class="staff-card-info">
-                  <div class="staff-card-info-name">Fatimah Salsabila</div>
-                  <div class="staff-card-info-role">TU</div>
-                </div>
+                <div class="staff-card-img-wrap"><img src="8.png" alt="Fatimah Salsabila" class="staff-card-img" /><div class="staff-card-overlay"><div class="staff-card-name">Fatimah Salsabila</div><div class="staff-card-role">TU</div></div></div>
+                <div class="staff-card-info"><div class="staff-card-info-name">Fatimah Salsabila</div><div class="staff-card-info-role">TU</div></div>
               </div></div>
 
               <div class="staff-slide"><div class="staff-card">
-                <div class="staff-card-img-wrap">
-                  <img src="3.png" alt="Nur Octaviani" class="staff-card-img" />
-                  <div class="staff-card-overlay">
-                    <div class="staff-card-name">Nur Octaviani</div>
-                    <div class="staff-card-role">Guru / Wali Kelas</div>
-                  </div>
-                </div>
-                <div class="staff-card-info">
-                  <div class="staff-card-info-name">Nur Octaviani</div>
-                  <div class="staff-card-info-role">Guru / Wali Kelas</div>
-                </div>
+                <div class="staff-card-img-wrap"><img src="3.png" alt="Nur Octaviani" class="staff-card-img" /><div class="staff-card-overlay"><div class="staff-card-name">Nur Octaviani</div><div class="staff-card-role">Guru / Wali Kelas</div></div></div>
+                <div class="staff-card-info"><div class="staff-card-info-name">Nur Octaviani</div><div class="staff-card-info-role">Guru / Wali Kelas</div></div>
               </div></div>
 
               <div class="staff-slide"><div class="staff-card">
-                <div class="staff-card-img-wrap">
-                  <img src="4.png" alt="Mila Manne" class="staff-card-img" />
-                  <div class="staff-card-overlay">
-                    <div class="staff-card-name">Mila Manne, S.Sos, S.Pd, Gr</div>
-                    <div class="staff-card-role">Guru / Wali Kelas</div>
-                  </div>
-                </div>
-                <div class="staff-card-info">
-                  <div class="staff-card-info-name">Mila Manne, S.Sos, S.Pd, Gr</div>
-                  <div class="staff-card-info-role">Guru / Wali Kelas</div>
-                </div>
+                <div class="staff-card-img-wrap"><img src="4.png" alt="Mila Manne" class="staff-card-img" /><div class="staff-card-overlay"><div class="staff-card-name">Mila Manne, S.Sos, S.Pd, Gr</div><div class="staff-card-role">Guru / Wali Kelas</div></div></div>
+                <div class="staff-card-info"><div class="staff-card-info-name">Mila Manne, S.Sos, S.Pd, Gr</div><div class="staff-card-info-role">Guru / Wali Kelas</div></div>
               </div></div>
 
               <div class="staff-slide"><div class="staff-card">
-                <div class="staff-card-img-wrap">
-                  <img src="5.png" alt="Anggi Mutiara" class="staff-card-img" />
-                  <div class="staff-card-overlay">
-                    <div class="staff-card-name">Anggi Mutiara</div>
-                    <div class="staff-card-role">Guru / Wali Kelas</div>
-                  </div>
-                </div>
-                <div class="staff-card-info">
-                  <div class="staff-card-info-name">Anggi Mutiara</div>
-                  <div class="staff-card-info-role">Guru / Wali Kelas</div>
-                </div>
+                <div class="staff-card-img-wrap"><img src="5.png" alt="Anggi Mutiara" class="staff-card-img" /><div class="staff-card-overlay"><div class="staff-card-name">Anggi Mutiara</div><div class="staff-card-role">Guru / Wali Kelas</div></div></div>
+                <div class="staff-card-info"><div class="staff-card-info-name">Anggi Mutiara</div><div class="staff-card-info-role">Guru / Wali Kelas</div></div>
               </div></div>
 
               <div class="staff-slide"><div class="staff-card">
-                <div class="staff-card-img-wrap">
-                  <img src="6.png" alt="Marwa" class="staff-card-img" />
-                  <div class="staff-card-overlay">
-                    <div class="staff-card-name">Marwa, AMD</div>
-                    <div class="staff-card-role">Guru / Wali Kelas</div>
-                  </div>
-                </div>
-                <div class="staff-card-info">
-                  <div class="staff-card-info-name">Marwa, AMD</div>
-                  <div class="staff-card-info-role">Guru / Wali Kelas</div>
-                </div>
+                <div class="staff-card-img-wrap"><img src="6.png" alt="Marwa" class="staff-card-img" /><div class="staff-card-overlay"><div class="staff-card-name">Marwa, AMD</div><div class="staff-card-role">Guru / Wali Kelas</div></div></div>
+                <div class="staff-card-info"><div class="staff-card-info-name">Marwa, AMD</div><div class="staff-card-info-role">Guru / Wali Kelas</div></div>
               </div></div>
 
               <div class="staff-slide"><div class="staff-card">
-                <div class="staff-card-img-wrap">
-                  <img src="7.png" alt="Yurdayin Aliah" class="staff-card-img" />
-                  <div class="staff-card-overlay">
-                    <div class="staff-card-name">Yurdayin Aliah</div>
-                    <div class="staff-card-role">Guru / Wali Kelas</div>
-                  </div>
-                </div>
-                <div class="staff-card-info">
-                  <div class="staff-card-info-name">Yurdayin Aliah</div>
-                  <div class="staff-card-info-role">Guru / Wali Kelas</div>
-                </div>
+                <div class="staff-card-img-wrap"><img src="7.png" alt="Yurdayin Aliah" class="staff-card-img" /><div class="staff-card-overlay"><div class="staff-card-name">Yurdayin Aliah</div><div class="staff-card-role">Guru / Wali Kelas</div></div></div>
+                <div class="staff-card-info"><div class="staff-card-info-name">Yurdayin Aliah</div><div class="staff-card-info-role">Guru / Wali Kelas</div></div>
               </div></div>
 
             </div>
@@ -679,14 +600,15 @@
       </div>
     </footer>
 
-  </div>
+  </div><!-- end page-wrapper -->
 
   <button class="btn-back-to-top" id="backToTop" onclick="scrollToTop()">Back To The Top</button>
-
+  <!-- CHATBOT -->
   <div class="chatbot-toggle" id="chatbotToggle" onclick="toggleChatbot()">
     <div class="chatbot-toggle-icon" id="chatbotToggleIcon">💬</div>
     <div class="chatbot-badge" id="chatbotBadge">1</div>
   </div>
+
   <div class="chatbot-container" id="chatbotContainer">
     <div class="chatbot-header">
       <div class="chatbot-header-content">
@@ -695,16 +617,41 @@
       </div>
       <button class="chatbot-minimize" onclick="toggleChatbot()">−</button>
     </div>
+
     <div class="chatbot-messages" id="chatbotMessages">
-      <div class="chatbot-message bot"><div class="chatbot-message-bubble">Halo! 👋 Selamat datang di TK Aisyiyah Timika. Saya siap membantu Anda!</div></div>
+      <div class="chatbot-message bot"><div class="chatbot-message-bubble">Halo! 👋 Selamat datang di TK Aisyiyah Timika. Saya siap membantu Anda! Gunakan tombol di bawah atau ketik pesan. 😊</div></div>
       <div class="chatbot-typing" id="chatbotTyping"><span></span><span></span><span></span></div>
     </div>
+
     <div class="chatbot-quick-replies">
       <button class="quick-reply-btn" onclick="sendQuickReply('PPDB')">📋 PPDB</button>
       <button class="quick-reply-btn" onclick="sendQuickReply('Fasilitas')">🏫 Fasilitas</button>
       <button class="quick-reply-btn" onclick="sendQuickReply('Biaya')">💰 Biaya</button>
       <button class="quick-reply-btn" onclick="sendQuickReply('Lokasi')">📍 Lokasi</button>
+      <button class="quick-reply-btn masukan-btn" onclick="bukaFormMasukan()">📝 Beri Masukan</button>
     </div>
+
+    <!-- FORM MASUKAN -->
+    <div class="chatbot-form-masukan" id="chatbotFormMasukan">
+      <div class="form-masukan-title">Form Masukan / Testimoni</div>
+      <input type="text" class="masukan-form-name" id="masukanNama" placeholder="Nama Anda (cth: Ibu Sari)" maxlength="50" />
+      <div class="masukan-stars-wrap">
+        <label>Rating:</label>
+        <div class="masukan-stars-select" id="masukanStars">
+          <span data-v="1">★</span>
+          <span data-v="2">★</span>
+          <span data-v="3">★</span>
+          <span data-v="4">★</span>
+          <span data-v="5">★</span>
+        </div>
+      </div>
+      <textarea class="masukan-form-text" id="masukanTeks" placeholder="Ceritakan pengalaman Anda bersama TK Aisyiyah Timika..." maxlength="300"></textarea>
+      <div class="form-btns">
+        <button class="btn-submit-masukan" onclick="kirimMasukan()">📨 Kirim Masukan</button>
+        <button class="btn-cancel-masukan" onclick="tutupFormMasukan()">Batal</button>
+      </div>
+    </div>
+
     <div class="chatbot-input-container">
       <input type="text" class="chatbot-input" id="chatbotInput" placeholder="Ketik pesan..." autocomplete="off" />
       <button class="chatbot-send" onclick="sendChatMessage()">Kirim</button>
@@ -712,7 +659,19 @@
   </div>
 
   <script>
-    // ── MOBILE MENU ──
+    /* ============= STORAGE (shared dengan Galeri.html) ============= */
+    const STORAGE_KEY = 'tk_aisyiyah_masukan_v1';
+    function getMasukan() {
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) { return []; }
+    }
+    function simpanMasukan(list) {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); } catch(e) {}
+    }
+    function escHtml(s) {
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    /* ============= MOBILE MENU ============= */
     function toggleMobileMenu() {
       const menu = document.getElementById('mobileMenu');
       const ham  = document.getElementById('hamburger');
@@ -727,7 +686,7 @@
     }
     function goto(url) { closeMobileMenu(); window.location.href = url; }
 
-    // ── NAVBAR DROPDOWN (desktop) ──
+    /* ============= NAVBAR DROPDOWN (desktop) ============= */
     const navDd = document.getElementById('navDd');
     const navDdMenu = document.getElementById('navDdMenu');
     if (navDd) {
@@ -735,25 +694,22 @@
       document.addEventListener('click', () => { navDd.classList.remove('open'); navDdMenu.classList.remove('show'); });
     }
 
-    // ── FADE UP ──
+    /* ============= FADE UP ============= */
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.style.animationPlayState = 'running'; io.unobserve(e.target); } });
     }, { threshold: 0.1 });
     document.querySelectorAll('.fu').forEach(el => { el.style.animationPlayState = 'paused'; io.observe(el); });
 
-    // ── STAFF SLIDER ──
+    /* ============= STAFF SLIDER ============= */
     const STAFF_TOTAL = 8;
     let staffIdx = 0;
     function staffPV() {
-      return window.innerWidth <= 480 ? 1
-           : window.innerWidth <= 768 ? 2
-           : window.innerWidth <= 1100 ? 3 : 4;
+      return window.innerWidth <= 480 ? 1 : window.innerWidth <= 768 ? 2 : window.innerWidth <= 1100 ? 3 : 4;
     }
     function buildStaffDots() {
       const pv = staffPV();
       const total = Math.max(1, STAFF_TOTAL - pv + 1);
-      const c = document.getElementById('staffDots');
-      c.innerHTML = '';
+      const c = document.getElementById('staffDots'); c.innerHTML = '';
       for (let i = 0; i < total; i++) {
         const d = document.createElement('div');
         d.className = 'sd-dot' + (i === staffIdx ? ' active' : '');
@@ -761,9 +717,7 @@
         c.appendChild(d);
       }
     }
-    function applyStaff() {
-      document.getElementById('staffTrack').style.transform = `translateX(-${staffIdx * (100 / staffPV())}%)`;
-    }
+    function applyStaff() { document.getElementById('staffTrack').style.transform = `translateX(-${staffIdx * (100 / staffPV())}%)`; }
     function moveStaff(dir) {
       const max = Math.max(0, STAFF_TOTAL - staffPV());
       staffIdx = Math.max(0, Math.min(max, staffIdx + dir));
@@ -772,7 +726,6 @@
     window.addEventListener('resize', () => { staffIdx = 0; applyStaff(); buildStaffDots(); });
     buildStaffDots();
 
-    // Swipe
     let txStart = 0;
     document.getElementById('staffOuter').addEventListener('touchstart', e => { txStart = e.touches[0].clientX; }, { passive: true });
     document.getElementById('staffOuter').addEventListener('touchend', e => {
@@ -780,68 +733,134 @@
       if (Math.abs(diff) > 40) moveStaff(diff > 0 ? 1 : -1);
     });
 
-    // ── CHATBOT ──
+    /* ============= BACK TO TOP ============= */
+    const backToTopBtn = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => backToTopBtn.classList.toggle('show', window.pageYOffset > window.innerHeight / 2));
+    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+    /* ============= CHATBOT ============= */
+    let isChatbotOpen=false, hasSeenWelcome=false;
     const chatbotContainer = document.getElementById('chatbotContainer');
     const chatbotMessages  = document.getElementById('chatbotMessages');
     const chatbotInput     = document.getElementById('chatbotInput');
     const chatbotTyping    = document.getElementById('chatbotTyping');
     const chatbotBadge     = document.getElementById('chatbotBadge');
     const chatbotToggleIcon= document.getElementById('chatbotToggleIcon');
-    let isChatbotOpen = false, hasSeenWelcome = false;
 
     function toggleChatbot() {
       isChatbotOpen = !isChatbotOpen;
-      if (isChatbotOpen) {
-        chatbotContainer.classList.add('show');
-        chatbotToggleIcon.textContent = '✕';
-        chatbotBadge.style.display = 'none';
-        chatbotInput.focus();
-        hasSeenWelcome = true;
-      } else {
-        chatbotContainer.classList.remove('show');
-        chatbotToggleIcon.textContent = '💬';
-      }
+      if(isChatbotOpen){ chatbotContainer.classList.add('show'); chatbotToggleIcon.textContent='✕'; chatbotBadge.style.display='none'; chatbotInput.focus(); hasSeenWelcome=true; }
+      else { chatbotContainer.classList.remove('show'); chatbotToggleIcon.textContent='💬'; }
     }
-    setTimeout(() => { if (!hasSeenWelcome && !isChatbotOpen) chatbotBadge.style.display = 'flex'; }, 5000);
+    setTimeout(()=>{ if(!hasSeenWelcome&&!isChatbotOpen) chatbotBadge.style.display='flex'; }, 5000);
 
     const botResponses = {
-      'halo':'Halo! 👋 Ada yang bisa saya bantu?',
-      'hai':'Hai! 😊',
-      'ppdb':'Untuk info PPDB:\n📞 Hubungi kami\n📍 Datang langsung ke sekolah',
-      'biaya':'💰 Hubungi kantor kami untuk info biaya!',
-      'fasilitas':'🏫 Fasilitas lengkap tersedia di sekolah kami!',
-      'lokasi':'📍 Jl. Pendidikan No. 123, Timika, Papua',
-      'terima kasih':'Sama-sama! 😊'
+      'halo': 'Halo! 👋 Ada yang bisa saya bantu?\n\nKlik "📝 Beri Masukan" untuk berbagi pengalaman Anda bersama kami!',
+      'hai': 'Hai! 😊 Ada yang ingin ditanyakan atau ingin berbagi masukan?',
+      'ppdb': 'Untuk info PPDB 2026/2027:\n📞 0812-3456-7890\n📍 Datang langsung ke sekolah\n📋 Isi form PPDB online kami!',
+      'biaya': '💰 Biaya pendidikan sangat terjangkau untuk semua kalangan.\nHubungi kami di 0812-3456-7890 untuk info lengkap!',
+      'fasilitas': '🏫 Fasilitas TK Aisyiyah:\n✅ Ruang kelas nyaman & terang\n✅ Halaman luas & asri\n✅ Aula serbaguna\n✅ TV layar lebar\n✅ Perpustakaan\n✅ Area bermain aman',
+      'lokasi': '📍 Jl. Pendidikan No. 123, Timika, Papua Tengah\nCek Google Maps di footer halaman ini!',
+      'masukan': 'Terima kasih ingin berbagi! 😊\nKlik tombol "📝 Beri Masukan" di bawah untuk mengisi masukan Anda!',
+      'testimoni': 'Senang mendengar Anda ingin berbagi! Klik "📝 Beri Masukan" dan masukan Anda akan langsung tampil di halaman ini 🙏',
+      'terima kasih': 'Sama-sama! 😊 Jangan ragu bertanya kapan saja ya!',
     };
     function addChatMessage(msg, isUser) {
-      const d = document.createElement('div');
-      d.className = `chatbot-message ${isUser ? 'user' : 'bot'}`;
-      const b = document.createElement('div');
-      b.className = 'chatbot-message-bubble';
-      b.innerHTML = msg.replace(/\n/g, '<br>');
-      d.appendChild(b);
+      const d=document.createElement('div'); d.className=`chatbot-message ${isUser?'user':'bot'}`;
+      const b=document.createElement('div'); b.className='chatbot-message-bubble';
+      b.innerHTML=msg.replace(/\n/g,'<br>'); d.appendChild(b);
       chatbotMessages.insertBefore(d, chatbotTyping);
-      chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+      chatbotMessages.scrollTop=chatbotMessages.scrollHeight;
     }
     function getBotResponse(msg) {
-      const l = msg.toLowerCase();
-      for (let k in botResponses) { if (l.includes(k)) return botResponses[k]; }
-      return 'Terima kasih! 😊 Hubungi kantor TK Aisyiyah untuk info lebih lanjut.';
+      const l=msg.toLowerCase();
+      for(let k in botResponses){ if(l.includes(k)) return botResponses[k]; }
+      return 'Terima kasih! 😊 Untuk info lebih lanjut hubungi 0812-3456-7890.\n\nAnda juga bisa klik "📝 Beri Masukan" untuk berbagi pengalaman!';
     }
     function sendChatMessage() {
-      const m = chatbotInput.value.trim(); if (!m) return;
-      addChatMessage(m, true); chatbotInput.value = '';
-      chatbotTyping.style.display = 'block';
-      chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-      setTimeout(() => { chatbotTyping.style.display = 'none'; addChatMessage(getBotResponse(m), false); }, 600 + Math.random() * 600);
+      const m=chatbotInput.value.trim(); if(!m) return;
+      addChatMessage(m,true); chatbotInput.value='';
+      chatbotTyping.style.display='block';
+      chatbotMessages.scrollTop=chatbotMessages.scrollHeight;
+      setTimeout(()=>{ chatbotTyping.style.display='none'; addChatMessage(getBotResponse(m),false); }, 600+Math.random()*600);
     }
-    function sendQuickReply(t) { chatbotInput.value = t; sendChatMessage(); }
-    chatbotInput.addEventListener('keypress', e => { if (e.key === 'Enter') sendChatMessage(); });
+    function sendQuickReply(t){ chatbotInput.value=t; sendChatMessage(); }
+    chatbotInput.addEventListener('keypress', e=>{ if(e.key==='Enter') sendChatMessage(); });
 
-    // ── BACK TO TOP ──
-    const backToTopBtn = document.getElementById('backToTop');
-    window.addEventListener('scroll', () => { backToTopBtn.classList.toggle('show', window.pageYOffset > window.innerHeight / 2); });
-    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    /* ============= FORM MASUKAN ============= */
+    let selectedBintang = 5;
+
+    function bukaFormMasukan() {
+      document.getElementById('chatbotFormMasukan').classList.add('show');
+      chatbotInput.disabled = true;
+      document.querySelector('.chatbot-send').disabled = true;
+      updateBintangUI(5); selectedBintang = 5;
+      document.getElementById('masukanNama').focus();
+    }
+    function bukaChatbotMasukan() {
+      if(!isChatbotOpen) toggleChatbot();
+      setTimeout(bukaFormMasukan, 450);
+    }
+    function tutupFormMasukan() {
+      document.getElementById('chatbotFormMasukan').classList.remove('show');
+      chatbotInput.disabled = false;
+      document.querySelector('.chatbot-send').disabled = false;
+      document.getElementById('masukanNama').value = '';
+      document.getElementById('masukanTeks').value = '';
+      selectedBintang = 5; updateBintangUI(5);
+    }
+
+    // Bintang interaktif
+    document.querySelectorAll('#masukanStars span').forEach(el => {
+      el.addEventListener('click', ()=>{ selectedBintang=parseInt(el.dataset.v); updateBintangUI(selectedBintang); });
+      el.addEventListener('mouseover', ()=> updateBintangUI(parseInt(el.dataset.v)));
+      el.addEventListener('mouseleave', ()=> updateBintangUI(selectedBintang));
+    });
+    function updateBintangUI(val) {
+      document.querySelectorAll('#masukanStars span').forEach(el => {
+        el.classList.toggle('lit', parseInt(el.dataset.v) <= val);
+      });
+    }
+    updateBintangUI(5); // default 5 bintang
+
+    function kirimMasukan() {
+      const nama = document.getElementById('masukanNama').value.trim();
+      const teks = document.getElementById('masukanTeks').value.trim();
+
+      if(!nama) {
+        const inp = document.getElementById('masukanNama');
+        inp.style.borderColor='#f00'; inp.focus();
+        setTimeout(()=>inp.style.borderColor='',1800); return;
+      }
+      if(teks.length < 10) {
+        const ta = document.getElementById('masukanTeks');
+        ta.style.borderColor='#f00'; ta.focus();
+        setTimeout(()=>ta.style.borderColor='',1800); return;
+      }
+
+      const list = getMasukan();
+      list.push({ nama, teks, bintang: selectedBintang, ts: Date.now() });
+      simpanMasukan(list);
+
+      tutupFormMasukan();
+      addChatMessage(`Terima kasih, ${escHtml(nama)}! ✅
+
+Masukan Anda sudah diterima dan tampil di bagian Testimoni di bawah. Semoga harimu menyenangkan! 😊🌿`, false);
+
+      renderMasukanBaru();
+      showToast('✅ Masukan berhasil dikirim! Terima kasih ' + nama + '!');
+
+      setTimeout(()=>{
+        document.getElementById('testimonial').scrollIntoView({behavior:'smooth',block:'start'});
+      }, 900);
+    }
+
+    /* ============= TOAST ============= */
+    function showToast(msg) {
+      const t = document.getElementById('toastNotif');
+      t.textContent = msg; t.classList.add('show');
+      setTimeout(()=> t.classList.remove('show'), 3800);
+    }
   </script>
 </body>
 </html>

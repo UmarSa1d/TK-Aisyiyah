@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings – TK Aisyiyah Timika</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; font-family: "Segoe UI", Helvetica, Arial, sans-serif; background: #e8f5e8; color: #222; overflow-x: hidden; }
+    .app { display: flex; min-height: 100vh; }
+
+    /* SIDEBAR */
+    .sidebar { width: 260px; min-width: 260px; background: #f4fbf4; border-right: 1px solid #e0ede0; display: flex; flex-direction: column; position: fixed; top: 0; left: 0; height: 100vh; z-index: 200; overflow-y: auto; transition: transform .3s cubic-bezier(.4,0,.2,1); }
+    .sidebar-brand { display: flex; align-items: center; gap: 14px; padding: 24px 20px 20px; border: 2px solid #00cc30; border-radius: 16px; margin: 18px 16px 24px; }
+    .sidebar-logo { width: 52px; height: 52px; background: #fff; border: 2px solid #00cc30; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .sidebar-logo img { width: 40px; height: 40px; object-fit: contain; }
+    .sidebar-brand-name { font-size: 1rem; font-weight: 700; color: #222; line-height: 1.3; }
+    .sidebar-nav { flex: 1; padding: 0 12px; }
+    .nav-item { display: flex; align-items: center; gap: 12px; padding: 11px 16px; border-radius: 10px; font-size: .93rem; color: #444; cursor: pointer; transition: background .2s, color .2s; margin-bottom: 4px; border: 1px solid transparent; text-decoration: none; }
+    .nav-item:hover { background: #f0fdf0; color: #00a832; border-color: #d0f0d0; }
+    .nav-item.active { background: #00cc30; color: #fff; font-weight: 600; }
+    .nav-item.nav-ppdb { background: #00cc30; color: #fff; font-weight: 700; }
+    .nav-item .nav-icon { font-size: 1rem; width: 20px; text-align: center; flex-shrink: 0; }
+    .nav-item .nav-arrow { margin-left: auto; font-size: .75rem; opacity: .6; transition: transform .3s; }
+    .nav-item .nav-arrow.open { transform: rotate(180deg); }
+    .manage-dropdown { display: none; flex-direction: column; background: #f7fdf7; border-radius: 10px; margin: 2px 0 4px 8px; overflow: hidden; border-left: 3px solid #00cc30; }
+    .manage-dropdown.open { display: flex; }
+    .dropdown-item { padding: 10px 16px 10px 20px; font-size: .88rem; color: #555; cursor: pointer; transition: background .2s, color .2s; display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .dropdown-item:hover { background: #e0f7e0; color: #00a832; }
+    .sidebar-bottom { padding: 12px; border-top: 1px solid #c8e6c8; background: #f4fbf4; }
+    .nav-item-sm { display: flex; align-items: center; gap: 10px; padding: 9px 14px; border-radius: 8px; font-size: .88rem; color: #888; cursor: pointer; transition: background .2s, color .2s; margin-bottom: 2px; text-decoration: none; }
+    .nav-item-sm:hover { background: #f9fdf9; color: #00a832; }
+    .nav-item-sm.active-sm { background: #e8f8e8; color: #00a832; font-weight: 600; }
+    .nav-item-sm.logout { color: #cc3300; }
+    .nav-item-sm.logout:hover { background: #fff5f5; }
+    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 199; }
+    .sidebar-overlay.show { display: block; }
+
+    /* MAIN */
+    .main { margin-left: 260px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; background: linear-gradient(160deg,#eaf6ea 0%,#f0f9f0 100%); }
+
+    /* TOPBAR */
+    .topbar { background: #f4fbf4; border-bottom: 1px solid #c8e6c8; padding: 12px 20px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 50; }
+    .hamburger-btn { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 6px; border: none; background: none; flex-shrink: 0; }
+    .hamburger-btn span { display: block; width: 22px; height: 2px; background: #333; border-radius: 2px; transition: all .3s; }
+    .hamburger-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger-btn.open span:nth-child(2) { opacity: 0; }
+    .hamburger-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .search-wrap { flex: 1; position: relative; }
+    .search-box { display: flex; align-items: center; gap: 10px; background: #edf7ed; border: 1px solid #b8ddb8; border-radius: 100px; padding: 9px 16px; }
+    .search-box input { border: none; background: transparent; outline: none; font-size: .93rem; color: #444; width: 100%; font-style: italic; }
+    .search-box input::placeholder { color: #aaa; }
+    .search-icon { color: #aaa; font-size: .95rem; flex-shrink: 0; }
+    .topbar-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .btn-notif { width: 40px; height: 40px; border-radius: 10px; border: 1px solid #d0e8d0; background: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.1rem; position: relative; flex-shrink: 0; }
+    .btn-notif:hover { background: #f0fdf0; }
+    .notif-dot { position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; background: #cc0000; border-radius: 50%; border: 2px solid #fff; }
+    .btn-saran { display: flex; align-items: center; gap: 6px; padding: 9px 14px; border-radius: 10px; border: 1px solid #d0e8d0; background: #fff; font-size: .85rem; color: #444; cursor: pointer; white-space: nowrap; }
+    .btn-saran:hover { background: #f0fdf0; color: #00a832; }
+    .btn-saran-text { display: inline; }
+
+    /* CONTENT */
+    .content { padding: clamp(16px,3vw,28px); flex: 1; }
+    .breadcrumb { font-size: .92rem; color: #888; margin-bottom: 20px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .breadcrumb a { color: #00a832; text-decoration: none; font-weight: 600; }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .breadcrumb .sep { color: #bbb; }
+    .breadcrumb .current { color: #444; font-weight: 600; }
+
+    /* SETTINGS TABS */
+    .settings-tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+    .tab-btn { padding: 9px 18px; border-radius: 10px; border: 1.5px solid #d0e8d0; background: #fff; font-size: .88rem; color: #555; cursor: pointer; transition: all .2s; font-weight: 600; white-space: nowrap; }
+    .tab-btn:hover { background: #f0fdf0; color: #00a832; border-color: #00cc30; }
+    .tab-btn.active { background: #00cc30; color: #fff; border-color: #00cc30; }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* CARD */
+    .settings-card { background: #fff; border-radius: 16px; box-shadow: 0 2px 16px rgba(0,168,50,.08); border: 1px solid rgba(0,204,48,.08); padding: clamp(18px,3vw,28px); margin-bottom: 18px; }
+    .settings-card-title { font-size: 1rem; font-weight: 700; color: #222; margin-bottom: 18px; display: flex; align-items: center; gap: 8px; padding-bottom: 12px; border-bottom: 1px solid #f0f8f0; }
+
+    /* FORM */
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .form-group { margin-bottom: 16px; }
+    .form-label { font-size: .82rem; font-weight: 600; color: #555; margin-bottom: 6px; display: block; }
+    .form-input { width: 100%; padding: 10px 14px; border: 1.5px solid #d0e8d0; border-radius: 10px; font-size: .9rem; outline: none; font-family: inherit; background: #fafff9; transition: border-color .2s; }
+    .form-input:focus { border-color: #00cc30; }
+    .form-select { width: 100%; padding: 10px 14px; border: 1.5px solid #d0e8d0; border-radius: 10px; font-size: .9rem; outline: none; font-family: inherit; background: #fafff9; cursor: pointer; }
+    .form-select:focus { border-color: #00cc30; }
+
+    /* TOGGLE */
+    .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #f5f5f5; gap: 16px; }
+    .toggle-row:last-child { border-bottom: none; }
+    .toggle-info { flex: 1; }
+    .toggle-label { font-size: .9rem; font-weight: 600; color: #333; margin-bottom: 2px; }
+    .toggle-desc { font-size: .78rem; color: #aaa; }
+    .toggle-switch { position: relative; width: 46px; height: 26px; flex-shrink: 0; }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+    .toggle-slider { position: absolute; inset: 0; background: #ddd; border-radius: 26px; cursor: pointer; transition: background .3s; }
+    .toggle-slider::before { content: ''; position: absolute; width: 20px; height: 20px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: transform .3s; box-shadow: 0 1px 4px rgba(0,0,0,.2); }
+    .toggle-switch input:checked + .toggle-slider { background: #00cc30; }
+    .toggle-switch input:checked + .toggle-slider::before { transform: translateX(20px); }
+
+    /* DANGER ZONE */
+    .danger-card { background: #fff5f5; border-radius: 16px; border: 1.5px solid #ffcccc; padding: clamp(18px,3vw,28px); margin-bottom: 18px; }
+    .danger-title { font-size: 1rem; font-weight: 700; color: #cc0000; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .btn-danger { padding: 10px 22px; border: none; border-radius: 10px; background: linear-gradient(102deg,#cc0000,#ee0000); color: #fff; font-size: .9rem; font-weight: 700; cursor: pointer; transition: opacity .2s; }
+    .btn-danger:hover { opacity: .88; }
+    .btn-danger-outline { padding: 10px 22px; border: 1.5px solid #cc0000; border-radius: 10px; background: #fff; color: #cc0000; font-size: .9rem; font-weight: 700; cursor: pointer; margin-right: 10px; transition: background .2s; }
+    .btn-danger-outline:hover { background: #fff5f5; }
+
+    /* SAVE BUTTON */
+    .btn-save { padding: 11px 26px; border: none; border-radius: 10px; background: linear-gradient(102deg,#00af29,#00cc30); color: #fff; font-size: .92rem; font-weight: 700; cursor: pointer; box-shadow: 0 3px 12px rgba(0,168,50,.25); transition: transform .2s; }
+    .btn-save:hover { transform: translateY(-1px); }
+    .btn-secondary { padding: 11px 22px; border: 1.5px solid #d0e8d0; border-radius: 10px; background: #fff; color: #555; font-size: .92rem; font-weight: 600; cursor: pointer; margin-right: 10px; }
+    .btn-secondary:hover { background: #f0fdf0; }
+    .form-actions { margin-top: 20px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+    /* COLOR PICKER */
+    .color-options { display: flex; gap: 10px; flex-wrap: wrap; }
+    .color-dot { width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: border-color .2s, transform .2s; }
+    .color-dot:hover { transform: scale(1.1); }
+    .color-dot.selected { border-color: #222; }
+
+    /* LANGUAGE / TIMEZONE */
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    /* SEARCH RESULTS */
+    .search-results { position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: #fff; border-radius: 14px; box-shadow: 0 8px 32px rgba(0,168,50,.15); border: 1px solid #c8e6c8; display: none; z-index: 999; overflow: hidden; max-height: 300px; overflow-y: auto; }
+    .search-results.show { display: block; }
+    .search-result-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; cursor: pointer; transition: background .2s; border-bottom: 1px solid #f0f8f0; font-size: .88rem; color: #333; }
+    .search-result-item:hover { background: #f0fdf0; color: #00a832; }
+    .search-result-icon { font-size: 1rem; width: 24px; text-align: center; flex-shrink: 0; }
+    .search-result-label { flex: 1; }
+    .search-result-label strong { color: #00a832; }
+    .search-result-cat { font-size: .72rem; color: #aaa; margin-left: auto; }
+    .search-empty { padding: 18px; text-align: center; color: #aaa; font-size: .88rem; }
+
+    /* NOTIF PANEL */
+    .notif-panel { display: none; position: fixed; top: 64px; right: 16px; width: min(300px,calc(100vw - 32px)); background: #fff; border-radius: 14px; box-shadow: 0 12px 40px rgba(0,0,0,.15); z-index: 300; padding: 16px; border: 1px solid #e8f5e8; }
+    .notif-panel.show { display: block; }
+    .notif-panel-title { font-weight: 700; font-size: .95rem; color: #00a832; margin-bottom: 12px; }
+    .notif-item { padding: 10px 0; border-bottom: 1px solid #f0f0f0; font-size: .85rem; color: #555; line-height: 1.5; }
+    .notif-item:last-child { border-bottom: none; }
+    .notif-item span { font-weight: 600; color: #00a832; }
+
+    /* MODAL SARAN */
+    .modal-overlay { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,.35); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 20px; }
+    .modal-overlay.show { display: flex; }
+    .modal-box { background: #fff; border-radius: 18px; padding: clamp(22px,4vw,32px) clamp(22px,4vw,36px); width: 100%; max-width: 440px; box-shadow: 0 20px 60px rgba(0,0,0,.2); animation: popIn .3s cubic-bezier(.22,1,.36,1); }
+    @keyframes popIn { from{opacity:0;transform:scale(.9);}to{opacity:1;transform:scale(1);} }
+    .modal-title { font-size: 1.1rem; font-weight: 700; color: #00a832; margin-bottom: 14px; }
+    .modal-box textarea { width: 100%; height: 100px; padding: 12px; border: 1px solid #d0e8d0; border-radius: 10px; resize: none; font-size: .9rem; outline: none; font-family: inherit; }
+    .modal-box textarea:focus { border-color: #00cc30; }
+    .modal-actions { display: flex; gap: 10px; margin-top: 12px; justify-content: flex-end; }
+    .btn-cancel { padding: 9px 20px; border: 1px solid #ddd; border-radius: 8px; background: #fff; cursor: pointer; font-size: .9rem; }
+    .btn-submit { padding: 9px 20px; border: none; border-radius: 8px; background: linear-gradient(102deg,#00af29,#00cc30); color: #fff; cursor: pointer; font-size: .9rem; font-weight: 600; }
+
+    /* LOGOUT MODAL */
+    .logout-overlay { display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,.45); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 20px; }
+    .logout-overlay.show { display: flex; }
+    .logout-card { width: 100%; max-width: 320px; background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.25); border-radius: 22px; padding: clamp(24px,5vw,36px) clamp(20px,4vw,32px) 28px; text-align: center; backdrop-filter: blur(24px) saturate(150%); box-shadow: 0 24px 60px rgba(0,0,0,.4); animation: popIn .35s cubic-bezier(.22,1,.36,1); }
+    .logout-logo { width: 70px; height: 70px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; }
+    .logout-logo img { width: 56px; height: 56px; object-fit: contain; }
+    .logout-title { font-size: 1.05rem; font-weight: 800; color: #fff; letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase; }
+    .logout-msg { font-size: .88rem; color: rgba(255,255,255,.8); line-height: 1.6; margin-bottom: 22px; }
+    .logout-btn-confirm { width: 100%; padding: 13px; margin-bottom: 10px; border: none; border-radius: 10px; background: linear-gradient(102deg,#cc0000,#ee0000); color: #fff; font-size: .95rem; font-weight: 700; cursor: pointer; }
+    .logout-btn-confirm:hover { opacity: .9; }
+    .logout-btn-cancel { width: 100%; padding: 12px; border: 1px solid rgba(255,255,255,.35); border-radius: 10px; background: rgba(255,255,255,.1); color: rgba(255,255,255,.85); font-size: .9rem; cursor: pointer; }
+
+    /* TOAST */
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px); background: #222; color: #fff; padding: 12px 24px; border-radius: 100px; font-size: .88rem; z-index: 9999; opacity: 0; transition: opacity .3s, transform .3s; pointer-events: none; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.success { background: linear-gradient(102deg,#00af29,#00cc30); }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) { .sidebar { transform: translateX(-100%); } .sidebar.open { transform: translateX(0); } .main { margin-left: 0; } .hamburger-btn { display: flex; } }
+    @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } .info-grid { grid-template-columns: 1fr; } .btn-saran-text { display: none; } }
+    @media (max-width: 480px) { .topbar { padding: 10px 12px; gap: 8px; } .content { padding: 14px; } .settings-tabs { gap: 6px; } .tab-btn { padding: 7px 12px; font-size: .8rem; } }
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-logo"><img src="LogoTk.png" alt="Logo" onerror="this.parentElement.innerHTML='🏫'" /></div>
+      <div class="sidebar-brand-name">TK Aisyiyah Timika</div>
+    </div>
+    <nav class="sidebar-nav">
+      <a class="nav-item" href="dashboard_admin.html"><span class="nav-icon">🏠</span> Dashboard</a>
+      <div class="nav-item" onclick="toggleManage()">
+        <span class="nav-icon">⚙️</span> Manage
+        <span class="nav-arrow" id="manageArrow">▾</span>
+      </div>
+      <div class="manage-dropdown" id="manageDropdown">
+        <a class="dropdown-item" href="DashboardProfilSekolah.html">🏫 Profil Sekolah</a>
+        <a class="dropdown-item" href="DashboardStaff-Pengajar.html">👩‍🏫 Staff Pengajar & Tenaga Kependidikan</a>
+        <a class="dropdown-item" href="DashboardFasilitas.html">🏗️ Fasilitas</a>
+        <a class="dropdown-item" href="DashboardGaleri.html">🖼️ Galeri</a>
+        <a class="dropdown-item" href="DashboardKalender.html">📅 Kalender</a>
+      </div>
+      <a class="nav-item nav-ppdb" href="DashboardPPDB.html"><span class="nav-icon">📋</span> PPDB 2027/2028</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a class="nav-item-sm active-sm" href="DashboardSettings.html">⚙️ Settings</a>
+      <a class="nav-item-sm" href="DashboardManageAccount.html">👤 Manage Account</a>
+      <a class="nav-item-sm" href="DashboardHelpCenter.html">❓ Help Center</a>
+      <div class="nav-item-sm logout" onclick="confirmLogout()">↩ Log Out</div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+      <div class="search-wrap">
+        <div class="search-box"><span class="search-icon">🔍</span><input type="text" id="searchInput" placeholder="Search Here" oninput="doSearch(this.value)" autocomplete="off" /></div>
+        <div class="search-results" id="searchResults"></div>
+      </div>
+      <div class="topbar-actions">
+        <div class="btn-notif" onclick="toggleNotif()">🔔<div class="notif-dot"></div></div>
+        <div class="btn-saran" onclick="openSaran()">💬 <span class="btn-saran-text">Saran dan Masukan</span></div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="breadcrumb">
+        <a href="dashboard_admin.html">Dashboard</a>
+        <span class="sep">›</span>
+        <span class="current">Settings</span>
+      </div>
+
+      <!-- TABS -->
+      <div class="settings-tabs">
+        <button class="tab-btn active" onclick="switchTab('general', this)">⚙️ Umum</button>
+        <button class="tab-btn" onclick="switchTab('notif', this)">🔔 Notifikasi</button>
+        <button class="tab-btn" onclick="switchTab('appearance', this)">🎨 Tampilan</button>
+        <button class="tab-btn" onclick="switchTab('security', this)">🔒 Keamanan</button>
+        <button class="tab-btn" onclick="switchTab('danger', this)">⚠️ Lanjutan</button>
+      </div>
+
+      <!-- TAB: UMUM -->
+      <div class="tab-panel active" id="tab-general">
+        <div class="settings-card">
+          <div class="settings-card-title">🏫 Informasi Sekolah</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Nama Sekolah</label>
+              <input class="form-input" type="text" value="TK Aisyiyah Timika" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">NPSN</label>
+              <input class="form-input" type="text" value="60401234" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Tahun Ajaran Aktif</label>
+              <select class="form-select">
+                <option>2027/2028</option>
+                <option>2026/2027</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Status Sekolah</label>
+              <select class="form-select">
+                <option>Aktif</option>
+                <option>Nonaktif</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Alamat Sekolah</label>
+            <input class="form-input" type="text" value="Jl. Cenderawasih No. 10, Timika, Papua Tengah" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Email Sekolah</label>
+              <input class="form-input" type="email" value="tk.aisyiyah.timika@gmail.com" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">No. Telepon</label>
+              <input class="form-input" type="tel" value="0901-234-5678" />
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn-secondary">Batal</button>
+            <button class="btn-save" onclick="showToast('✅ Pengaturan umum berhasil disimpan!')">Simpan Perubahan</button>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div class="settings-card-title">🌐 Regional</div>
+          <div class="info-grid">
+            <div class="form-group">
+              <label class="form-label">Bahasa</label>
+              <select class="form-select">
+                <option>Bahasa Indonesia</option>
+                <option>English</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Zona Waktu</label>
+              <select class="form-select">
+                <option>WIT – Waktu Indonesia Timur (UTC+9)</option>
+                <option>WITA – Waktu Indonesia Tengah (UTC+8)</option>
+                <option>WIB – Waktu Indonesia Barat (UTC+7)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn-save" onclick="showToast('✅ Pengaturan regional disimpan!')">Simpan</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: NOTIFIKASI -->
+      <div class="tab-panel" id="tab-notif">
+        <div class="settings-card">
+          <div class="settings-card-title">🔔 Preferensi Notifikasi</div>
+          <div class="toggle-row">
+            <div class="toggle-info"><div class="toggle-label">Notifikasi PPDB Baru</div><div class="toggle-desc">Terima notifikasi setiap ada pendaftar PPDB baru</div></div>
+            <label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-info"><div class="toggle-label">Notifikasi Review</div><div class="toggle-desc">Terima notifikasi saat ada ulasan baru dari orang tua</div></div>
+            <label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-info"><div class="toggle-label">Pengingat Event Kalender</div><div class="toggle-desc">Notifikasi H-3 sebelum event berlangsung</div></div>
+            <label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-info"><div class="toggle-label">Laporan Mingguan</div><div class="toggle-desc">Kirim ringkasan laporan ke email setiap Senin pagi</div></div>
+            <label class="toggle-switch"><input type="checkbox" /></span></label>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-info"><div class="toggle-label">Notifikasi Email</div><div class="toggle-desc">Kirim duplikasi notifikasi ke email admin</div></div>
+            <label class="toggle-switch"><input type="checkbox" /></span></label>
+          </div>
+          <div class="form-actions">
+            <button class="btn-save" onclick="showToast('✅ Preferensi notifikasi disimpan!')">Simpan</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: TAMPILAN -->
+      <div class="tab-panel" id="tab-appearance">
+        <div class="settings-card">
+          <div class="settings-card-title">🎨 Tema & Warna</div>
+          <div class="form-group">
+            <label class="form-label">Warna Utama</label>
+            <div class="color-options">
+              <div class="color-dot selected" style="background:#00cc30" title="Hijau (Default)" onclick="selectColor(this)"></div>
+              <div class="color-dot" style="background:#0088cc" title="Biru" onclick="selectColor(this)"></div>
+              <div class="color-dot" style="background:#cc6600" title="Oranye" onclick="selectColor(this)"></div>
+              <div class="color-dot" style="background:#9933cc" title="Ungu" onclick="selectColor(this)"></div>
+              <div class="color-dot" style="background:#cc0044" title="Merah" onclick="selectColor(this)"></div>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top:16px">
+            <label class="form-label">Mode Tampilan</label>
+            <select class="form-select">
+              <option>☀️ Mode Terang (Light)</option>
+              <option>🌙 Mode Gelap (Dark)</option>
+              <option>🖥️ Ikuti Sistem</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Ukuran Font</label>
+            <select class="form-select">
+              <option>Kecil (14px)</option>
+              <option selected>Sedang (16px)</option>
+              <option>Besar (18px)</option>
+            </select>
+          </div>
+          <div class="form-actions">
+            <button class="btn-secondary">Reset Default</button>
+            <button class="btn-save" onclick="showToast('✅ Tampilan berhasil disimpan!')">Simpan</button>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div class="settings-card-title">🖼️ Logo & Branding</div>
+          <div class="form-group">
+            <label class="form-label">Logo Sekolah</label>
+            <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+              <div style="width:64px;height:64px;border-radius:50%;border:2px solid #00cc30;display:flex;align-items:center;justify-content:center;font-size:2rem;background:#f4fbf4;">🏫</div>
+              <button class="btn-secondary" onclick="showToast('Fitur upload logo akan segera tersedia')">🔄 Ganti Logo</button>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn-save" onclick="showToast('✅ Branding berhasil disimpan!')">Simpan</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: KEAMANAN -->
+      <div class="tab-panel" id="tab-security">
+        <div class="settings-card">
+          <div class="settings-card-title">🔒 Sesi & Akses</div>
+          <div class="toggle-row">
+            <div class="toggle-info"><div class="toggle-label">Autentikasi Dua Langkah (2FA)</div><div class="toggle-desc">Tambahkan lapisan keamanan ekstra saat login</div></div>
+            <label class="toggle-switch"><input type="checkbox" /><span class="toggle-slider"></span></label>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-info"><div class="toggle-label">Auto Logout Sesi Tidak Aktif</div><div class="toggle-desc">Keluar otomatis jika tidak aktif selama 30 menit</div></div>
+            <label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-info"><div class="toggle-label">Log Aktivitas Admin</div><div class="toggle-desc">Catat semua aksi yang dilakukan admin</div></div>
+            <label class="toggle-switch"><input type="checkbox" checked /><span class="toggle-slider"></span></label>
+          </div>
+          <div class="form-group" style="margin-top:16px">
+            <label class="form-label">Durasi Sesi Aktif</label>
+            <select class="form-select">
+              <option>15 menit</option>
+              <option selected>30 menit</option>
+              <option>1 jam</option>
+              <option>8 jam (hingga browser ditutup)</option>
+            </select>
+          </div>
+          <div class="form-actions">
+            <button class="btn-save" onclick="showToast('✅ Pengaturan keamanan disimpan!')">Simpan</button>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div class="settings-card-title">🔑 Ganti Password Admin</div>
+          <div class="form-group">
+            <label class="form-label">Password Lama</label>
+            <input class="form-input" type="password" placeholder="Masukkan password lama" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Password Baru</label>
+              <input class="form-input" type="password" placeholder="Min. 8 karakter" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Konfirmasi Password Baru</label>
+              <input class="form-input" type="password" placeholder="Ulangi password baru" />
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn-save" onclick="showToast('✅ Password berhasil diperbarui!')">Update Password</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB: LANJUTAN / DANGER -->
+      <div class="tab-panel" id="tab-danger">
+        <div class="settings-card">
+          <div class="settings-card-title">🔄 Backup & Restore</div>
+          <p style="font-size:.88rem;color:#666;margin-bottom:16px;line-height:1.7">Buat backup data seluruh sistem termasuk data PPDB, galeri, dan pengaturan. File backup akan diunduh dalam format .zip.</p>
+          <div class="form-actions">
+            <button class="btn-secondary" onclick="showToast('⏳ Membuat backup... (Fitur segera tersedia)')">📥 Unduh Backup</button>
+            <button class="btn-secondary" onclick="showToast('Fitur restore segera tersedia')">📤 Restore Data</button>
+          </div>
+        </div>
+
+        <div class="danger-card">
+          <div class="danger-title">⚠️ Zona Berbahaya</div>
+          <p style="font-size:.88rem;color:#884444;margin-bottom:20px;line-height:1.7">Tindakan di bawah ini bersifat permanen dan tidak dapat dibatalkan. Harap berhati-hati.</p>
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <div style="background:#fff;border-radius:10px;padding:14px 18px;border:1px solid #ffcccc;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+              <div>
+                <div style="font-weight:700;color:#333;font-size:.9rem;margin-bottom:3px">Reset Data PPDB</div>
+                <div style="font-size:.78rem;color:#aaa">Hapus semua data pendaftar PPDB 2027/2028</div>
+              </div>
+              <button class="btn-danger-outline" onclick="if(confirm('Reset semua data PPDB? Ini tidak dapat dibatalkan.'))showToast('Data PPDB berhasil direset')">Reset PPDB</button>
+            </div>
+            <div style="background:#fff;border-radius:10px;padding:14px 18px;border:1px solid #ffcccc;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+              <div>
+                <div style="font-weight:700;color:#333;font-size:.9rem;margin-bottom:3px">Hapus Semua Data</div>
+                <div style="font-size:.78rem;color:#aaa">Hapus seluruh data aplikasi dan kembalikan ke pengaturan awal</div>
+              </div>
+              <button class="btn-danger" onclick="if(confirm('PERINGATAN: Ini akan menghapus SEMUA data. Lanjutkan?'))showToast('⚠️ Semua data berhasil dihapus')">Hapus Semua</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NOTIF PANEL -->
+<div class="notif-panel" id="notifPanel">
+  <div class="notif-panel-title">🔔 Notifikasi</div>
+  <div class="notif-item"><span>PPDB Baru:</span> 3 pendaftar baru hari ini</div>
+  <div class="notif-item"><span>Review:</span> Ibu Fauziah memberikan ulasan bintang 5</div>
+  <div class="notif-item"><span>Event:</span> Outing Class tinggal 6 hari lagi</div>
+</div>
+
+<!-- MODAL SARAN -->
+<div class="modal-overlay" id="saranModal">
+  <div class="modal-box">
+    <div class="modal-title">💬 Saran dan Masukan</div>
+    <textarea placeholder="Tulis saran atau masukan Anda di sini..."></textarea>
+    <div class="modal-actions"><button class="btn-cancel" onclick="closeSaran()">Batal</button><button class="btn-submit" onclick="submitSaran()">Kirim</button></div>
+  </div>
+</div>
+
+<!-- LOGOUT MODAL -->
+<div class="logout-overlay" id="logoutModal">
+  <div class="logout-card">
+    <div class="logout-logo"><img src="LogoTk.png" alt="Logo" onerror="this.parentElement.innerHTML='🏫'" /></div>
+    <div class="logout-title">ADMIN LOGIN</div>
+    <div class="logout-msg">Apakah Anda yakin ingin<br>keluar dari dashboard?</div>
+    <button class="logout-btn-confirm" onclick="doLogout()">↩ Ya, Log Out</button>
+    <button class="logout-btn-cancel" onclick="closeLogout()">Kembali ke Dashboard</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  function toggleSidebar(){const s=document.getElementById('sidebar'),o=document.getElementById('sidebarOverlay'),b=document.getElementById('hamburgerBtn');const open=s.classList.toggle('open');o.classList.toggle('show',open);b.classList.toggle('open',open);document.body.style.overflow=open?'hidden':'';}
+  function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebarOverlay').classList.remove('show');document.getElementById('hamburgerBtn').classList.remove('open');document.body.style.overflow='';}
+  function toggleManage(){document.getElementById('manageDropdown').classList.toggle('open');document.getElementById('manageArrow').classList.toggle('open');}
+  function switchTab(name, btn){
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.getElementById('tab-'+name).classList.add('active');
+    btn.classList.add('active');
+  }
+  function selectColor(el){document.querySelectorAll('.color-dot').forEach(d=>d.classList.remove('selected'));el.classList.add('selected');}
+  function toggleNotif(){document.getElementById('notifPanel').classList.toggle('show');}
+  document.addEventListener('click',e=>{if(!e.target.closest('.btn-notif')&&!e.target.closest('.notif-panel'))document.getElementById('notifPanel').classList.remove('show');});
+  function openSaran(){document.getElementById('saranModal').classList.add('show');}
+  function closeSaran(){document.getElementById('saranModal').classList.remove('show');}
+  function submitSaran(){showToast('Saran berhasil dikirim! Terima kasih 😊');closeSaran();}
+  document.getElementById('saranModal').addEventListener('click',e=>{if(e.target===document.getElementById('saranModal'))closeSaran();});
+  function confirmLogout(){document.getElementById('logoutModal').classList.add('show');}
+  function doLogout(){window.location.href='Login-Admin.html';}
+  function closeLogout(){document.getElementById('logoutModal').classList.remove('show');}
+  function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show','success');setTimeout(()=>t.classList.remove('show','success'),3000);}
+  const searchData=[{icon:'🏠',label:'Dashboard',cat:'Menu',href:'dashboard_admin.html'},{icon:'🏫',label:'Profil Sekolah',cat:'Manage',href:'DashboardProfilSekolah.html'},{icon:'👩‍🏫',label:'Staff Pengajar',cat:'Manage',href:'DashboardStaff-Pengajar.html'},{icon:'🏗️',label:'Fasilitas',cat:'Manage',href:'DashboardFasilitas.html'},{icon:'🖼️',label:'Galeri',cat:'Manage',href:'DashboardGaleri.html'},{icon:'📅',label:'Kalender',cat:'Manage',href:'DashboardKalender.html'},{icon:'📋',label:'PPDB 2027/2028',cat:'Menu',href:'DashboardPPDB.html'},{icon:'⚙️',label:'Settings',cat:'Pengaturan',href:'DashboardSettings.html'},{icon:'👤',label:'Manage Account',cat:'Pengaturan',href:'DashboardManageAccount.html'},{icon:'❓',label:'Help Center',cat:'Bantuan',href:'DashboardHelpCenter.html'}];
+  let _filtered=[];
+  function doSearch(val){const box=document.getElementById('searchResults'),q=val.trim().toLowerCase();if(!q){box.classList.remove('show');box.innerHTML='';return;}_filtered=searchData.filter(d=>d.label.toLowerCase().includes(q));box.innerHTML=_filtered.length?_filtered.map((d,i)=>`<div class="search-result-item" onclick="searchGo(${i})"><span class="search-result-icon">${d.icon}</span><span class="search-result-label">${d.label.replace(new RegExp(val.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),m=>'<strong>'+m+'</strong>')}</span><span class="search-result-cat">${d.cat}</span></div>`).join(''):'<div class="search-empty">😕 Tidak ada hasil</div>';box.classList.add('show');}
+  function searchGo(i){if(_filtered[i]?.href)window.location.href=_filtered[i].href;document.getElementById('searchResults').classList.remove('show');document.getElementById('searchInput').value='';}
+  document.addEventListener('click',e=>{if(!e.target.closest('.search-wrap'))document.getElementById('searchResults').classList.remove('show');});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSaran();closeLogout();closeSidebar();}});
+</script>
+</body>
+</html>

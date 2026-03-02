@@ -8,7 +8,6 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { height: 100%; font-family: "Segoe UI", Helvetica, Arial, sans-serif; background: #e8f5e8; color: #222; overflow-x: hidden; }
 
-    /* ── LAYOUT ── */
     .app { display: flex; min-height: 100vh; }
 
     /* ── SIDEBAR ── */
@@ -46,7 +45,6 @@
     .nav-item.active { background: #00cc30; color: #fff; font-weight: 600; }
     .nav-item.nav-ppdb { background: #00cc30; color: #fff; font-weight: 700; }
     .nav-item.nav-ppdb:hover { background: #00b82c; color: #fff; border-color: transparent; }
-    .nav-item.active .nav-icon { color: #fff; }
     .nav-item .nav-icon { font-size: 1rem; width: 20px; text-align: center; flex-shrink: 0; }
     .nav-item .nav-arrow { margin-left: auto; font-size: .75rem; opacity: .6; transition: transform .3s; }
     .nav-item .nav-arrow.open { transform: rotate(180deg); }
@@ -63,8 +61,10 @@
       font-size: .88rem; color: #555; cursor: pointer;
       transition: background .2s, color .2s;
       display: flex; align-items: center; gap: 8px;
+      text-decoration: none;
     }
     .dropdown-item:hover { background: #e0f7e0; color: #00a832; }
+    .dropdown-item:active { background: #c8f5d0; }
 
     .nav-divider { height: 1px; background: #e8f5e8; margin: 12px 4px; }
 
@@ -79,7 +79,6 @@
     .nav-item-sm.logout { color: #cc3300; }
     .nav-item-sm.logout:hover { background: #fff5f5; }
 
-    /* Sidebar overlay for mobile */
     .sidebar-overlay {
       display: none; position: fixed; inset: 0;
       background: rgba(0,0,0,.4); z-index: 199;
@@ -319,16 +318,12 @@
     .logout-btn-cancel:hover { background: rgba(255,255,255,.2); }
 
     /* ===================== RESPONSIVE ===================== */
-
-    /* Tablet ~1024px: collapse quick-stack into grid */
     @media (max-width: 1024px) {
       .top-grid { grid-template-columns: 1fr 1fr; }
       .quick-stack { flex-direction: row; }
       .quicklink-card { flex: 1; }
       .btn-saran-text { display: none; }
     }
-
-    /* Tablet portrait ~768px: sidebar becomes drawer */
     @media (max-width: 768px) {
       .sidebar { transform: translateX(-100%); }
       .sidebar.open { transform: translateX(0); }
@@ -337,12 +332,10 @@
       .top-grid { grid-template-columns: 1fr; }
       .quick-stack { flex-direction: row; }
       .bottom-grid { grid-template-columns: 1fr; }
-      .photo-card { display: none; } /* hide photo on mobile to save space */
+      .photo-card { display: none; }
       .stats-card { order: 1; }
       .quick-stack { order: 2; }
     }
-
-    /* Mobile ~480px */
     @media (max-width: 480px) {
       .topbar { padding: 10px 12px; gap: 8px; }
       .btn-saran { padding: 9px 10px; }
@@ -352,8 +345,6 @@
       .quick-stack { flex-direction: column; }
       .event-table th:nth-child(2), .event-table td:nth-child(2) { max-width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     }
-
-    /* Very small ~360px */
     @media (max-width: 380px) {
       .greeting { font-size: 1.1rem; }
       .review-tag { max-width: 130px; font-size: .76rem; }
@@ -365,7 +356,6 @@
 <body>
 <div class="app">
 
-  <!-- SIDEBAR OVERLAY -->
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 
   <!-- SIDEBAR -->
@@ -375,28 +365,32 @@
       <div class="sidebar-brand-name">TK Aisyiyah Timika</div>
     </div>
     <nav class="sidebar-nav">
-      <div class="nav-item" onclick="setActive(this)">
+
+      <!-- Dashboard -->
+      <div class="nav-item active" onclick="setActive(this)">
         <span class="nav-icon">🏠</span> Dashboard
       </div>
+
+      <!-- Manage (toggle dropdown) -->
       <div class="nav-item" onclick="toggleManage(this)" id="manageBtn">
         <span class="nav-icon">⚙️</span> Manage
         <span class="nav-arrow" id="manageArrow">▾</span>
       </div>
+
+      <!-- Dropdown: semua item bisa diklik langsung ke halaman -->
       <div class="manage-dropdown" id="manageDropdown">
-        <div class="dropdown-item" onclick="setActive(this)">🏫 Profil Sekolah</div>
-        <div class="dropdown-item" onclick="setActive(this)">👩‍🏫 Staff Pengajar & Tenaga Kependidikan</div>
-        <div class="dropdown-item" onclick="setActive(this)">🏗️ Fasilitas</div>
-        <div class="dropdown-item" onclick="setActive(this)">🖼️ Galeri</div>
-        <div class="dropdown-item" onclick="setActive(this)">📅 Kalender</div>
+        <a class="dropdown-item" href="DashboardProfilSekolah.html">🏫 Profil Sekolah</a>
+        <a class="dropdown-item" href="DashboardStaff-Pengajar.html">👩‍🏫 Staff Pengajar & Tenaga Kependidikan</a>
+        <a class="dropdown-item" href="DashboardFasilitas.html">🏗️ Fasilitas</a>
+        <a class="dropdown-item" href="DashboardGaleri.html">🖼️ Galeri</a>
+        <a class="dropdown-item" href="DashboardKalender.html">📅 Kalender</a>
       </div>
-      <div class="nav-item nav-ppdb" onclick="setActive(this)">
-        <span class="nav-icon">📋</span> PPDB 2027/2028
-      </div>
+      <a class="nav-item nav-ppdb active" href="DashboardPPDB.html"><span class="nav-icon">📋</span> PPDB 2027/2028</a>
     </nav>
     <div class="sidebar-bottom">
-      <div class="nav-item-sm">⚙️ Settings</div>
-      <div class="nav-item-sm">👤 Manage Account</div>
-      <div class="nav-item-sm">❓ Help Center</div>
+     <a class="nav-item-sm" href="DashboardSettings.html">⚙️ Settings</a>
+      <a class="nav-item-sm" href="DashboardManageAccount.html">👤 Manage Account</a>
+      <a class="nav-item-sm active-sm" href="DashboardHelpCenter.html">❓ Help Center</a>
       <div class="nav-item-sm logout" onclick="confirmLogout()">↩ Log Out</div>
     </div>
   </aside>
@@ -443,18 +437,18 @@
           </div>
         </div>
         <div class="quick-stack">
-          <div class="card quicklink-card">
+          <div class="card quicklink-card" onclick="window.location.href='Fasilitas.html'">
             <img src="Fasilitas_Full.png" alt="Fasilitas" onerror="this.style.display='none'" />
             <div class="quicklink-card-body" style="background:linear-gradient(135deg,rgba(0,80,20,.7),rgba(0,40,10,.5))">
               <div class="quicklink-title">FASILITAS</div>
               <a class="quicklink-link" href="Fasilitas.html">Edit Fasilitas ›</a>
             </div>
           </div>
-          <div class="card quicklink-card">
+          <div class="card quicklink-card" onclick="window.location.href='Staff-Pengajar.html'">
             <img src="1.jpg" alt="Staff" onerror="this.style.display='none'" />
             <div class="quicklink-card-body" style="background:linear-gradient(135deg,rgba(0,60,20,.75),rgba(0,30,10,.5))">
               <div class="quicklink-title">STAFF PENGAJAR DAN<br>TENAGA KEPENDIDIKAN</div>
-              <a class="quicklink-link" href="#">Edit Staff ›</a>
+              <a class="quicklink-link" href="Staff-Pengajar.html">Edit Staff ›</a>
             </div>
           </div>
         </div>
@@ -478,9 +472,9 @@
             <thead><tr><th>Date</th><th>Event name</th><th style="text-align:right">Status</th></tr></thead>
             <tbody>
               <tr><td>08</td><td>Pertemuan Wali Murid & Orang Tua</td><td style="text-align:right"><span class="badge done">Done</span></td></tr>
-              <tr><td>14</td><td>Outing Class – Taman Edukasi</td><td style="text-align:right"><span class="badge mark">Mark Done</span></td></tr>
-              <tr><td>20</td><td>Pentas Seni & Bakat Anak</td><td style="text-align:right"><span class="badge mark">Mark Done</span></td></tr>
-              <tr><td>28</td><td>Rapat Evaluasi Semester</td><td style="text-align:right"><span class="badge mark">Mark Done</span></td></tr>
+              <tr><td>14</td><td>Outing Class – Taman Edukasi</td><td style="text-align:right"><span class="badge mark" onclick="markDone(this)">Mark Done</span></td></tr>
+              <tr><td>20</td><td>Pentas Seni & Bakat Anak</td><td style="text-align:right"><span class="badge mark" onclick="markDone(this)">Mark Done</span></td></tr>
+              <tr><td>28</td><td>Rapat Evaluasi Semester</td><td style="text-align:right"><span class="badge mark" onclick="markDone(this)">Mark Done</span></td></tr>
             </tbody>
           </table>
         </div>
@@ -561,11 +555,10 @@
     el.classList.toggle('active');
   }
 
-  /* ── ACTIVE NAV ── */
+  /* ── ACTIVE NAV (hanya untuk dashboard) ── */
   function setActive(el) {
     document.querySelectorAll('.nav-item:not(.nav-ppdb)').forEach(i => i.classList.remove('active'));
-    if (!el.classList.contains('nav-ppdb')) el.classList.add('active');
-    // Close sidebar on mobile after nav click
+    el.classList.add('active');
     if (window.innerWidth <= 768) closeSidebar();
   }
 
@@ -589,6 +582,15 @@
   function doLogout() { window.location.href = 'Login-Admin.html'; }
   function closeLogout() { document.getElementById('logoutModal').classList.remove('show'); }
 
+  /* ── MARK DONE (event table) ── */
+  function markDone(el) {
+    el.textContent = 'Done';
+    el.classList.remove('mark');
+    el.classList.add('done');
+    el.onclick = null;
+    el.style.cursor = 'default';
+  }
+
   /* ── GREETING ── */
   const h = new Date().getHours();
   const greet = h < 12 ? 'Good Morning' : h < 17 ? 'Good Afternoon' : 'Good Evening';
@@ -596,23 +598,23 @@
 
   /* ── SEARCH ── */
   const searchData = [
-    { icon: '🏠', label: 'Dashboard', cat: 'Menu', action: () => {} },
-    { icon: '🏫', label: 'Profil Sekolah', cat: 'Manage', action: () => {} },
-    { icon: '👩‍🏫', label: 'Staff Pengajar & Tenaga Kependidikan', cat: 'Manage', action: () => {} },
-    { icon: '🏗️', label: 'Fasilitas', cat: 'Manage', action: () => window.location.href='Fasilitas.html' },
-    { icon: '🖼️', label: 'Galeri', cat: 'Manage', action: () => {} },
-    { icon: '📅', label: 'Kalender', cat: 'Manage', action: () => {} },
-    { icon: '📋', label: 'PPDB 2027/2028', cat: 'Menu', action: () => {} },
-    { icon: '⚙️', label: 'Settings', cat: 'Pengaturan', action: () => {} },
-    { icon: '👤', label: 'Manage Account', cat: 'Pengaturan', action: () => {} },
-    { icon: '❓', label: 'Help Center', cat: 'Bantuan', action: () => {} },
-    { icon: '📊', label: 'PPDB Stats 2021-2026', cat: 'Statistik', action: () => {} },
-    { icon: '💬', label: 'Recent Reviews', cat: 'Konten', action: () => {} },
-    { icon: '📅', label: 'January Upcoming Event', cat: 'Kalender', action: () => {} },
-    { icon: '📈', label: '2027 Customer Reviews', cat: 'Statistik', action: () => {} },
-    { icon: '🔔', label: 'Notifikasi', cat: 'Info', action: () => toggleNotif() },
-    { icon: '💬', label: 'Saran dan Masukan', cat: 'Info', action: () => openSaran() },
-    { icon: '↩', label: 'Log Out', cat: 'Akun', action: () => confirmLogout() },
+    { icon: '🏠', label: 'Dashboard', cat: 'Menu', href: null },
+    { icon: '🏫', label: 'Profil Sekolah', cat: 'Manage', href: 'Profil-Sekolah.html' },
+    { icon: '👩‍🏫', label: 'Staff Pengajar & Tenaga Kependidikan', cat: 'Manage', href: 'Staff-Pengajar.html' },
+    { icon: '🏗️', label: 'Fasilitas', cat: 'Manage', href: 'Fasilitas.html' },
+    { icon: '🖼️', label: 'Galeri', cat: 'Manage', href: 'Galeri.html' },
+    { icon: '📅', label: 'Kalender', cat: 'Manage', href: 'Kalender.html' },
+    { icon: '📋', label: 'PPDB 2027/2028', cat: 'Menu', href: 'PPDB.html' },
+    { icon: '⚙️', label: 'Settings', cat: 'Pengaturan', href: null },
+    { icon: '👤', label: 'Manage Account', cat: 'Pengaturan', href: null },
+    { icon: '❓', label: 'Help Center', cat: 'Bantuan', href: null },
+    { icon: '📊', label: 'PPDB Stats 2021-2026', cat: 'Statistik', href: null },
+    { icon: '💬', label: 'Recent Reviews', cat: 'Konten', href: null },
+    { icon: '📅', label: 'January Upcoming Event', cat: 'Kalender', href: null },
+    { icon: '📈', label: '2027 Customer Reviews', cat: 'Statistik', href: null },
+    { icon: '🔔', label: 'Notifikasi', cat: 'Info', href: null, action: () => toggleNotif() },
+    { icon: '💬', label: 'Saran dan Masukan', cat: 'Info', href: null, action: () => openSaran() },
+    { icon: '↩', label: 'Log Out', cat: 'Akun', href: null, action: () => confirmLogout() },
   ];
 
   let _filteredResults = [];
@@ -637,7 +639,13 @@
   }
 
   function searchGo(idx) {
-    if (_filteredResults[idx]) _filteredResults[idx].action();
+    const item = _filteredResults[idx];
+    if (!item) return;
+    if (item.href) {
+      window.location.href = item.href;
+    } else if (item.action) {
+      item.action();
+    }
     document.getElementById('searchResults').classList.remove('show');
     document.getElementById('searchInput').value = '';
   }
