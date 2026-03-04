@@ -502,6 +502,19 @@
   </div>
 </div>
 
+<!-- CONFIRM DELETE -->
+<div class="confirm-overlay" id="confirmModal">
+  <div class="confirm-box">
+    <div class="confirm-icon">🗑️</div>
+    <div class="confirm-title">Hapus Section?</div>
+    <div class="confirm-msg">Apakah Anda yakin ingin menghapus section <span id="deleteTargetName">"..."</span>? Tindakan ini tidak dapat dibatalkan.</div>
+    <div class="confirm-btns">
+      <button class="btn-confirm-cancel" onclick="closeConfirm()">Batal</button>
+      <button class="btn-confirm-delete" onclick="doDelete()">Ya, Hapus</button>
+    </div>
+  </div>
+</div>
+
 <!-- LOGOUT MODAL -->
 <div class="logout-overlay" id="logoutModal">
   <div class="logout-card">

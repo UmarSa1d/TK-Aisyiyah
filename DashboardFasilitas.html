@@ -54,9 +54,14 @@
     .content { padding: clamp(16px,3vw,28px); flex: 1; }
     .breadcrumb { font-size: .92rem; color: #888; margin-bottom: 20px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
     .breadcrumb a { color: #00a832; text-decoration: none; font-weight: 600; }
-    .breadcrumb a:hover { text-decoration: underline; }
     .breadcrumb .sep { color: #bbb; }
     .breadcrumb .current { color: #444; font-weight: 600; }
+
+    /* Sync info bar */
+    .sync-info { display: flex; align-items: center; gap: 8px; background: #e8f8e0; border: 1px solid #b0dca0; border-radius: 10px; padding: 10px 16px; margin-bottom: 16px; font-size: .85rem; color: #2a7a2a; }
+    .sync-dot { width: 9px; height: 9px; border-radius: 50%; background: #00cc30; animation: syncPulse 2s infinite; flex-shrink: 0; }
+    @keyframes syncPulse { 0%,100%{opacity:1;} 50%{opacity:.3;} }
+
     .table-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,168,50,.08); border: 1px solid rgba(0,204,48,.08); padding: clamp(14px,2.5vw,22px); }
     .data-table { width: 100%; border-collapse: collapse; }
     .data-table th { font-size: .78rem; color: #999; font-weight: 600; text-align: left; padding: 0 10px 12px; border-bottom: 1.5px solid #f0f0f0; }
@@ -64,8 +69,8 @@
     .data-table tr:hover td { background: #fafff9; }
     .data-table td:first-child { font-weight: 700; color: #222; width: 36px; }
     .desc-cell { color: #aaa !important; font-size: .82rem !important; max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .photo-link { display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px; border: 1px solid #d0e8d0; border-radius: 6px; background: #f4fbf4; color: #444; font-size: .8rem; cursor: pointer; white-space: nowrap; transition: background .2s; }
-    .photo-link:hover { background: #e0f7e0; color: #00a832; }
+    .photo-thumb { width: 48px; height: 36px; object-fit: cover; border-radius: 6px; border: 1px solid #e0ede0; background: #f0f7f0; display: block; }
+    .photo-thumb-placeholder { width: 48px; height: 36px; border-radius: 6px; background: linear-gradient(135deg,#a8e6b0,#00cc30); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
     .btn-edit { padding: 6px 16px; border: none; border-radius: 6px; background: #00cc30; color: #fff; font-size: .8rem; font-weight: 700; cursor: pointer; transition: background .2s; }
     .btn-edit:hover { background: #00b82c; }
     .btn-delete { padding: 6px 16px; border: none; border-radius: 6px; background: #cc0000; color: #fff; font-size: .8rem; font-weight: 700; cursor: pointer; margin-left: 6px; }
@@ -108,6 +113,8 @@
     .form-file-label { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 1.5px dashed #b0d8b0; border-radius: 10px; background: #f4fbf4; cursor: pointer; font-size: .88rem; color: #666; transition: border-color .2s; }
     .form-file-label:hover { border-color: #00cc30; color: #00a832; }
     .form-file-label input { display: none; }
+    .preview-box { display: none; margin-top: 10px; border-radius: 10px; overflow: hidden; }
+    .preview-box img { width: 100%; height: 140px; object-fit: cover; display: block; }
     .edit-modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
     .logout-overlay { display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,.45); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 20px; }
     .logout-overlay.show { display: flex; }
@@ -148,9 +155,9 @@
       <a class="nav-item nav-ppdb" href="DashboardPPDB.html"><span class="nav-icon">📋</span> PPDB 2027/2028</a>
     </nav>
     <div class="sidebar-bottom">
-     <a class="nav-item-sm" href="DashboardSettings.html">⚙️ Settings</a>
+      <a class="nav-item-sm" href="DashboardSettings.html">⚙️ Settings</a>
       <a class="nav-item-sm" href="DashboardManageAccount.html">👤 Manage Account</a>
-      <a class="nav-item-sm active-sm" href="DashboardHelpCenter.html">❓ Help Center</a>
+      <a class="nav-item-sm" href="DashboardHelpCenter.html">❓ Help Center</a>
       <div class="nav-item-sm logout" onclick="confirmLogout()">↩ Log Out</div>
     </div>
   </aside>
@@ -169,22 +176,29 @@
     </div>
     <div class="content">
       <div class="breadcrumb">
-        <a href="Dashboard Admin.html">Dashboard</a>
+        <a href="dashboard_admin.html">Dashboard</a>
         <span class="sep">›</span>
         <span class="current">Fasilitas</span>
       </div>
+
+      <!-- Sync indicator -->
+      <div class="sync-info">
+        <div class="sync-dot"></div>
+        <span>Perubahan di sini akan <strong>otomatis tersinkron</strong> ke section Fasilitas di halaman publik <strong>Galeri.html</strong>.</span>
+      </div>
+
       <div class="table-card">
         <table class="data-table">
           <thead>
-            <tr><th>No</th><th>Name</th><th>Description</th><th>Linked File</th><th style="text-align:right">Action</th></tr>
+            <tr>
+              <th>No</th>
+              <th>Foto</th>
+              <th>Nama Fasilitas</th>
+              <th>Deskripsi</th>
+              <th style="text-align:right">Action</th>
+            </tr>
           </thead>
-          <tbody id="tableBody">
-            <tr><td>1</td><td>Ruang Kelas</td><td class="desc-cell">Lorem ipsum dolor sit amet, consectetur ...</td><td><span class="photo-link">🔗 1 Photo</span></td><td style="text-align:right"><button class="btn-edit" onclick="openEdit(this,'Ruang Kelas','Lorem ipsum dolor sit amet, consectetur adipiscing elit.')">Edit</button><button class="btn-delete" onclick="confirmDelete(this)">Delete</button></td></tr>
-            <tr><td>2</td><td>Area Bermain</td><td class="desc-cell">Lorem ipsum dolor sit amet, consectetur ...</td><td><span class="photo-link">🔗 1 Photo</span></td><td style="text-align:right"><button class="btn-edit" onclick="openEdit(this,'Area Bermain','Lorem ipsum dolor sit amet, consectetur adipiscing elit.')">Edit</button><button class="btn-delete" onclick="confirmDelete(this)">Delete</button></td></tr>
-            <tr><td>3</td><td>Kamar Mandi</td><td class="desc-cell">Lorem ipsum dolor sit amet, consectetur ...</td><td><span class="photo-link">🔗 1 Photo</span></td><td style="text-align:right"><button class="btn-edit" onclick="openEdit(this,'Kamar Mandi','Lorem ipsum dolor sit amet, consectetur adipiscing elit.')">Edit</button><button class="btn-delete" onclick="confirmDelete(this)">Delete</button></td></tr>
-            <tr><td>4</td><td>UKS dan Sanitasi</td><td class="desc-cell">Lorem ipsum dolor sit amet, consectetur ...</td><td><span class="photo-link">🔗 1 Photo</span></td><td style="text-align:right"><button class="btn-edit" onclick="openEdit(this,'UKS dan Sanitasi','Lorem ipsum dolor sit amet, consectetur adipiscing elit.')">Edit</button><button class="btn-delete" onclick="confirmDelete(this)">Delete</button></td></tr>
-            <tr><td>5</td><td>Ruang Guru</td><td class="desc-cell">Lorem ipsum dolor sit amet, consectetur ...</td><td><span class="photo-link">🔗 1 Photo</span></td><td style="text-align:right"><button class="btn-edit" onclick="openEdit(this,'Ruang Guru','Lorem ipsum dolor sit amet, consectetur adipiscing elit.')">Edit</button><button class="btn-delete" onclick="confirmDelete(this)">Delete</button></td></tr>
-          </tbody>
+          <tbody id="tableBody"></tbody>
         </table>
         <button class="btn-add-more" onclick="openAdd()">+ add more</button>
       </div>
@@ -192,6 +206,7 @@
   </div>
 </div>
 
+<!-- NOTIF -->
 <div class="notif-panel" id="notifPanel">
   <div class="notif-panel-title">🔔 Notifikasi</div>
   <div class="notif-item"><span>PPDB Baru:</span> 3 pendaftar baru hari ini</div>
@@ -199,6 +214,7 @@
   <div class="notif-item"><span>Event:</span> Outing Class tinggal 6 hari lagi</div>
 </div>
 
+<!-- SARAN -->
 <div class="modal-overlay" id="saranModal">
   <div class="modal-box">
     <div class="modal-title">💬 Saran dan Masukan</div>
@@ -207,16 +223,44 @@
   </div>
 </div>
 
+<!-- EDIT / ADD MODAL -->
 <div class="edit-modal-overlay" id="editModal">
   <div class="edit-modal-box">
     <div class="edit-modal-title" id="editTitle">✏️ Edit Fasilitas</div>
-    <div class="form-group"><label class="form-label">Nama Fasilitas</label><input class="form-input" id="editNama" /></div>
-    <div class="form-group"><label class="form-label">Deskripsi</label><textarea class="form-input" id="editDesc" style="height:80px;resize:none"></textarea></div>
-    <div class="form-group"><label class="form-label">Foto</label><label class="form-file-label">📎 Upload Foto Baru <input type="file" accept="image/*" /></label></div>
-    <div class="edit-modal-actions"><button class="btn-cancel" onclick="closeEdit()">Batal</button><button class="btn-submit" onclick="saveEdit()">Simpan</button></div>
+    <div class="form-group">
+      <label class="form-label">Nama Fasilitas</label>
+      <input class="form-input" id="editNama" placeholder="Contoh: Ruang Kelas Sekolah" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Deskripsi</label>
+      <textarea class="form-input" id="editDesc" style="height:80px;resize:none" placeholder="Deskripsi singkat fasilitas..."></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Foto</label>
+      <label class="form-file-label">📎 Upload Foto <input type="file" accept="image/*" id="fileInput" onchange="previewFile(this)" /></label>
+    </div>
+    <div class="preview-box" id="previewBox"><img id="previewImg" src="" alt="preview" /></div>
+    <div class="edit-modal-actions">
+      <button class="btn-cancel" onclick="closeEdit()">Batal</button>
+      <button class="btn-submit" onclick="saveEdit()">Simpan & Sync</button>
+    </div>
   </div>
 </div>
 
+<!-- CONFIRM DELETE -->
+<div class="confirm-overlay" id="confirmModal">
+  <div class="confirm-box">
+    <div class="confirm-icon">🗑️</div>
+    <div class="confirm-title">Hapus Section?</div>
+    <div class="confirm-msg">Apakah Anda yakin ingin menghapus section <span id="deleteTargetName">"..."</span>? Tindakan ini tidak dapat dibatalkan.</div>
+    <div class="confirm-btns">
+      <button class="btn-confirm-cancel" onclick="closeConfirm()">Batal</button>
+      <button class="btn-confirm-delete" onclick="doDelete()">Ya, Hapus</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOGOUT -->
 <div class="logout-overlay" id="logoutModal">
   <div class="logout-card">
     <div class="logout-logo"><img src="LogoTk.png" alt="Logo" onerror="this.parentElement.innerHTML='🏫'" /></div>
@@ -228,37 +272,186 @@
 </div>
 
 <script>
-  let _editRow=null,_isAdd=false;
+  /* ===== STORAGE ===== */
+  const FASILITAS_KEY = 'tk_aisyiyah_fasilitas_v1';
+
+  const DEFAULT_FASILITAS = [
+    { id:1, nama:'Ruang Kelas Sekolah',  desc:'Ruang kelas adalah tempat belajar di sekolah yang nyaman dan terang. Di ruang kelas ada meja, kursi, kipas angin, karpet, papan tulis, alat tulis dan alat permainan edukatif.', img:'Fasilitas_Full.png' },
+    { id:2, nama:'Halaman Sekolah',       desc:'Halaman adalah bagian luar dari sekolah yang luas, indah dan segar. Di halaman, kita bisa bermain, berlari, atau menanam bunga dan pohon.',                               img:'Halaman.png' },
+    { id:3, nama:'Aula Sekolah',          desc:'Aula adalah ruangan yang besar dan luas di dalam sebuah gedung, digunakan untuk acara besar, pentas seni, dan pertemuan orang tua.',                                     img:'berkumpul.jpg' },
+    { id:4, nama:'TV Sekolah',            desc:'TV yang besar dan lebar sebagai media pembelajaran visual yang interaktif untuk konten edukatif dan mendukung proses belajar mengajar.',                                  img:'Nonton.png' },
+    { id:5, nama:'Perpustakaan Sekolah',  desc:'Perpustakaan adalah tempat yang penuh dengan buku cerita, buku bergambar, dan buku pelajaran untuk mengembangkan minat baca sejak dini.',                                img:'IMG-20260205-WA0019 (1) 1.png' },
+    { id:6, nama:'Area Bermain',          desc:'Area bermain yang aman dan menyenangkan dirancang khusus untuk mendukung perkembangan motorik dan kreativitas anak.',                                                     img:'IMG-20260205-WA0021 1.png' },
+  ];
+
+  function loadFasilitas() {
+    try { const r = localStorage.getItem(FASILITAS_KEY); return r ? JSON.parse(r) : null; } catch(e) { return null; }
+  }
+  function saveFasilitas(data) {
+    try { localStorage.setItem(FASILITAS_KEY, JSON.stringify(data)); } catch(e) {}
+  }
+  function getFasilitas() {
+    return loadFasilitas() || JSON.parse(JSON.stringify(DEFAULT_FASILITAS));
+  }
+
+  /* ===== RENDER TABLE ===== */
+  let _editIdx = null, _isAdd = false;
+
+  function renderTable() {
+    const data = getFasilitas();
+    const tbody = document.getElementById('tableBody');
+    tbody.innerHTML = data.map((item, idx) => `
+      <tr>
+        <td>${idx + 1}</td>
+        <td>
+          ${item.img && (item.img.startsWith('data:') || item.img.includes('.'))
+            ? `<img class="photo-thumb" src="${item.img}" alt="${item.nama}" onerror="this.style.display='none';this.nextSibling.style.display='flex'" /><div class="photo-thumb-placeholder" style="display:none;">🏫</div>`
+            : `<div class="photo-thumb-placeholder">🏫</div>`
+          }
+        </td>
+        <td><strong>${escHtml(item.nama)}</strong></td>
+        <td class="desc-cell">${escHtml(item.desc)}</td>
+        <td style="text-align:right">
+          <button class="btn-edit" onclick="openEdit(${idx})">Edit</button>
+          <button class="btn-delete" onclick="deleteRow(${idx})">Delete</button>
+        </td>
+      </tr>`).join('');
+  }
+
+  function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  /* ===== OPEN EDIT ===== */
+  function openEdit(idx) {
+    _editIdx = idx; _isAdd = false;
+    const data = getFasilitas();
+    const item = data[idx];
+    document.getElementById('editTitle').textContent = '✏️ Edit Fasilitas';
+    document.getElementById('editNama').value = item.nama;
+    document.getElementById('editDesc').value = item.desc;
+    document.getElementById('previewBox').style.display = 'none';
+    document.getElementById('fileInput').value = '';
+    // Show current photo as preview if it's a data URL
+    if (item.img && item.img.startsWith('data:')) {
+      document.getElementById('previewImg').src = item.img;
+      document.getElementById('previewBox').style.display = 'block';
+    }
+    document.getElementById('editModal').classList.add('show');
+  }
+
+  /* ===== OPEN ADD ===== */
+  function openAdd() {
+    _editIdx = null; _isAdd = true;
+    document.getElementById('editTitle').textContent = '➕ Tambah Fasilitas Baru';
+    document.getElementById('editNama').value = '';
+    document.getElementById('editDesc').value = '';
+    document.getElementById('previewBox').style.display = 'none';
+    document.getElementById('fileInput').value = '';
+    document.getElementById('editModal').classList.add('show');
+  }
+
+  /* ===== DELETE ===== */
+  function deleteRow(idx) {
+    if (!confirm('Hapus fasilitas ini? Perubahan akan langsung terlihat di Galeri.html.')) return;
+    const data = getFasilitas();
+    data.splice(idx, 1);
+    saveFasilitas(data);
+    renderTable();
+    showToast('🗑️ Fasilitas dihapus dan Galeri.html diperbarui!');
+  }
+
+  /* ===== PREVIEW FILE ===== */
+  function previewFile(input) {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        document.getElementById('previewImg').src = e.target.result;
+        document.getElementById('previewBox').style.display = 'block';
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  function closeEdit() { document.getElementById('editModal').classList.remove('show'); }
+
+  /* ===== SAVE (sync ke localStorage → Galeri.html baca ini) ===== */
+  function saveEdit() {
+    const nama = document.getElementById('editNama').value.trim();
+    const desc = document.getElementById('editDesc').value.trim();
+    const file = document.getElementById('fileInput').files[0];
+
+    if (!nama) { alert('Harap isi nama fasilitas!'); return; }
+
+    const data = getFasilitas();
+
+    const doSave = (imgSrc) => {
+      if (_isAdd) {
+        data.push({ id: Date.now(), nama, desc, img: imgSrc || '' });
+      } else {
+        data[_editIdx].nama = nama;
+        data[_editIdx].desc = desc;
+        if (imgSrc) data[_editIdx].img = imgSrc;
+      }
+      saveFasilitas(data);
+      renderTable();
+      closeEdit();
+      showToast('✅ Fasilitas disimpan dan Galeri.html sudah tersinkron!');
+    };
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = e => doSave(e.target.result);
+      reader.readAsDataURL(file);
+    } else {
+      doSave(null);
+    }
+  }
+
+  document.getElementById('editModal').addEventListener('click', e => { if(e.target===document.getElementById('editModal')) closeEdit(); });
+
+  /* ===== TOAST ===== */
+  function showToast(msg) {
+    let t = document.getElementById('toastMsg');
+    if (!t) {
+      t = document.createElement('div'); t.id = 'toastMsg';
+      t.style.cssText = 'position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(60px);background:linear-gradient(135deg,#00af29,#00cc30);color:#fff;padding:13px 28px;border-radius:100px;font-size:.92rem;font-weight:700;box-shadow:0 8px 28px rgba(0,204,48,.4);z-index:99999;transition:transform .4s cubic-bezier(.22,1,.36,1),opacity .4s;opacity:0;pointer-events:none;white-space:nowrap;';
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.style.transform = 'translateX(-50%) translateY(0)'; t.style.opacity = '1';
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => { t.style.transform = 'translateX(-50%) translateY(60px)'; t.style.opacity = '0'; }, 3500);
+  }
+
+  /* ===== SIDEBAR ===== */
   function toggleSidebar(){const s=document.getElementById('sidebar'),o=document.getElementById('sidebarOverlay'),b=document.getElementById('hamburgerBtn');const open=s.classList.toggle('open');o.classList.toggle('show',open);b.classList.toggle('open',open);document.body.style.overflow=open?'hidden':'';}
   function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebarOverlay').classList.remove('show');document.getElementById('hamburgerBtn').classList.remove('open');document.body.style.overflow='';}
   function toggleManage(){document.getElementById('manageDropdown').classList.toggle('open');document.getElementById('manageArrow').classList.toggle('open');}
-  function openEdit(btn,nama,desc){_editRow=btn.closest('tr');_isAdd=false;document.getElementById('editTitle').textContent='✏️ Edit Fasilitas';document.getElementById('editNama').value=nama;document.getElementById('editDesc').value=desc;document.getElementById('editModal').classList.add('show');}
-  function openAdd(){_editRow=null;_isAdd=true;document.getElementById('editTitle').textContent='➕ Tambah Fasilitas Baru';document.getElementById('editNama').value='';document.getElementById('editDesc').value='';document.getElementById('editModal').classList.add('show');}
-  function closeEdit(){document.getElementById('editModal').classList.remove('show');}
-  function saveEdit(){
-    const nama=document.getElementById('editNama').value,desc=document.getElementById('editDesc').value;
-    if(!nama){alert('Harap isi nama fasilitas!');return;}
-    if(_isAdd){const tbody=document.getElementById('tableBody');const no=tbody.rows.length+1;const tr=document.createElement('tr');tr.innerHTML=`<td>${no}</td><td>${nama}</td><td class="desc-cell">${desc.substring(0,40)}...</td><td><span class="photo-link">🔗 1 Photo</span></td><td style="text-align:right"><button class="btn-edit" onclick="openEdit(this,'${nama}','${desc}')">Edit</button><button class="btn-delete" onclick="confirmDelete(this)">Delete</button></td>`;tbody.appendChild(tr);}
-    else if(_editRow){_editRow.cells[1].textContent=nama;_editRow.cells[2].textContent=desc.substring(0,40)+'...';}
-    alert('✅ Data berhasil disimpan!');closeEdit();
-  }
-  document.getElementById('editModal').addEventListener('click',e=>{if(e.target===document.getElementById('editModal'))closeEdit();});
-  function confirmDelete(btn){if(!confirm('Hapus data ini?'))return;const row=btn.closest('tr');row.style.transition='opacity .3s';row.style.opacity='0';setTimeout(()=>{row.remove();document.querySelectorAll('#tableBody tr').forEach((r,i)=>{r.cells[0].textContent=i+1;});},300);}
+
+  /* ===== NOTIF ===== */
   function toggleNotif(){document.getElementById('notifPanel').classList.toggle('show');}
   document.addEventListener('click',e=>{if(!e.target.closest('.btn-notif')&&!e.target.closest('.notif-panel'))document.getElementById('notifPanel').classList.remove('show');});
+
+  /* ===== SARAN ===== */
   function openSaran(){document.getElementById('saranModal').classList.add('show');}
   function closeSaran(){document.getElementById('saranModal').classList.remove('show');}
   function submitSaran(){alert('Saran berhasil dikirim! Terima kasih 😊');closeSaran();}
   document.getElementById('saranModal').addEventListener('click',e=>{if(e.target===document.getElementById('saranModal'))closeSaran();});
+
+  /* ===== LOGOUT ===== */
   function confirmLogout(){document.getElementById('logoutModal').classList.add('show');}
   function doLogout(){window.location.href='Login-Admin.html';}
   function closeLogout(){document.getElementById('logoutModal').classList.remove('show');}
-  const searchData=[{icon:'🏠',label:'Dashboard',cat:'Menu',href:'Dashboard Admin.html'},{icon:'🏫',label:'Profil Sekolah',cat:'Manage',href:'Profil-Sekolah.html'},{icon:'👩‍🏫',label:'Staff Pengajar & Tenaga Kependidikan',cat:'Manage',href:'Staff-Pengajar.html'},{icon:'🏗️',label:'Fasilitas',cat:'Manage',href:'Fasilitas.html'},{icon:'🖼️',label:'Galeri',cat:'Manage',href:'Galeri.html'},{icon:'📅',label:'Kalender',cat:'Manage',href:'Kalender.html'},{icon:'📋',label:'PPDB 2027/2028',cat:'Menu',href:'PPDB.html'}];
+
+  /* ===== SEARCH ===== */
+  const searchData=[{icon:'🏠',label:'Dashboard',cat:'Menu',href:'dashboard_admin.html'},{icon:'🏫',label:'Profil Sekolah',cat:'Manage',href:'DashboardProfilSekolah.html'},{icon:'👩‍🏫',label:'Staff Pengajar',cat:'Manage',href:'DashboardStaff-Pengajar.html'},{icon:'🏗️',label:'Fasilitas',cat:'Manage',href:'DashboardFasilitas.html'},{icon:'🖼️',label:'Galeri',cat:'Manage',href:'DashboardGaleri.html'},{icon:'📅',label:'Kalender',cat:'Manage',href:'DashboardKalender.html'},{icon:'📋',label:'PPDB 2027/2028',cat:'Menu',href:'DashboardPPDB.html'}];
   let _filtered=[];
   function doSearch(val){const box=document.getElementById('searchResults'),q=val.trim().toLowerCase();if(!q){box.classList.remove('show');box.innerHTML='';return;}_filtered=searchData.filter(d=>d.label.toLowerCase().includes(q));box.innerHTML=_filtered.length?_filtered.map((d,i)=>`<div class="search-result-item" onclick="searchGo(${i})"><span class="search-result-icon">${d.icon}</span><span class="search-result-label">${d.label.replace(new RegExp(val.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),m=>'<strong>'+m+'</strong>')}</span><span class="search-result-cat">${d.cat}</span></div>`).join(''):'<div class="search-empty">😕 Tidak ada hasil</div>';box.classList.add('show');}
   function searchGo(i){if(_filtered[i].href)window.location.href=_filtered[i].href;document.getElementById('searchResults').classList.remove('show');document.getElementById('searchInput').value='';}
   document.addEventListener('click',e=>{if(!e.target.closest('.search-wrap'))document.getElementById('searchResults').classList.remove('show');});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSaran();closeLogout();closeSidebar();closeEdit();}});
+
+  /* ===== INIT ===== */
+  renderTable();
 </script>
 </body>
 </html>

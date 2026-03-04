@@ -58,14 +58,20 @@
     .breadcrumb a:hover { text-decoration: underline; }
     .breadcrumb .sep { color: #bbb; }
     .breadcrumb .current { color: #444; font-weight: 600; }
+
+    /* SYNC INDICATOR */
+    .sync-info { background: linear-gradient(102deg,#e8fff0,#f0fff4); border: 1.5px solid #00cc30; border-radius: 12px; padding: 12px 18px; margin-bottom: 20px; font-size: .85rem; color: #00a832; display: flex; align-items: center; gap: 10px; }
+    .sync-info .sync-dot { width: 10px; height: 10px; background: #00cc30; border-radius: 50%; animation: syncPulse 2s infinite; flex-shrink: 0; }
+    @keyframes syncPulse { 0%,100%{box-shadow:0 0 0 0 rgba(0,204,48,.5);}50%{box-shadow:0 0 0 6px rgba(0,204,48,0);} }
+
     .table-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,168,50,.08); border: 1px solid rgba(0,204,48,.08); padding: clamp(14px,2.5vw,22px); }
     .data-table { width: 100%; border-collapse: collapse; }
     .data-table th { font-size: .78rem; color: #999; font-weight: 600; text-align: left; padding: 0 10px 12px; border-bottom: 1.5px solid #f0f0f0; }
     .data-table td { padding: 11px 10px; font-size: .88rem; color: #444; border-top: 1px solid #f5f5f5; vertical-align: middle; }
     .data-table tr:hover td { background: #fafff9; }
     .data-table td:first-child { font-weight: 700; color: #222; width: 36px; }
-    .photo-link { display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px; border: 1px solid #d0e8d0; border-radius: 6px; background: #f4fbf4; color: #444; font-size: .8rem; cursor: pointer; white-space: nowrap; transition: background .2s; }
-    .photo-link:hover { background: #e0f7e0; color: #00a832; }
+    .staff-thumb { width: 44px; height: 44px; border-radius: 10px; object-fit: cover; background: #e8f5e8; border: 1px solid #d0e8d0; }
+    .staff-thumb-placeholder { width: 44px; height: 44px; border-radius: 10px; background: linear-gradient(135deg,#00af29,#00cc30); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #fff; }
     .btn-edit { padding: 6px 16px; border: none; border-radius: 6px; background: #00cc30; color: #fff; font-size: .8rem; font-weight: 700; cursor: pointer; transition: background .2s; }
     .btn-edit:hover { background: #00b82c; }
     .btn-delete { padding: 6px 16px; border: none; border-radius: 6px; background: #cc0000; color: #fff; font-size: .8rem; font-weight: 700; cursor: pointer; margin-left: 6px; }
@@ -99,7 +105,7 @@
     .btn-submit { padding: 9px 20px; border: none; border-radius: 8px; background: linear-gradient(102deg,#00af29,#00cc30); color: #fff; cursor: pointer; font-size: .9rem; font-weight: 600; }
     .edit-modal-overlay { display: none; position: fixed; inset: 0; z-index: 998; background: rgba(0,0,0,.4); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 20px; }
     .edit-modal-overlay.show { display: flex; }
-    .edit-modal-box { background: #fff; border-radius: 18px; padding: 28px 32px; width: 100%; max-width: 480px; box-shadow: 0 20px 60px rgba(0,0,0,.2); animation: popIn .3s cubic-bezier(.22,1,.36,1); }
+    .edit-modal-box { background: #fff; border-radius: 18px; padding: 28px 32px; width: 100%; max-width: 480px; box-shadow: 0 20px 60px rgba(0,0,0,.2); animation: popIn .3s cubic-bezier(.22,1,.36,1); max-height: 90vh; overflow-y: auto; }
     .edit-modal-title { font-size: 1.05rem; font-weight: 700; color: #00a832; margin-bottom: 18px; }
     .form-group { margin-bottom: 14px; }
     .form-label { font-size: .82rem; color: #666; font-weight: 600; margin-bottom: 6px; display: block; }
@@ -108,6 +114,7 @@
     .form-file-label { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 1.5px dashed #b0d8b0; border-radius: 10px; background: #f4fbf4; cursor: pointer; font-size: .88rem; color: #666; transition: border-color .2s; }
     .form-file-label:hover { border-color: #00cc30; color: #00a832; }
     .form-file-label input { display: none; }
+    .preview-img { width: 100%; max-height: 180px; object-fit: cover; border-radius: 10px; margin-top: 10px; display: none; border: 1.5px solid #d0e8d0; }
     .edit-modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
     .logout-overlay { display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,.45); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 20px; }
     .logout-overlay.show { display: flex; }
@@ -120,8 +127,10 @@
     .logout-btn-confirm:hover { transform: translateY(-2px); }
     .logout-btn-cancel { width: 100%; padding: 12px; border: 1px solid rgba(255,255,255,.35); border-radius: 10px; background: rgba(255,255,255,.1); color: rgba(255,255,255,.85); font-size: .9rem; font-weight: 500; cursor: pointer; }
     .logout-btn-cancel:hover { background: rgba(255,255,255,.2); }
+    .toast-notif { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(60px); background: linear-gradient(135deg,#00af29,#00cc30); color: white; padding: 12px 28px; border-radius: 100px; font-size: .92rem; font-weight: 700; box-shadow: 0 8px 28px rgba(0,204,48,.4); z-index: 99999; transition: transform .4s cubic-bezier(.22,1,.36,1), opacity .4s; opacity: 0; pointer-events: none; white-space: nowrap; }
+    .toast-notif.show { transform: translateX(-50%) translateY(0); opacity: 1; }
     @media (max-width: 768px) { .sidebar { transform: translateX(-100%); } .sidebar.open { transform: translateX(0); } .main { margin-left: 0; } .hamburger-btn { display: flex; } }
-    @media (max-width: 480px) { .topbar { padding: 10px 12px; gap: 8px; } .content { padding: 14px; } .data-table th:nth-child(3), .data-table td:nth-child(3) { display: none; } }
+    @media (max-width: 480px) { .topbar { padding: 10px 12px; gap: 8px; } .content { padding: 14px; } }
   </style>
 </head>
 <body>
@@ -148,9 +157,9 @@
       <a class="nav-item nav-ppdb" href="DashboardPPDB.html"><span class="nav-icon">📋</span> PPDB 2027/2028</a>
     </nav>
     <div class="sidebar-bottom">
-     <a class="nav-item-sm" href="DashboardSettings.html">⚙️ Settings</a>
+      <a class="nav-item-sm" href="DashboardSettings.html">⚙️ Settings</a>
       <a class="nav-item-sm" href="DashboardManageAccount.html">👤 Manage Account</a>
-      <a class="nav-item-sm active-sm" href="DashboardHelpCenter.html">❓ Help Center</a>
+      <a class="nav-item-sm" href="DashboardHelpCenter.html">❓ Help Center</a>
       <div class="nav-item-sm logout" onclick="confirmLogout()">↩ Log Out</div>
     </div>
   </aside>
@@ -169,28 +178,30 @@
     </div>
     <div class="content">
       <div class="breadcrumb">
-        <a href="Dashboard Admin.html">Dashboard</a>
+        <a href="dashboard_admin.html">Dashboard</a>
         <span class="sep">›</span>
         <span class="current">Staff Pengajar & Tenaga Kependidikan</span>
       </div>
+
+      <div class="sync-info">
+        <div class="sync-dot"></div>
+        <span>Perubahan di sini akan otomatis tersinkron ke section <strong>Staff Pengajar</strong> di halaman publik <strong>profil_sekolah.html</strong></span>
+      </div>
+
       <div class="table-card">
         <table class="data-table">
           <thead>
-            <tr><th>No</th><th>Title</th><th>Name</th><th>Linked File</th><th style="text-align:right">Action</th></tr>
+            <tr><th>No</th><th>Foto</th><th>Jabatan</th><th>Nama</th><th style="text-align:right">Action</th></tr>
           </thead>
-          <tbody id="tableBody">
-            <tr><td>1</td><td>Kepala Sekolah</td><td>Lorem ipsum dolor</td><td><span class="photo-link">🔗 1 Photo</span></td><td style="text-align:right"><button class="btn-edit" onclick="openEdit(this,'Kepala Sekolah','Lorem ipsum dolor')">Edit</button><button class="btn-delete" onclick="confirmDelete(this)">Delete</button></td></tr>
-            <tr><td>2</td><td>Guru Kelas</td><td>Lorem ipsum dolor</td><td><span class="photo-link">🔗 1 Photo</span></td><td style="text-align:right"><button class="btn-edit" onclick="openEdit(this,'Guru Kelas','Lorem ipsum dolor')">Edit</button><button class="btn-delete" onclick="confirmDelete(this)">Delete</button></td></tr>
-            <tr><td>3</td><td>Guru Kelas</td><td>Lorem ipsum dolor</td><td><span class="photo-link">🔗 1 Photo</span></td><td style="text-align:right"><button class="btn-edit" onclick="openEdit(this,'Guru Kelas','Lorem ipsum dolor')">Edit</button><button class="btn-delete" onclick="confirmDelete(this)">Delete</button></td></tr>
-            <tr><td>4</td><td>Guru Pendamping</td><td>Lorem ipsum dolor</td><td><span class="photo-link">🔗 1 Photo</span></td><td style="text-align:right"><button class="btn-edit" onclick="openEdit(this,'Guru Pendamping','Lorem ipsum dolor')">Edit</button><button class="btn-delete" onclick="confirmDelete(this)">Delete</button></td></tr>
-          </tbody>
+          <tbody id="tableBody"></tbody>
         </table>
-        <button class="btn-add-more" onclick="openAdd()">+ add more</button>
+        <button class="btn-add-more" onclick="openAdd()">+ Tambah Staff</button>
       </div>
     </div>
   </div>
 </div>
 
+<!-- NOTIF PANEL -->
 <div class="notif-panel" id="notifPanel">
   <div class="notif-panel-title">🔔 Notifikasi</div>
   <div class="notif-item"><span>PPDB Baru:</span> 3 pendaftar baru hari ini</div>
@@ -198,6 +209,7 @@
   <div class="notif-item"><span>Event:</span> Outing Class tinggal 6 hari lagi</div>
 </div>
 
+<!-- SARAN MODAL -->
 <div class="modal-overlay" id="saranModal">
   <div class="modal-box">
     <div class="modal-title">💬 Saran dan Masukan</div>
@@ -206,16 +218,24 @@
   </div>
 </div>
 
+<!-- EDIT / ADD MODAL -->
 <div class="edit-modal-overlay" id="editModal">
   <div class="edit-modal-box">
     <div class="edit-modal-title" id="editTitle">✏️ Edit Staff</div>
-    <div class="form-group"><label class="form-label">Title / Jabatan</label><input class="form-input" id="editJabatan" /></div>
-    <div class="form-group"><label class="form-label">Nama Lengkap</label><input class="form-input" id="editNama" /></div>
-    <div class="form-group"><label class="form-label">Foto</label><label class="form-file-label">📎 Upload Foto Baru <input type="file" accept="image/*" /></label></div>
-    <div class="edit-modal-actions"><button class="btn-cancel" onclick="closeEdit()">Batal</button><button class="btn-submit" onclick="saveEdit()">Simpan</button></div>
+    <div class="form-group"><label class="form-label">Jabatan</label><input class="form-input" id="editJabatan" placeholder="cth: Kepala Sekolah" /></div>
+    <div class="form-group"><label class="form-label">Nama Lengkap</label><input class="form-input" id="editNama" placeholder="cth: Parliyah, S.Pd, Gr" /></div>
+    <div class="form-group">
+      <label class="form-label">Foto</label>
+      <label class="form-file-label">📎 Upload Foto Baru <input type="file" id="editFotoInput" accept="image/*" onchange="previewFoto(this)" /></label>
+      <img id="editFotoPreview" class="preview-img" alt="Preview" />
+      <input type="hidden" id="editFotoData" />
+      <input type="hidden" id="editFotoSrc" />
+    </div>
+    <div class="edit-modal-actions"><button class="btn-cancel" onclick="closeEdit()">Batal</button><button class="btn-submit" onclick="saveEdit()">Simpan & Sync</button></div>
   </div>
 </div>
 
+<!-- LOGOUT MODAL -->
 <div class="logout-overlay" id="logoutModal">
   <div class="logout-card">
     <div class="logout-logo"><img src="LogoTk.png" alt="Logo" onerror="this.parentElement.innerHTML='🏫'" /></div>
@@ -226,47 +246,162 @@
   </div>
 </div>
 
+<div class="toast-notif" id="toastNotif"></div>
+
 <script>
-  let _editRow=null, _isAdd=false;
-  function toggleSidebar(){const s=document.getElementById('sidebar'),o=document.getElementById('sidebarOverlay'),b=document.getElementById('hamburgerBtn');const open=s.classList.toggle('open');o.classList.toggle('show',open);b.classList.toggle('open',open);document.body.style.overflow=open?'hidden':'';}
-  function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebarOverlay').classList.remove('show');document.getElementById('hamburgerBtn').classList.remove('open');document.body.style.overflow='';}
-  function toggleManage(){document.getElementById('manageDropdown').classList.toggle('open');document.getElementById('manageArrow').classList.toggle('open');}
-  function openEdit(btn,jabatan,nama){_editRow=btn.closest('tr');_isAdd=false;document.getElementById('editTitle').textContent='✏️ Edit Staff';document.getElementById('editJabatan').value=jabatan;document.getElementById('editNama').value=nama;document.getElementById('editModal').classList.add('show');}
-  function openAdd(){_editRow=null;_isAdd=true;document.getElementById('editTitle').textContent='➕ Tambah Staff Baru';document.getElementById('editJabatan').value='';document.getElementById('editNama').value='';document.getElementById('editModal').classList.add('show');}
-  function closeEdit(){document.getElementById('editModal').classList.remove('show');}
-  function saveEdit(){
-    const jabatan=document.getElementById('editJabatan').value;
-    const nama=document.getElementById('editNama').value;
-    if(!jabatan||!nama){alert('Harap isi semua field!');return;}
-    if(_isAdd){
-      const tbody=document.getElementById('tableBody');
-      const no=tbody.rows.length+1;
-      const tr=document.createElement('tr');
-      tr.innerHTML=`<td>${no}</td><td>${jabatan}</td><td>${nama}</td><td><span class="photo-link">🔗 1 Photo</span></td><td style="text-align:right"><button class="btn-edit" onclick="openEdit(this,'${jabatan}','${nama}')">Edit</button><button class="btn-delete" onclick="confirmDelete(this)">Delete</button></td>`;
-      tbody.appendChild(tr);
-    } else if(_editRow){
-      _editRow.cells[1].textContent=jabatan;
-      _editRow.cells[2].textContent=nama;
-    }
-    alert('✅ Data berhasil disimpan!');closeEdit();
+  /* ===== STORAGE KEY ===== */
+  const STAFF_KEY = 'tk_aisyiyah_staff_v1';
+
+  /* ===== DEFAULT DATA (sama persis dengan profil_sekolah.html asli) ===== */
+  const DEFAULT_STAFF = [
+    { id:1, jabatan:'Kepala Sekolah',                nama:'Parliyah, S.Pd, Gr',          src:'1.png' },
+    { id:2, jabatan:'Operator',                       nama:'Nur Wahyu Widodo',             src:'2.png' },
+    { id:3, jabatan:'TU',                             nama:'Fatimah Salsabila',            src:'8.png' },
+    { id:4, jabatan:'Guru / Wali Kelas',              nama:'Nur Octaviani',                src:'3.png' },
+    { id:5, jabatan:'Guru / Wali Kelas',              nama:'Mila Manne, S.Sos, S.Pd, Gr', src:'4.png' },
+    { id:6, jabatan:'Guru / Wali Kelas',              nama:'Anggi Mutiara',                src:'5.png' },
+    { id:7, jabatan:'Guru / Wali Kelas',              nama:'Marwa, AMD',                   src:'6.png' },
+    { id:8, jabatan:'Guru / Wali Kelas',              nama:'Yurdayin Aliah',               src:'7.png' },
+  ];
+
+  function getStaff() {
+    try { const r = localStorage.getItem(STAFF_KEY); return r ? JSON.parse(r) : DEFAULT_STAFF; } catch(e) { return DEFAULT_STAFF; }
   }
-  document.getElementById('editModal').addEventListener('click',e=>{if(e.target===document.getElementById('editModal'))closeEdit();});
-  function confirmDelete(btn){if(!confirm('Hapus data ini?'))return;const row=btn.closest('tr');row.style.transition='opacity .3s';row.style.opacity='0';setTimeout(()=>{row.remove();document.querySelectorAll('#tableBody tr').forEach((r,i)=>{r.cells[0].textContent=i+1;});},300);}
-  function toggleNotif(){document.getElementById('notifPanel').classList.toggle('show');}
-  document.addEventListener('click',e=>{if(!e.target.closest('.btn-notif')&&!e.target.closest('.notif-panel'))document.getElementById('notifPanel').classList.remove('show');});
-  function openSaran(){document.getElementById('saranModal').classList.add('show');}
-  function closeSaran(){document.getElementById('saranModal').classList.remove('show');}
-  function submitSaran(){alert('Saran berhasil dikirim! Terima kasih 😊');closeSaran();}
-  document.getElementById('saranModal').addEventListener('click',e=>{if(e.target===document.getElementById('saranModal'))closeSaran();});
-  function confirmLogout(){document.getElementById('logoutModal').classList.add('show');}
-  function doLogout(){window.location.href='Login-Admin.html';}
-  function closeLogout(){document.getElementById('logoutModal').classList.remove('show');}
-  const searchData=[{icon:'🏠',label:'Dashboard',cat:'Menu',href:'Dashboard Admin.html'},{icon:'🏫',label:'Profil Sekolah',cat:'Manage',href:'Profil-Sekolah.html'},{icon:'👩‍🏫',label:'Staff Pengajar & Tenaga Kependidikan',cat:'Manage',href:'Staff-Pengajar.html'},{icon:'🏗️',label:'Fasilitas',cat:'Manage',href:'Fasilitas.html'},{icon:'🖼️',label:'Galeri',cat:'Manage',href:'Galeri.html'},{icon:'📅',label:'Kalender',cat:'Manage',href:'Kalender.html'},{icon:'📋',label:'PPDB 2027/2028',cat:'Menu',href:'PPDB.html'}];
+  function saveStaff(list) {
+    try { localStorage.setItem(STAFF_KEY, JSON.stringify(list)); } catch(e) {}
+  }
+  function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  /* ===== RENDER TABLE ===== */
+  function renderTable() {
+    const list = getStaff();
+    const tbody = document.getElementById('tableBody');
+    tbody.innerHTML = list.map((item, idx) => `
+      <tr>
+        <td>${idx + 1}</td>
+        <td>${item.src
+          ? `<img src="${escHtml(item.src)}" class="staff-thumb" alt="${escHtml(item.nama)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" /><div class="staff-thumb-placeholder" style="display:none;">👩‍🏫</div>`
+          : `<div class="staff-thumb-placeholder">👩‍🏫</div>`
+        }</td>
+        <td>${escHtml(item.jabatan)}</td>
+        <td>${escHtml(item.nama)}</td>
+        <td style="text-align:right">
+          <button class="btn-edit" onclick="openEdit(${item.id})">Edit</button>
+          <button class="btn-delete" onclick="hapusStaff(${item.id})">Delete</button>
+        </td>
+      </tr>`).join('');
+  }
+
+  /* ===== EDIT / ADD ===== */
+  let _editId = null, _isAdd = false;
+
+  function openEdit(id) {
+    _editId = id; _isAdd = false;
+    const item = getStaff().find(s => s.id === id);
+    if (!item) return;
+    document.getElementById('editTitle').textContent = '✏️ Edit Staff';
+    document.getElementById('editJabatan').value = item.jabatan;
+    document.getElementById('editNama').value = item.nama;
+    document.getElementById('editFotoData').value = '';
+    document.getElementById('editFotoSrc').value = item.src || '';
+    const prev = document.getElementById('editFotoPreview');
+    if (item.src) { prev.src = item.src; prev.style.display = 'block'; }
+    else { prev.style.display = 'none'; }
+    document.getElementById('editFotoInput').value = '';
+    document.getElementById('editModal').classList.add('show');
+  }
+
+  function openAdd() {
+    _editId = null; _isAdd = true;
+    document.getElementById('editTitle').textContent = '➕ Tambah Staff Baru';
+    document.getElementById('editJabatan').value = '';
+    document.getElementById('editNama').value = '';
+    document.getElementById('editFotoData').value = '';
+    document.getElementById('editFotoSrc').value = '';
+    document.getElementById('editFotoPreview').style.display = 'none';
+    document.getElementById('editFotoInput').value = '';
+    document.getElementById('editModal').classList.add('show');
+  }
+
+  function closeEdit() { document.getElementById('editModal').classList.remove('show'); }
+
+  function previewFoto(input) {
+    if (!input.files || !input.files[0]) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById('editFotoData').value = e.target.result;
+      const prev = document.getElementById('editFotoPreview');
+      prev.src = e.target.result; prev.style.display = 'block';
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+
+  function saveEdit() {
+    const jabatan = document.getElementById('editJabatan').value.trim();
+    const nama    = document.getElementById('editNama').value.trim();
+    if (!jabatan || !nama) { alert('Harap isi Jabatan dan Nama!'); return; }
+
+    const fotoData = document.getElementById('editFotoData').value;
+    const fotoSrc  = fotoData || document.getElementById('editFotoSrc').value;
+
+    let list = getStaff();
+    if (_isAdd) {
+      const newId = list.length ? Math.max(...list.map(s => s.id)) + 1 : 1;
+      list.push({ id: newId, jabatan, nama, src: fotoSrc });
+    } else {
+      list = list.map(s => s.id === _editId ? { ...s, jabatan, nama, src: fotoSrc } : s);
+    }
+    saveStaff(list);
+    closeEdit();
+    renderTable();
+    showToast('✅ Data staff berhasil disimpan & disinkronkan!');
+  }
+
+  function hapusStaff(id) {
+    if (!confirm('Hapus staff ini?')) return;
+    let list = getStaff().filter(s => s.id !== id);
+    saveStaff(list);
+    renderTable();
+    showToast('🗑️ Staff berhasil dihapus!');
+  }
+
+  document.getElementById('editModal').addEventListener('click', e => { if (e.target === document.getElementById('editModal')) closeEdit(); });
+
+  /* ===== SIDEBAR ===== */
+  function toggleSidebar() { const s=document.getElementById('sidebar'),o=document.getElementById('sidebarOverlay'),b=document.getElementById('hamburgerBtn'); const open=s.classList.toggle('open'); o.classList.toggle('show',open); b.classList.toggle('open',open); document.body.style.overflow=open?'hidden':''; }
+  function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebarOverlay').classList.remove('show'); document.getElementById('hamburgerBtn').classList.remove('open'); document.body.style.overflow=''; }
+  function toggleManage() { document.getElementById('manageDropdown').classList.toggle('open'); document.getElementById('manageArrow').classList.toggle('open'); }
+
+  /* ===== NOTIF ===== */
+  function toggleNotif() { document.getElementById('notifPanel').classList.toggle('show'); }
+  document.addEventListener('click', e => { if(!e.target.closest('.btn-notif')&&!e.target.closest('.notif-panel')) document.getElementById('notifPanel').classList.remove('show'); });
+
+  /* ===== SARAN ===== */
+  function openSaran() { document.getElementById('saranModal').classList.add('show'); }
+  function closeSaran() { document.getElementById('saranModal').classList.remove('show'); }
+  function submitSaran() { alert('Saran berhasil dikirim! Terima kasih 😊'); closeSaran(); }
+  document.getElementById('saranModal').addEventListener('click', e => { if(e.target===document.getElementById('saranModal')) closeSaran(); });
+
+  /* ===== LOGOUT ===== */
+  function confirmLogout() { document.getElementById('logoutModal').classList.add('show'); }
+  function doLogout() { window.location.href = 'Login-Admin.html'; }
+  function closeLogout() { document.getElementById('logoutModal').classList.remove('show'); }
+
+  /* ===== SEARCH ===== */
+  const searchData=[{icon:'🏠',label:'Dashboard',cat:'Menu',href:'dashboard_admin.html'},{icon:'🏫',label:'Profil Sekolah',cat:'Manage',href:'DashboardProfilSekolah.html'},{icon:'👩‍🏫',label:'Staff Pengajar',cat:'Manage',href:'DashboardStaff-Pengajar.html'},{icon:'🏗️',label:'Fasilitas',cat:'Manage',href:'DashboardFasilitas.html'},{icon:'🖼️',label:'Galeri',cat:'Manage',href:'DashboardGaleri.html'},{icon:'📅',label:'Kalender',cat:'Manage',href:'Dashboardkalender.html'},{icon:'📋',label:'PPDB 2027/2028',cat:'Menu',href:'DashboardPPDB.html'}];
   let _filtered=[];
   function doSearch(val){const box=document.getElementById('searchResults'),q=val.trim().toLowerCase();if(!q){box.classList.remove('show');box.innerHTML='';return;}_filtered=searchData.filter(d=>d.label.toLowerCase().includes(q));box.innerHTML=_filtered.length?_filtered.map((d,i)=>`<div class="search-result-item" onclick="searchGo(${i})"><span class="search-result-icon">${d.icon}</span><span class="search-result-label">${d.label.replace(new RegExp(val.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),m=>'<strong>'+m+'</strong>')}</span><span class="search-result-cat">${d.cat}</span></div>`).join(''):'<div class="search-empty">😕 Tidak ada hasil</div>';box.classList.add('show');}
   function searchGo(i){if(_filtered[i].href)window.location.href=_filtered[i].href;document.getElementById('searchResults').classList.remove('show');document.getElementById('searchInput').value='';}
   document.addEventListener('click',e=>{if(!e.target.closest('.search-wrap'))document.getElementById('searchResults').classList.remove('show');});
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSaran();closeLogout();closeSidebar();closeEdit();}});
+
+  /* ===== TOAST ===== */
+  function showToast(msg) { const t=document.getElementById('toastNotif'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3500); }
+
+  /* ===== ESC KEY ===== */
+  document.addEventListener('keydown', e => { if(e.key==='Escape'){closeSaran();closeLogout();closeSidebar();closeEdit();} });
+
+  /* ===== INIT ===== */
+  renderTable();
 </script>
 </body>
 </html>

@@ -351,6 +351,64 @@
       .badge { font-size: .65rem; padding: 3px 8px; }
       .btn-notif { width: 36px; height: 36px; font-size: .95rem; }
     }
+    /* ===== DARK MODE TOGGLE BUTTON ===== */
+    .btn-dark-toggle {
+      width: 38px; height: 38px; border-radius: 10px; border: 1px solid #d0e8d0;
+      background: #fff; color: #444; font-size: 1.1rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; transition: all .25s;
+      flex-shrink: 0;
+    }
+    .btn-dark-toggle:hover { background: #f0fdf0; }
+
+    /* ===== DARK MODE STYLES ===== */
+    body.dark-mode { background: #0f1710; color: #e2f5e6; }
+    body.dark-mode .app { background: #0f1710; }
+    body.dark-mode .sidebar { background: #131f15; border-right-color: #2a4030; }
+    body.dark-mode .sidebar-brand { border-color: #1fb149; }
+    body.dark-mode .sidebar-logo { background: #1a2b1d; border-color: #1fb149; }
+    body.dark-mode .sidebar-brand-name { color: #e2f5e6; }
+    body.dark-mode .sidebar-nav .nav-item { color: #b8d8bc; }
+    body.dark-mode .sidebar-nav .nav-item:hover { background: #1a2b1d; color: #00ee44; }
+    body.dark-mode .sidebar-nav .nav-item.active { background: #1fb149; color: #fff; }
+    body.dark-mode .sidebar-bottom { background: #131f15; border-top-color: #2a4030; }
+    body.dark-mode .main { background: linear-gradient(160deg,#0f1710 0%,#131f15 100%); }
+    body.dark-mode .topbar { background: #131f15; border-bottom-color: #2a4030; }
+    body.dark-mode .search-box { background: #1a2b1d; border-color: #2a4030; }
+    body.dark-mode .search-box input { color: #e2f5e6; }
+    body.dark-mode .search-box input::placeholder { color: #6a8a70; }
+    body.dark-mode .btn-notif { background: #1a2b1d; border-color: #2a4030; }
+    body.dark-mode .btn-notif:hover { background: #243828; }
+    body.dark-mode .btn-saran { background: #1a2b1d; border-color: #2a4030; color: #b8d8bc; }
+    body.dark-mode .btn-saran:hover { background: #243828; color: #00ee44; }
+    body.dark-mode .btn-dark-toggle { background: #1a2b1d; border-color: #2a4030; color: #e2f5e6; }
+    body.dark-mode .btn-dark-toggle:hover { background: #243828; }
+    body.dark-mode .content { background: transparent; }
+    body.dark-mode .breadcrumb .current { color: #b8d8bc; }
+    body.dark-mode .breadcrumb .sep { color: #4a6a50; }
+    body.dark-mode .table-card { background: #1a2b1d; border-color: #2a4030; box-shadow: 0 2px 16px rgba(0,0,0,.4); }
+    body.dark-mode .data-table th { color: #7aab82; border-bottom-color: #2a4030; }
+    body.dark-mode .data-table td { color: #c8e8cc; border-top-color: #243828; }
+    body.dark-mode .data-table tr:hover td { background: #243828; }
+    body.dark-mode .data-table td:first-child { color: #e2f5e6; }
+    body.dark-mode .search-results { background: #1a2b1d; border-color: #2a4030; }
+    body.dark-mode .search-result-item:hover { background: #243828; }
+    body.dark-mode .modal-overlay { background: rgba(0,0,0,.7); }
+    body.dark-mode .modal-content { background: #1a2b1d; border-color: #2a4030; }
+    body.dark-mode .modal-header { border-bottom-color: #2a4030; color: #e2f5e6; }
+    body.dark-mode .modal-body label { color: #9abda0; }
+    body.dark-mode .modal-body input,
+    body.dark-mode .modal-body select,
+    body.dark-mode .modal-body textarea { background: #243828; border-color: #2a4030; color: #e2f5e6; }
+    body.dark-mode .modal-body input:focus,
+    body.dark-mode .modal-body select:focus,
+    body.dark-mode .modal-body textarea:focus { border-color: #00cc30; }
+    body.dark-mode .modal-body select option { background: #1a2b1d; }
+    body.dark-mode .modal-footer { border-top-color: #2a4030; }
+    body.dark-mode .btn-secondary { background: #243828; color: #b8d8bc; border-color: #2a4030; }
+    body.dark-mode .btn-secondary:hover { background: #2a4030; }
+    body.dark-mode .notif-panel { background: #1a2b1d; border-color: #2a4030; box-shadow: 0 8px 32px rgba(0,0,0,.5); }
+    body.dark-mode .notif-item { border-bottom-color: #2a4030; color: #c8e8cc; }
+    body.dark-mode .notif-item:hover { background: #243828; }
   </style>
 </head>
 <body>
@@ -395,28 +453,20 @@
     </div>
   </aside>
 
-  <!-- MAIN -->
-  <div class="main" id="main">
-    <!-- TOPBAR -->
+  <div class="main">
     <div class="topbar">
-      <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleSidebar()" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
+      <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
       <div class="search-wrap">
-        <div class="search-box">
-          <span class="search-icon">🔍</span>
-          <input type="text" id="searchInput" placeholder="Search Here" oninput="doSearch(this.value)" autocomplete="off" />
-        </div>
+        <div class="search-box"><span class="search-icon">🔍</span><input type="text" id="searchInput" placeholder="Search Here" oninput="doSearch(this.value)" autocomplete="off" /></div>
         <div class="search-results" id="searchResults"></div>
       </div>
       <div class="topbar-actions">
-        <div class="btn-notif" onclick="toggleNotif()">
-          🔔<div class="notif-dot"></div>
-        </div>
-        <div class="btn-saran" onclick="openSaran()">💬 <span class="btn-saran-text">Saran dan Masukan</span></div>
+        <div class="btn-notif" onclick="toggleNotif()">🔔<div class="notif-dot"></div></div>
+        <div class="btn-saran" onclick="openSaran()">💬 Saran dan Masukan</div>
+        <button class="btn-dark-toggle" id="darkToggle" onclick="toggleDarkMode()" title="Toggle Dark Mode">🌙</button>
       </div>
     </div>
-
+    
     <!-- CONTENT -->
     <div class="content">
       <div class="greeting">Good Morning Admin!</div>

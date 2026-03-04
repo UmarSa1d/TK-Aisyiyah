@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+  <title>PPDB 2027/2028 – TK Aisyiyah Mimika</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { font-family: "Segoe UI", Helvetica, Arial, sans-serif; background: #f0faf0; color: #222; overflow-x: hidden; scroll-behavior: smooth; }
+
+    /* ══ NAVBAR ══ */
+    .navbar { position: fixed; top: clamp(10px,3vw,50px); left: 50%; transform: translateX(-50%); width: 92%; max-width: 1620px; display: flex; align-items: center; justify-content: space-between; padding: clamp(6px,1.2vw,10px) clamp(10px,1.5vw,15px) clamp(6px,1.2vw,10px) clamp(12px,1.8vw,20px); background-color: rgba(0,0,0,0.01); border-radius: 100px; backdrop-filter: blur(30px) brightness(100%) saturate(105%); -webkit-backdrop-filter: blur(30px) brightness(100%) saturate(105%); box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), inset 1px 0 0 rgba(255,255,255,0.32), inset 0 -1px 20px rgba(0,0,0,0.2), inset -1px 0 20px rgba(0,0,0,0.16); z-index: 1000; transition: all 0.3s ease; }
+    .navbar.white-bg { background-color: rgba(255,255,255,0.05); box-shadow: inset 0 1px 0 rgba(0,204,48,0.4), inset 1px 0 0 rgba(0,204,48,0.32), inset 0 -1px 20px rgba(0,204,48,0.2), inset -1px 0 20px rgba(0,204,48,0.16); }
+    .navbar.white-bg .nav-brand, .navbar.white-bg .nav-item { color: #00CC30; }
+    .navbar.white-bg .nav-item:hover { color: #009a24; }
+    .navbar.white-bg .btn-admin { border-color: #00CC30; color: #00CC30; background: rgba(255,255,255,0.1); }
+    .navbar.white-bg .nav-hamburger span { background: #00CC30; }
+    .nav-logo { display: flex; align-items: center; gap: clamp(8px,1.5vw,15px); flex-shrink: 0; }
+    .logo-wrapper { width: clamp(38px,5.5vw,60px); height: clamp(38px,5.5vw,60px); background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .logo-img { width: 80%; height: 80%; object-fit: contain; }
+    .nav-brand { font-size: clamp(.85rem,1.5vw,1.25rem); font-weight: 600; color: #fff; white-space: nowrap; transition: color .3s; text-decoration: none; cursor: pointer; }
+    .nav-right { display: flex; align-items: center; gap: clamp(4px,1vw,10px); flex-shrink: 0; }
+    .nav-item { padding: clamp(6px,1vw,10px) clamp(8px,1.2vw,15px); font-size: clamp(.8rem,1.2vw,1.05rem); color: #fff; white-space: nowrap; cursor: pointer; transition: all .3s; flex-shrink: 0; text-decoration: none; display: inline-block; }
+    .nav-item:hover { color: #00cc30; }
+    .btn-admin { padding: clamp(6px,1vw,10px) clamp(10px,1.5vw,20px); border: 1px solid #fff; border-radius: 100px; background: rgba(0,0,0,0.01); color: #fff; font-size: clamp(.78rem,1.1vw,1.05rem); cursor: pointer; transition: all .3s; white-space: nowrap; backdrop-filter: blur(18.5px); flex-shrink: 0; }
+    .btn-admin:hover { background: rgba(255,255,255,0.1); }
+    .btn-ppdb { padding: clamp(6px,1vw,10px) clamp(12px,1.8vw,25px); border: none; border-radius: 100px; background: linear-gradient(102deg,#00af29,#00cc30); color: #fff; font-size: clamp(.78rem,1.1vw,1.05rem); cursor: pointer; transition: all .3s; white-space: nowrap; flex-shrink: 0; font-weight: 700; }
+    .btn-ppdb:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,204,48,.4); }
+    .btn-ppdb.active-page { background: #fff; color: #00a832; pointer-events: none; }
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; flex-shrink: 0; z-index: 1002; }
+    .nav-hamburger span { display: block; width: 24px; height: 2.5px; background: #fff; border-radius: 2px; transition: all .3s; }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+    .nav-mobile-menu { display: none; position: fixed; inset: 0; background: rgba(0,140,40,0.97); z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 20px; padding: 40px 24px; }
+    .nav-mobile-menu.open { display: flex; }
+    .nav-mobile-close { position: absolute; top: 22px; right: 22px; font-size: 2rem; color: #fff; cursor: pointer; background: none; border: none; }
+    .nav-mobile-item { color: #fff; font-size: clamp(1.2rem,5vw,1.6rem); font-weight: 600; cursor: pointer; padding: 10px 24px; border-radius: 12px; transition: background .2s; text-align: center; text-decoration: none; display: block; }
+    .nav-mobile-item:hover { background: rgba(255,255,255,.15); }
+    .nav-mobile-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
+    .nav-mobile-btns .btn-ppdb { font-size: 1rem; padding: 10px 24px; }
+
+    /* ══ HERO ══ */
+    .hero { position: relative; width: 100%; min-height: 100svh; height: 100svh; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .hero-bg-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+    .hero-overlay-dark { position: absolute; inset: 0; background: rgba(0,0,0,.52); z-index: 2; }
+    .hero-inner { position: relative; z-index: 3; text-align: center; max-width: min(720px,92vw); padding: 0 clamp(16px,4vw,20px); }
+    .hero-title { font-size: clamp(2.2rem,8vw,5rem); font-weight: 900; color: #fff; line-height: 1.1; margin-bottom: 20px; letter-spacing: 1px; }
+    .hero-sub { font-size: clamp(.88rem,1.8vw,1.05rem); color: rgba(255,255,255,.88); line-height: 1.8; }
+
+    /* ══ LANGKAH MUDAH ══ */
+    .section-langkah { background: #fff; padding: clamp(36px,5vw,64px) clamp(20px,5vw,40px); text-align: center; }
+    .langkah-title { font-size: clamp(1.5rem,4vw,2.4rem); font-weight: 900; color: #1fb149; margin-bottom: 12px; }
+    .langkah-sub { font-size: clamp(.82rem,1.3vw,.92rem); color: #1fb149; line-height: 1.7; margin-bottom: clamp(24px,4vw,40px); }
+    .langkah-cards { display: flex; justify-content: center; gap: clamp(12px,2vw,20px); flex-wrap: wrap; margin-bottom: clamp(28px,4vw,44px); }
+    .langkah-card { position: relative; width: clamp(160px,28vw,210px); aspect-ratio: 4/3; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,.15); }
+    .langkah-card img { width: 100%; height: 100%; object-fit: cover; display: block; background: #c8e6c8; }
+    .langkah-card-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top,rgba(10,100,40,.88),transparent); padding: 20px 12px 12px; }
+    .langkah-card-overlay span { color: #fff; font-size: clamp(.78rem,1.2vw,.88rem); font-weight: 700; }
+    .btn-daftar-sekarang { display: inline-block; padding: 14px 44px; background: #1fb149; color: #fff; font-size: clamp(.9rem,1.5vw,1.05rem); font-weight: 800; border-radius: 6px; text-decoration: none; letter-spacing: .04em; transition: all .25s; box-shadow: 0 4px 18px rgba(31,177,73,.3); }
+    .btn-daftar-sekarang:hover { background: #178c3a; transform: translateY(-2px); }
+
+    /* ══ FORM AREA ══ */
+    .page-wrapper { max-width: 860px; margin: 0 auto; padding: clamp(24px,4vw,48px) clamp(16px,4vw,24px); }
+    .ppdb-closed { background: #fff; border-radius: 20px; padding: clamp(40px,6vw,72px) clamp(24px,5vw,60px); text-align: center; box-shadow: 0 4px 32px rgba(0,100,30,.1); border: 1px solid #d8f0d8; }
+    .ppdb-closed-icon { font-size: 4rem; margin-bottom: 16px; display: block; }
+    .ppdb-closed-title { font-size: clamp(1.3rem,3vw,2rem); font-weight: 800; color: #1fb149; margin-bottom: 12px; }
+    .ppdb-closed-msg { font-size: clamp(.88rem,1.5vw,1rem); color: #888; line-height: 1.8; max-width: 440px; margin: 0 auto 28px; }
+    .ppdb-closed-contact { display: inline-flex; align-items: center; gap: 8px; background: #f0fdf0; border: 1px solid #b8e6c0; border-radius: 12px; padding: 12px 20px; font-size: .88rem; color: #1fb149; font-weight: 600; }
+    .form-card { background: #fff; border-radius: 20px; box-shadow: 0 4px 32px rgba(0,100,30,.1); border: 1px solid #d8f0d8; overflow: hidden; }
+    .form-card-header { background: linear-gradient(102deg,#1fb149,#178c3a); padding: clamp(20px,3vw,32px) clamp(20px,4vw,36px); }
+    .form-card-title { font-size: clamp(1.1rem,2.5vw,1.5rem); font-weight: 800; color: #fff; margin-bottom: 6px; }
+    .form-card-sub { font-size: clamp(.8rem,1.3vw,.9rem); color: rgba(255,255,255,.8); }
+    .form-card-body { padding: clamp(20px,3vw,36px) clamp(20px,4vw,36px); }
+    .form-field { margin-bottom: clamp(16px,2.5vw,22px); }
+    .field-label { display: flex; align-items: center; gap: 6px; font-size: .85rem; font-weight: 700; color: #333; margin-bottom: 7px; }
+    .field-required { color: #ee1111; }
+    .field-input, .field-select, .field-textarea { width: 100%; padding: 11px 16px; border: 1.5px solid #d0e8d0; border-radius: 12px; font-size: .92rem; font-family: inherit; outline: none; transition: border-color .2s, box-shadow .2s; background: #fafff9; color: #222; }
+    .field-input:focus, .field-select:focus, .field-textarea:focus { border-color: #1fb149; box-shadow: 0 0 0 3px rgba(31,177,73,.1); }
+    .field-input[type=date] { cursor: pointer; }
+    .field-select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231fb149' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+    .field-textarea { resize: vertical; min-height: 90px; }
+    .field-upload { border: 2px dashed #b8ddb8; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer; transition: border-color .2s, background .2s; background: #f7fdf7; }
+    .field-upload:hover { border-color: #1fb149; background: #f0fdf0; }
+    .field-upload input { display: none; }
+    .field-upload-icon { font-size: 1.8rem; margin-bottom: 6px; display: block; }
+    .field-upload-text { font-size: .82rem; color: #888; }
+    .field-upload-text span { color: #1fb149; font-weight: 600; }
+    .field-upload-preview { font-size: .8rem; color: #1fb149; margin-top: 6px; font-weight: 600; }
+    .form-divider { height: 1px; background: #f0f8f0; margin: clamp(16px,2.5vw,24px) 0; }
+    .form-submit-wrap { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: clamp(20px,3vw,32px); }
+    .btn-submit-form { width: 100%; max-width: 360px; padding: 15px 32px; border: none; border-radius: 100px; background: linear-gradient(102deg,#00af29,#1fb149); color: #fff; font-size: 1rem; font-weight: 800; cursor: pointer; transition: all .3s; box-shadow: 0 6px 24px rgba(31,177,73,.35); }
+    .btn-submit-form:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(31,177,73,.5); }
+    .submit-note { font-size: .78rem; color: #aaa; text-align: center; }
+    .progress-wrap { margin-bottom: 28px; }
+    .progress-label { display: flex; justify-content: space-between; font-size: .78rem; color: #888; margin-bottom: 6px; }
+    .progress-bar-bg { height: 6px; background: #e8f5e8; border-radius: 10px; overflow: hidden; }
+    .progress-bar-fill { height: 100%; background: linear-gradient(90deg,#1fb149,#00cc30); border-radius: 10px; transition: width .4s; }
+    .success-card { display: none; background: #fff; border-radius: 20px; padding: clamp(40px,6vw,72px) clamp(24px,5vw,60px); text-align: center; box-shadow: 0 4px 32px rgba(0,100,30,.1); border: 1px solid #d8f0d8; }
+    .success-icon { font-size: 4rem; margin-bottom: 16px; display: block; animation: bounce .6s ease both; }
+    @keyframes bounce { 0%{transform:scale(0);}60%{transform:scale(1.15);}100%{transform:scale(1);} }
+    .success-title { font-size: clamp(1.3rem,3vw,2rem); font-weight: 800; color: #1fb149; margin-bottom: 12px; }
+    .success-msg { font-size: clamp(.88rem,1.5vw,1rem); color: #666; line-height: 1.8; max-width: 420px; margin: 0 auto 28px; }
+    .success-ref { display: inline-block; background: #f0fdf0; border: 1px solid #b8e6c0; border-radius: 10px; padding: 10px 20px; font-size: .88rem; color: #1fb149; font-weight: 700; margin-bottom: 24px; }
+    .btn-daftar-lagi { padding: 12px 32px; border: 2px solid #1fb149; border-radius: 100px; background: transparent; color: #1fb149; font-size: .9rem; font-weight: 700; cursor: pointer; transition: all .25s; }
+    .btn-daftar-lagi:hover { background: #1fb149; color: #fff; }
+
+    /* ══ FOOTER (sama seperti index.html) ══ */
+    .footer { position: relative; width: 100%; background: #00a832; padding: clamp(24px,4vw,35px) clamp(20px,5vw,60px); margin-top: clamp(40px,6vw,72px); }
+    .footer-container { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+    .footer-left { display: flex; flex-direction: row; align-items: center; flex-shrink: 0; }
+    .footer-logo { width: clamp(70px,9vw,100px); height: clamp(70px,9vw,100px); background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .footer-logo-img { width: 80%; height: 80%; object-fit: contain; }
+    .footer-nav { padding-left: clamp(16px,2.5vw,30px); margin-left: clamp(12px,2vw,20px); border-left: 1px solid rgba(255,255,255,.35); }
+    .footer-nav h4 { color: #fff; font-size: clamp(.84rem,1.1vw,1rem); margin: 0 0 8px; font-weight: 700; }
+    .footer-nav ul { list-style: none; padding: 0; margin: 0; }
+    .footer-nav ul li { margin-bottom: 5px; display: flex; align-items: center; gap: 5px; }
+    .footer-nav ul li::before { content:'›'; color:#fff; font-size:.9rem; font-weight:bold; flex-shrink:0; }
+    .footer-nav ul li a { color: #fff; text-decoration: none; font-size: clamp(.78rem,1vw,.92rem); transition: color .3s; }
+    .footer-nav ul li a:hover { color: #ffeb00; }
+    .footer-center { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 0 clamp(20px,4vw,50px); border-left: 1px solid rgba(255,255,255,.35); border-right: 1px solid rgba(255,255,255,.35); margin: 0 clamp(10px,2vw,30px); }
+    .footer-contact { color: #fff; }
+    .footer-contact p { margin: 0 0 8px; font-size: clamp(.76rem,1vw,.92rem); line-height: 1.5; display: flex; align-items: center; gap: 10px; }
+    .footer-contact p:last-child { margin-bottom: 0; }
+    .footer-right { display: flex; justify-content: flex-end; flex-shrink: 0; }
+    .footer-map { width: clamp(130px,17vw,210px); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,.3); position: relative; transition: transform .3s, box-shadow .3s; }
+    .footer-map:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,.4); }
+    .footer-map a { display: block; position: relative; text-decoration: none; }
+    .footer-map-img { width: 100%; height: auto; display: block; transition: filter .3s; }
+    .footer-map:hover .footer-map-img { filter: brightness(.9); }
+    .map-overlay { position: absolute; inset: 0; background: rgba(0,168,50,.85); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .3s; }
+    .footer-map:hover .map-overlay { opacity: 1; }
+    .map-overlay-text { color: #fff; font-size: clamp(.78rem,1.1vw,1.1rem); font-weight: 600; text-align: center; padding: 10px; }
+
+    /* ══ CHATBOT (sama seperti index.html) ══ */
+    .chatbot-toggle { position: fixed; bottom: clamp(80px,12vw,110px); right: clamp(16px,3vw,30px); width: clamp(50px,7vw,60px); height: clamp(50px,7vw,60px); background: linear-gradient(135deg,#00af29,#00cc30); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 20px rgba(0,204,48,.4); z-index: 9997; transition: all .3s; border: 3px solid white; }
+    .chatbot-toggle:hover { transform: scale(1.1); }
+    .chatbot-toggle-icon { font-size: clamp(1.4rem,2.5vw,1.8rem); color: white; }
+    .chatbot-badge { position: absolute; top: -5px; right: -5px; width: 22px; height: 22px; background: #f00; border-radius: 50%; display: none; align-items: center; justify-content: center; font-size: .7rem; color: white; font-weight: bold; border: 2px solid white; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{transform:scale(1);}50%{transform:scale(1.1);} }
+    .chatbot-container { position: fixed; bottom: clamp(140px,18vw,180px); right: clamp(12px,3vw,30px); width: min(400px,calc(100vw - 24px)); height: clamp(480px,72vh,630px); background: white; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,.3); z-index: 9998; display: none; flex-direction: column; overflow: hidden; opacity: 0; }
+    .chatbot-container.show { display: flex; opacity: 1; animation: slideUpChat .4s ease; }
+    @keyframes slideUpChat { from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);} }
+    .chatbot-header { background: linear-gradient(135deg,#00af29,#00cc30); color: white; padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+    .chatbot-header-content { display: flex; align-items: center; gap: 10px; }
+    .chatbot-avatar { width: 40px; height: 40px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+    .chatbot-header-text h3 { margin: 0; font-size: 1rem; font-weight: 600; }
+    .chatbot-header-text p { margin: 0; font-size: .75rem; opacity: .9; }
+    .chatbot-minimize { background: rgba(255,255,255,.2); border: none; color: white; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; }
+    .chatbot-messages { flex: 1; padding: 16px; overflow-y: auto; background: #f8f9fa; min-height: 0; }
+    .chatbot-messages::-webkit-scrollbar { width: 6px; }
+    .chatbot-messages::-webkit-scrollbar-thumb { background: #00cc30; border-radius: 3px; }
+    .chatbot-message { margin-bottom: 12px; display: flex; }
+    .chatbot-message.bot { justify-content: flex-start; }
+    .chatbot-message.user { justify-content: flex-end; }
+    .chatbot-message-bubble { max-width: 82%; padding: 10px 14px; border-radius: 16px; word-wrap: break-word; line-height: 1.5; font-size: .88rem; }
+    .chatbot-message.bot .chatbot-message-bubble { background: white; color: #333; border-bottom-left-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+    .chatbot-message.user .chatbot-message-bubble { background: linear-gradient(135deg,#00af29,#00cc30); color: white; border-bottom-right-radius: 4px; }
+    .chatbot-typing { display: none; padding: 10px 14px; background: white; border-radius: 16px; border-bottom-left-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,.08); width: fit-content; }
+    .chatbot-typing span { height: 8px; width: 8px; background: #00cc30; border-radius: 50%; display: inline-block; margin-right: 4px; animation: chatTyping 1.4s infinite; }
+    .chatbot-typing span:nth-child(2){animation-delay:.2s;} .chatbot-typing span:nth-child(3){animation-delay:.4s;}
+    @keyframes chatTyping{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-10px);}}
+    .chatbot-quick-replies { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 14px 10px; background: #f8f9fa; flex-shrink: 0; border-top: 1px solid #eee; }
+    .quick-reply-btn { padding: 7px 12px; background: white; border: 1.5px solid #00cc30; border-radius: 15px; color: #00cc30; font-size: .82rem; cursor: pointer; transition: all .3s; white-space: nowrap; font-weight: 600; }
+    .quick-reply-btn:hover { background: #00cc30; color: white; }
+    .quick-reply-btn.masukan-btn { border-color: #0077cc; color: #0077cc; }
+    .quick-reply-btn.masukan-btn:hover { background: #0077cc; color: white; }
+
+    /* FORM MASUKAN (sama seperti index.html) */
+    .chatbot-form-masukan { padding: 14px 16px 12px; background: #ffffff; border-top: 2px solid #e0f5e0; flex-shrink: 0; display: none; flex-direction: column; gap: 9px; max-height: 280px; overflow-y: auto; }
+    .chatbot-form-masukan.show { display: flex; }
+    .form-masukan-title { font-size: .84rem; font-weight: 800; color: #00a832; display: flex; align-items: center; gap: 6px; margin-bottom: 2px; }
+    .masukan-form-name, .masukan-form-text { padding: 9px 12px; border: 2px solid #c8f0d0; border-radius: 12px; font-size: .84rem; outline: none; font-family: inherit; transition: border-color .25s; width: 100%; }
+    .masukan-form-name:focus, .masukan-form-text:focus { border-color: #00cc30; }
+    .masukan-form-text { resize: none; height: 68px; line-height: 1.5; }
+    .masukan-stars-wrap { display: flex; align-items: center; gap: 8px; }
+    .masukan-stars-wrap label { font-size: .78rem; color: #777; white-space: nowrap; }
+    .masukan-stars-select { display: flex; gap: 3px; }
+    .masukan-stars-select span { font-size: 1.25rem; cursor: pointer; transition: transform .15s; color: #ddd; user-select: none; line-height: 1; }
+    .masukan-stars-select span.lit { color: #f59e0b; }
+    .masukan-stars-select span:hover { transform: scale(1.25); }
+    .form-btns { display: flex; gap: 8px; }
+    .btn-submit-masukan { flex: 2; padding: 9px; background: linear-gradient(135deg,#00af29,#00cc30); color: white; border: none; border-radius: 12px; cursor: pointer; font-size: .88rem; font-weight: 700; transition: opacity .2s; }
+    .btn-submit-masukan:hover { opacity: .9; }
+    .btn-cancel-masukan { flex: 1; padding: 9px; background: #f0f0f0; color: #888; border: none; border-radius: 12px; cursor: pointer; font-size: .84rem; transition: background .2s; }
+    .btn-cancel-masukan:hover { background: #e0e0e0; }
+
+    .chatbot-input-container { padding: 10px 12px; background: white; border-top: 1px solid #e0e0e0; display: flex; gap: 8px; flex-shrink: 0; }
+    .chatbot-input { flex: 1; padding: 9px 14px; border: 2px solid #e0e0e0; border-radius: 20px; font-size: .88rem; outline: none; transition: border-color .3s; font-family: inherit; }
+    .chatbot-input:focus { border-color: #00cc30; }
+    .chatbot-send { padding: 9px 18px; background: linear-gradient(135deg,#00af29,#00cc30); color: white; border: none; border-radius: 20px; cursor: pointer; font-size: .88rem; font-weight: 600; white-space: nowrap; }
+
+    /* BACK TO TOP */
+    .btn-back-to-top { position: fixed; bottom: clamp(16px,3vw,30px); right: clamp(16px,3vw,30px); padding: clamp(10px,2vw,14px) clamp(18px,3vw,28px); border: none; border-radius: 100px; background: linear-gradient(102deg,#00af29,#00cc30); color: #fff; font-size: clamp(.82rem,1.3vw,1rem); font-weight: 600; cursor: pointer; transition: all .3s; box-shadow: 0 4px 15px rgba(0,168,50,.4); z-index: 9996; display: none; align-items: center; gap: 6px; }
+    .btn-back-to-top.show { display: inline-flex; }
+    .btn-back-to-top:hover { transform: translateY(-3px); }
+
+    /* TOAST */
+    .toast-notif { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(60px); background: linear-gradient(135deg,#00af29,#00cc30); color: white; padding: 14px 30px; border-radius: 100px; font-size: .95rem; font-weight: 700; box-shadow: 0 8px 28px rgba(0,204,48,.4); z-index: 99999; transition: transform .4s cubic-bezier(.22,1,.36,1), opacity .4s; opacity: 0; pointer-events: none; white-space: nowrap; }
+    .toast-notif.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    @media (max-width: 860px) { .nav-right { display: none; } .nav-hamburger { display: flex; } }
+    @media (max-width: 768px) {
+      .footer-container { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .footer-center { border-left: none; border-right: none; border-top: 1px solid rgba(255,255,255,.3); border-bottom: 1px solid rgba(255,255,255,.3); margin: 0; padding: 16px 0; width: 100%; }
+      .footer-right { width: 100%; }
+      .footer-map { width: min(180px,50vw); }
+    }
+    @media (max-width: 480px) {
+      .footer-left { flex-direction: column; align-items: flex-start; gap: 14px; }
+      .footer-nav { padding-left: 0; margin-left: 0; border-left: none; border-top: 1px solid rgba(255,255,255,.3); padding-top: 14px; width: 100%; }
+      .chatbot-container { right: 8px; left: 8px; width: auto; bottom: 90px; }
+      .chatbot-toggle { right: 12px; }
+      .btn-back-to-top { right: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- MOBILE MENU -->
+<div class="nav-mobile-menu" id="mobileMenu">
+  <button class="nav-mobile-close" onclick="closeMobileMenu()">✕</button>
+  <a class="nav-mobile-item" href="index.html" onclick="closeMobileMenu()">Beranda</a>
+  <a class="nav-mobile-item" href="profil_sekolah.html" onclick="closeMobileMenu()">Profil Sekolah</a>
+  <a class="nav-mobile-item" href="Galeri.html" onclick="closeMobileMenu()">Galeri</a>
+  <div class="nav-mobile-btns">
+    <button class="btn-admin" onclick="window.location.href='Login-Admin.html';closeMobileMenu()">Admin Login</button>
+    <button class="btn-ppdb active-page">PPDB 2027/2028</button>
+  </div>
+</div>
+
+<!-- HERO (navbar di dalam, sama seperti index.html) -->
+<section class="hero">
+  <img src="Shering.png" alt="Hero PPDB" class="hero-bg-img" />
+  <div class="hero-overlay-dark"></div>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-logo" onclick="window.location.href='index.html'" style="cursor:pointer">
+      <div class="logo-wrapper"><img class="logo-img" src="LogoTk.png" alt="Logo TK Aisyiyah" /></div>
+      <span class="nav-brand">TK Aisyiyah Mimika</span>
+    </div>
+    <div class="nav-right">
+      <a class="nav-item" href="index.html">Beranda</a>
+      <a class="nav-item" href="profil_sekolah.html">Profil Sekolah</a>
+      <a class="nav-item" href="Galeri.html">Galeri</a>
+      <button class="btn-admin" onclick="window.location.href='Login-Admin.html'">Admin Login</button>
+      <button class="btn-ppdb active-page">PPDB 2027/2028</button>
+    </div>
+    <div class="nav-hamburger" id="hamburger" onclick="toggleMobileMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <div class="hero-inner">
+    <h1 class="hero-title">PPDB 2027/2028</h1>
+    <p class="hero-sub">Jadilah bagian dari cerita hebat kami. Kami mencari para petualang cilik yang siap mengeksplorasi dunia, mengasah kemandirian, dan mewujudkan imajinasi menjadi nyata</p>
+  </div>
+</section>
+
+<!-- LANGKAH MUDAH -->
+<section class="section-langkah">
+  <h2 class="langkah-title">Langkah Mudah Mendaftar</h2>
+  <p class="langkah-sub">Cukup siapkan versi digital (softfile) dari dokumen di bawah ini untuk<br>memulai petualangan si kecil bersama kami :</p>
+  <div class="langkah-cards">
+    <div class="langkah-card">
+      <img src="kk.png" alt="Kartu Keluarga" />
+      <div class="langkah-card-overlay"><span>Kartu Keluarga</span></div>
+    </div>
+    <div class="langkah-card">
+      <img src="akta.png" alt="Akta Kelahiran Anak" />
+      <div class="langkah-card-overlay"><span>Akta Kelahiran Anak</span></div>
+    </div>
+    <div class="langkah-card">
+      <img src="ktp.png" alt="KTP Orang Tua / Wali" />
+      <div class="langkah-card-overlay"><span>KTP Orang Tua / Wali</span></div>
+    </div>
+  </div>
+  <a href="#ppdbForm" class="btn-daftar-sekarang">DAFTAR SEKARANG &gt;</a>
+</section>
+
+<!-- FORM AREA -->
+<div class="page-wrapper" id="ppdbForm">
+  <div class="ppdb-closed" id="ppdbClosed" style="display:none">
+    <span class="ppdb-closed-icon">🔒</span>
+    <div class="ppdb-closed-title">PPDB Belum Dibuka</div>
+    <p class="ppdb-closed-msg">Pendaftaran PPDB 2027/2028 saat ini belum dibuka. Silakan pantau terus informasi dari kami atau hubungi sekolah untuk info lebih lanjut.</p>
+    <div class="ppdb-closed-contact">📞 &nbsp;0812-3456-7890 &nbsp;|&nbsp; 📍 Jl. Pendidikan No.123, Mimika</div>
+  </div>
+
+  <div id="ppdbFormInner">
+    <div class="form-card" id="formCard">
+      <div class="form-card-header">
+        <div class="form-card-title">📝 Formulir Pendaftaran PPDB 2027/2028</div>
+        <div class="form-card-sub">Isi data berikut dengan lengkap dan benar. Tanda <span style="color:#a0ffb8;font-weight:700;">*</span> wajib diisi.</div>
+      </div>
+      <div class="form-card-body">
+        <div class="progress-wrap">
+          <div class="progress-label"><span>Kelengkapan Form</span><span id="progressPct">0%</span></div>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+        </div>
+        <div id="fieldsContainer"></div>
+        <div class="form-divider"></div>
+        <div class="form-submit-wrap">
+          <button class="btn-submit-form" onclick="submitForm()">Kirim Pendaftaran 🚀</button>
+          <p class="submit-note">Data Anda aman dan hanya digunakan untuk keperluan pendaftaran.</p>
+        </div>
+      </div>
+    </div>
+    <div class="success-card" id="successCard">
+      <span class="success-icon">🎉</span>
+      <div class="success-title">Pendaftaran Berhasil!</div>
+      <p class="success-msg">Terima kasih telah mendaftarkan putra-putri Anda. Kami akan menghubungi Anda segera untuk konfirmasi lebih lanjut.</p>
+      <div class="success-ref" id="successRef">No. Pendaftaran: –</div>
+      <br><br>
+      <button class="btn-daftar-lagi" onclick="daftarLagi()">Daftar Lagi</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER (sama seperti index.html) -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-left">
+      <div class="footer-logo"><img src="LogoTk.png" alt="Logo TK Aisyiyah" class="footer-logo-img" /></div>
+      <div class="footer-nav">
+        <h4>Navigasi:</h4>
+        <ul>
+          <li><a href="index.html">Beranda</a></li>
+          <li><a href="profil_sekolah.html">Profil Sekolah</a></li>
+          <li><a href="Galeri.html">Galeri</a></li>
+          <li><a href="ppdb.html">PPDB 2027/2028</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-center">
+      <div class="footer-contact">
+        <p><strong>📧</strong> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4a3e212b23393323332b221527232723212b0a2d272b232664292527">[email&#160;protected]</a></p>
+        <p><strong>📱</strong> @tk_aisyiyah_mimika</p>
+        <p><strong>📞</strong> 0812-3456-7890</p>
+        <p><strong>📍</strong> Jl. Pendidikan No. 123, Mimika, Papua</p>
+      </div>
+    </div>
+    <div class="footer-right">
+      <div class="footer-map">
+        <a href="https://www.google.com/maps/search/TK+Aisyiyah+Timika" target="_blank" rel="noopener noreferrer">
+          <img src="Rectangle 49.png" alt="Peta Lokasi" class="footer-map-img" />
+          <div class="map-overlay"><span class="map-overlay-text">📍 Lihat di Google Maps</span></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- CHATBOT (sama seperti index.html) -->
+<div class="chatbot-toggle" id="chatbotToggle" onclick="toggleChatbot()">
+  <div class="chatbot-toggle-icon" id="chatbotToggleIcon">💬</div>
+  <div class="chatbot-badge" id="chatbotBadge">1</div>
+</div>
+
+<div class="chatbot-container" id="chatbotContainer">
+  <div class="chatbot-header">
+    <div class="chatbot-header-content">
+      <div class="chatbot-avatar">🤖</div>
+      <div class="chatbot-header-text"><h3>Asisten TK Aisyiyah</h3><p>Online – Siap membantu</p></div>
+    </div>
+    <button class="chatbot-minimize" onclick="toggleChatbot()">−</button>
+  </div>
+  <div class="chatbot-messages" id="chatbotMessages">
+    <div class="chatbot-message bot"><div class="chatbot-message-bubble">Halo! 👋 Selamat datang di halaman PPDB TK Aisyiyah Mimika.<br>Ada yang bisa saya bantu? 😊</div></div>
+    <div class="chatbot-typing" id="chatbotTyping"><span></span><span></span><span></span></div>
+  </div>
+  <div class="chatbot-quick-replies">
+    <button class="quick-reply-btn" onclick="sendQuickReply('PPDB')">📋 Info PPDB</button>
+    <button class="quick-reply-btn" onclick="sendQuickReply('Syarat')">📄 Syarat Daftar</button>
+    <button class="quick-reply-btn" onclick="sendQuickReply('Biaya')">💰 Biaya</button>
+    <button class="quick-reply-btn" onclick="sendQuickReply('Lokasi')">📍 Lokasi</button>
+    <button class="quick-reply-btn masukan-btn" onclick="bukaFormMasukan()">📝 Beri Masukan</button>
+  </div>
+
+  <!-- FORM MASUKAN (sama seperti index.html) -->
+  <div class="chatbot-form-masukan" id="chatbotFormMasukan">
+    <div class="form-masukan-title">📝 Form Masukan / Testimoni</div>
+    <input type="text" class="masukan-form-name" id="masukanNama" placeholder="Nama Anda (cth: Ibu Sari)" maxlength="50" />
+    <div class="masukan-stars-wrap">
+      <label>Rating:</label>
+      <div class="masukan-stars-select" id="masukanStars">
+        <span data-v="1">★</span>
+        <span data-v="2">★</span>
+        <span data-v="3">★</span>
+        <span data-v="4">★</span>
+        <span data-v="5">★</span>
+      </div>
+    </div>
+    <textarea class="masukan-form-text" id="masukanTeks" placeholder="Ceritakan pengalaman Anda bersama TK Aisyiyah Mimika..." maxlength="300"></textarea>
+    <div class="form-btns">
+      <button class="btn-submit-masukan" onclick="kirimMasukan()">📨 Kirim Masukan</button>
+      <button class="btn-cancel-masukan" onclick="tutupFormMasukan()">Batal</button>
+    </div>
+  </div>
+
+  <div class="chatbot-input-container">
+    <input type="text" class="chatbot-input" id="chatbotInput" placeholder="Ketik pertanyaan..." autocomplete="off" />
+    <button class="chatbot-send" onclick="sendChatMessage()">Kirim</button>
+  </div>
+</div>
+
+<!-- BACK TO TOP -->
+<button class="btn-back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">Back To Top ⌃</button>
+
+<!-- TOAST -->
+<div class="toast-notif" id="toastNotif"></div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  /* ─── STORAGE (shared dengan index.html & Galeri.html) ─── */
+  const PPDB_STATE_KEY  = 'tk_aisyiyah_ppdb_state_v1';
+  const PPDB_FIELDS_KEY = 'tk_aisyiyah_ppdb_fields_v1';
+  const MASUKAN_KEY     = 'tk_aisyiyah_masukan_v1';
+
+  const DEFAULT_FIELDS = [
+    {id:1,name:'Nama Lengkap',type:'text',req:true},
+    {id:2,name:'Tempat Lahir',type:'address',req:false},
+    {id:3,name:'Tanggal Lahir',type:'date',req:false},
+    {id:4,name:'Jenis Kelamin',type:'dropdown',req:false},
+    {id:5,name:'Nama Ortu / Wali',type:'text',req:false},
+    {id:6,name:'No Hp Ortu / Wali',type:'number',req:false},
+  ];
+
+  function getPPDBState()  { return localStorage.getItem(PPDB_STATE_KEY)||'open'; }
+  function getPPDBFields() {
+    try { const r=localStorage.getItem(PPDB_FIELDS_KEY); if(r){const p=JSON.parse(r); if(Array.isArray(p)&&p.length>0)return p;} } catch(e) {}
+    return DEFAULT_FIELDS;
+  }
+  function getMasukan() {
+    try { return JSON.parse(localStorage.getItem(MASUKAN_KEY)||'[]'); } catch(e) { return []; }
+  }
+  function simpanMasukan(list) {
+    try { localStorage.setItem(MASUKAN_KEY, JSON.stringify(list)); } catch(e) {}
+  }
+
+  /* ─── HELPERS ─── */
+  function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function showToast(msg){
+    const t=document.getElementById('toastNotif');
+    t.textContent=msg; t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'),3800);
+  }
+
+  /* ─── RENDER FORM ─── */
+  function renderForm() {
+    const state=getPPDBState(), fields=getPPDBFields();
+    if(state==='closed'){
+      document.getElementById('ppdbClosed').style.display='block';
+      document.getElementById('ppdbFormInner').style.display='none';
+      return;
+    }
+    document.getElementById('ppdbClosed').style.display='none';
+    document.getElementById('ppdbFormInner').style.display='block';
+    document.getElementById('formCard').style.display='block';
+    document.getElementById('successCard').style.display='none';
+    const c=document.getElementById('fieldsContainer'); c.innerHTML='';
+    fields.forEach(function(field){
+      const div=document.createElement('div'); div.className='form-field';
+      const lbl=document.createElement('label'); lbl.className='field-label'; lbl.setAttribute('for','field_'+field.id);
+      lbl.innerHTML=escHtml(field.name)+(field.req?' <span class="field-required">*</span>':'');
+      div.appendChild(lbl);
+      let el;
+      if(field.type==='dropdown'){
+        el=document.createElement('select'); el.className='field-select'; el.id='field_'+field.id; el.dataset.req=field.req?'1':'0';
+        const o0=document.createElement('option'); o0.value=''; o0.textContent='-- Pilih '+field.name+' --'; el.appendChild(o0);
+        const opts=field.name.toLowerCase().includes('jenis kelamin')?['Laki-laki','Perempuan']:(field.options||[]);
+        opts.forEach(function(o){const op=document.createElement('option');op.value=o;op.textContent=o;el.appendChild(op);});
+      } else if(field.type==='address'){
+        el=document.createElement('textarea'); el.className='field-textarea'; el.id='field_'+field.id; el.dataset.req=field.req?'1':'0'; el.placeholder='Masukkan '+field.name; el.rows=3;
+      } else if(field.type==='file'){
+        const up=document.createElement('div'); up.className='field-upload'; up.onclick=function(){up.querySelector('input').click();};
+        up.innerHTML=`<span class="field-upload-icon">📁</span><div class="field-upload-text">Klik untuk <span>upload file</span></div><div class="field-upload-preview" id="preview_${field.id}"></div><input type="file" id="field_${field.id}" data-req="${field.req?'1':'0'}" onchange="previewUpload(this,'preview_${field.id}')" />`;
+        div.appendChild(up); c.appendChild(div); return;
+      } else {
+        el=document.createElement('input'); el.className='field-input'; el.id='field_'+field.id; el.dataset.req=field.req?'1':'0'; el.placeholder='Masukkan '+field.name;
+        el.type=field.type==='date'?'date':field.type==='number'?'number':field.type==='email'?'email':'text';
+      }
+      el.addEventListener('input',updateProgress); el.addEventListener('change',updateProgress);
+      div.appendChild(el); c.appendChild(div);
+    });
+    updateProgress();
+  }
+
+  function previewUpload(input,previewId){ if(input.files&&input.files[0])document.getElementById(previewId).textContent='✅ '+input.files[0].name; updateProgress(); }
+  function updateProgress(){
+    const inputs=document.querySelectorAll('#fieldsContainer input:not([type=file]),#fieldsContainer select,#fieldsContainer textarea');
+    let filled=0; inputs.forEach(function(el){if(el.value&&el.value.trim()!=='')filled++;});
+    const pct=inputs.length>0?Math.round((filled/inputs.length)*100):0;
+    document.getElementById('progressFill').style.width=pct+'%';
+    document.getElementById('progressPct').textContent=pct+'%';
+  }
+
+  function submitForm(){
+    const fields=getPPDBFields(); let valid=true, firstInvalid=null;
+    fields.forEach(function(field){
+      const el=document.getElementById('field_'+field.id); if(!el)return;
+      if(field.req&&(!el.value||el.value.trim()==='')){
+        valid=false; if(!firstInvalid)firstInvalid=el;
+        el.style.borderColor='#ee1111'; el.style.boxShadow='0 0 0 3px rgba(238,17,17,.1)';
+        el.addEventListener('input',function(){el.style.borderColor='';el.style.boxShadow='';},{once:true});
+      }
+    });
+    if(!valid){showToast('⚠️ Mohon lengkapi semua field yang wajib diisi.');if(firstInvalid)firstInvalid.scrollIntoView({behavior:'smooth',block:'center'});return;}
+    const noRef='TK-PPDB-'+Date.now().toString().slice(-6);
+    document.getElementById('successRef').textContent='No. Pendaftaran: '+noRef;
+    document.getElementById('formCard').style.display='none';
+    document.getElementById('successCard').style.display='block';
+    document.getElementById('successCard').scrollIntoView({behavior:'smooth',block:'start'});
+    showToast('🎉 Pendaftaran berhasil dikirim!');
+  }
+
+  function daftarLagi(){ document.getElementById('formCard').style.display='block'; document.getElementById('successCard').style.display='none'; renderForm(); window.scrollTo({top:0,behavior:'smooth'}); }
+
+  /* ─── NAVBAR ─── */
+  const navbar=document.getElementById('navbar');
+  window.addEventListener('scroll',function(){ navbar.classList.toggle('white-bg',window.pageYOffset>100); });
+  function toggleMobileMenu(){ const m=document.getElementById('mobileMenu'),h=document.getElementById('hamburger'); m.classList.toggle('open'); h.classList.toggle('open'); document.body.style.overflow=m.classList.contains('open')?'hidden':''; }
+  function closeMobileMenu(){ document.getElementById('mobileMenu').classList.remove('open'); document.getElementById('hamburger').classList.remove('open'); document.body.style.overflow=''; }
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape')closeMobileMenu(); });
+
+  /* ─── BACK TO TOP ─── */
+  window.addEventListener('scroll',function(){ document.getElementById('backToTop').classList.toggle('show',window.pageYOffset>window.innerHeight/2); });
+
+  /* ─── CHATBOT ─── */
+  let isChatbotOpen=false, hasSeenWelcome=false;
+  const chatbotContainer  = document.getElementById('chatbotContainer');
+  const chatbotMessages   = document.getElementById('chatbotMessages');
+  const chatbotInput      = document.getElementById('chatbotInput');
+  const chatbotTyping     = document.getElementById('chatbotTyping');
+  const chatbotBadge      = document.getElementById('chatbotBadge');
+  const chatbotToggleIcon = document.getElementById('chatbotToggleIcon');
+
+  function toggleChatbot(){
+    isChatbotOpen=!isChatbotOpen;
+    if(isChatbotOpen){ chatbotContainer.classList.add('show'); chatbotToggleIcon.textContent='✕'; chatbotBadge.style.display='none'; chatbotInput.focus(); hasSeenWelcome=true; }
+    else { chatbotContainer.classList.remove('show'); chatbotToggleIcon.textContent='💬'; }
+  }
+  setTimeout(function(){ if(!hasSeenWelcome&&!isChatbotOpen)chatbotBadge.style.display='flex'; },5000);
+
+  const botResponses = {
+    'halo': 'Halo! 👋 Senang bertemu Anda!\nAda yang ingin ditanyakan seputar PPDB 2027/2028?\n\nKlik "📝 Beri Masukan" untuk berbagi pengalaman!',
+    'hai': 'Hai! 😊 Ada yang ingin ditanyakan atau ingin berbagi masukan?',
+    'ppdb': 'Info PPDB 2027/2028:\n📋 Isi formulir di halaman ini\n📞 Hubungi 0812-3456-7890\n📍 Atau datang langsung ke sekolah!',
+    'syarat': '📄 Dokumen yang perlu disiapkan:\n✅ Kartu Keluarga (KK)\n✅ Akta Kelahiran Anak\n✅ KTP Orang Tua / Wali\n\nSiapkan dalam versi digital (foto/scan).',
+    'biaya': '💰 Biaya pendidikan sangat terjangkau untuk semua kalangan.\nHubungi kami di 📞 0812-3456-7890 untuk info biaya lengkap.',
+    'fasilitas': '🏫 Fasilitas TK Aisyiyah:\n✅ Ruang kelas nyaman\n✅ Halaman luas & asri\n✅ Aula serbaguna\n✅ Perpustakaan\n✅ Area bermain aman',
+    'lokasi': '📍 Jl. Pendidikan No. 123, Mimika, Papua Tengah\nCek Google Maps di footer halaman ini!',
+    'kontak': '📞 0812-3456-7890\n📧 tkaisyiyah_mimika@gmail.com\n📱 @tk_aisyiyah_mimika',
+    'masukan': 'Terima kasih ingin berbagi! 😊\nKlik tombol "📝 Beri Masukan" di bawah untuk mengisi masukan Anda!',
+    'testimoni': 'Senang mendengar Anda ingin berbagi! Klik "📝 Beri Masukan" dan masukan Anda akan tersimpan 🙏',
+    'daftar': 'Scroll ke bawah dan isi formulir PPDB! 📝\nAtau klik tombol "DAFTAR SEKARANG" di atas.',
+    'terima kasih': 'Sama-sama! 😊 Jangan ragu bertanya kapan saja ya!',
+  };
+
+  function addChatMessage(msg,isUser){
+    const d=document.createElement('div'); d.className='chatbot-message '+(isUser?'user':'bot');
+    const b=document.createElement('div'); b.className='chatbot-message-bubble';
+    b.innerHTML=msg.replace(/\n/g,'<br>'); d.appendChild(b);
+    chatbotMessages.insertBefore(d,chatbotTyping);
+    chatbotMessages.scrollTop=chatbotMessages.scrollHeight;
+  }
+  function getBotResponse(msg){
+    const l=msg.toLowerCase();
+    for(let k in botResponses){ if(l.includes(k)) return botResponses[k]; }
+    return 'Terima kasih! 😊 Untuk info lebih lanjut:\n📞 0812-3456-7890\n📧 tkaisyiyah_mimika@gmail.com\n\nAnda juga bisa klik "📝 Beri Masukan"!';
+  }
+  function sendChatMessage(){
+    const m=chatbotInput.value.trim(); if(!m) return;
+    addChatMessage(m,true); chatbotInput.value='';
+    chatbotTyping.style.display='block';
+    chatbotMessages.scrollTop=chatbotMessages.scrollHeight;
+    setTimeout(function(){ chatbotTyping.style.display='none'; addChatMessage(getBotResponse(m),false); },600+Math.random()*600);
+  }
+  function sendQuickReply(t){ chatbotInput.value=t; sendChatMessage(); }
+  chatbotInput.addEventListener('keypress',function(e){ if(e.key==='Enter') sendChatMessage(); });
+
+  /* ─── FORM MASUKAN (sama seperti index.html) ─── */
+  let selectedBintang = 5;
+
+  function bukaFormMasukan(){
+    document.getElementById('chatbotFormMasukan').classList.add('show');
+    chatbotInput.disabled=true;
+    document.querySelector('.chatbot-send').disabled=true;
+    updateBintangUI(5); selectedBintang=5;
+    document.getElementById('masukanNama').focus();
+  }
+  function tutupFormMasukan(){
+    document.getElementById('chatbotFormMasukan').classList.remove('show');
+    chatbotInput.disabled=false;
+    document.querySelector('.chatbot-send').disabled=false;
+    document.getElementById('masukanNama').value='';
+    document.getElementById('masukanTeks').value='';
+    selectedBintang=5; updateBintangUI(5);
+  }
+
+  document.querySelectorAll('#masukanStars span').forEach(el => {
+    el.addEventListener('click',()=>{ selectedBintang=parseInt(el.dataset.v); updateBintangUI(selectedBintang); });
+    el.addEventListener('mouseover',()=> updateBintangUI(parseInt(el.dataset.v)));
+    el.addEventListener('mouseleave',()=> updateBintangUI(selectedBintang));
+  });
+  function updateBintangUI(val){
+    document.querySelectorAll('#masukanStars span').forEach(el => {
+      el.classList.toggle('lit',parseInt(el.dataset.v)<=val);
+    });
+  }
+  updateBintangUI(5);
+
+  function kirimMasukan(){
+    const nama=document.getElementById('masukanNama').value.trim();
+    const teks=document.getElementById('masukanTeks').value.trim();
+    if(!nama){ const inp=document.getElementById('masukanNama'); inp.style.borderColor='#f00'; inp.focus(); setTimeout(()=>inp.style.borderColor='',1800); return; }
+    if(teks.length<10){ const ta=document.getElementById('masukanTeks'); ta.style.borderColor='#f00'; ta.focus(); setTimeout(()=>ta.style.borderColor='',1800); return; }
+    const list=getMasukan();
+    list.push({nama,teks,bintang:selectedBintang,ts:Date.now()});
+    simpanMasukan(list);
+    tutupFormMasukan();
+    addChatMessage(`Terima kasih, ${escHtml(nama)}! ✅\n\nMasukan Anda sudah diterima dan tersimpan. Semoga harimu menyenangkan! 😊🌿`,false);
+    showToast('✅ Masukan berhasil dikirim! Terima kasih '+nama+'!');
+  }
+
+  /* ─── SYNC + INIT ─── */
+  window.addEventListener('storage',function(e){ if(e.key===PPDB_STATE_KEY||e.key===PPDB_FIELDS_KEY)renderForm(); });
+  renderForm();
+</script>
+</body>
+</html>

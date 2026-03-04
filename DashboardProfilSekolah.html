@@ -66,6 +66,7 @@
       font-size: .88rem; color: #555; cursor: pointer;
       transition: background .2s, color .2s;
       display: flex; align-items: center; gap: 8px;
+      text-decoration: none;
     }
     .dropdown-item:hover { background: #e0f7e0; color: #00a832; }
     .dropdown-item.active-sub { color: #00a832; font-weight: 600; background: #e8fce8; }
@@ -452,15 +453,15 @@
       </div>
       <div class="sidebar-brand-name">TK Aisyiyah Mimika</div>
     </div>
- <nav class="sidebar-nav">
+    <nav class="sidebar-nav">
       <a class="nav-item" href="dashboard_admin.html"><span class="nav-icon">🏠</span> Dashboard</a>
       <div class="nav-item active" onclick="toggleManage(this)">
         <span class="nav-icon">⚙️</span> Manage
         <span class="nav-arrow open" id="manageArrow">▾</span>
       </div>
       <div class="manage-dropdown open" id="manageDropdown">
-        <a class="dropdown-item" href="DashboardProfilSekolah.html">🏫 Profil Sekolah</a>
-        <a class="dropdown-item active-sub" href="DashboardStaff-Pengajar.html">👩‍🏫 Staff Pengajar & Tenaga Kependidikan</a>
+        <a class="dropdown-item active-sub" href="DashboardProfilSekolah.html">🏫 Profil Sekolah</a>
+        <a class="dropdown-item" href="DashboardStaff-Pengajar.html">👩‍🏫 Staff Pengajar & Tenaga Kependidikan</a>
         <a class="dropdown-item" href="DashboardFasilitas.html">🏗️ Fasilitas</a>
         <a class="dropdown-item" href="DashboardGaleri.html">🖼️ Galeri</a>
         <a class="dropdown-item" href="DashboardKalender.html">📅 Kalender</a>
@@ -468,7 +469,7 @@
       <a class="nav-item nav-ppdb" href="DashboardPPDB.html"><span class="nav-icon">📋</span> PPDB 2027/2028</a>
     </nav>
     <div class="sidebar-bottom">
-     <a class="nav-item-sm" href="DashboardSettings.html">⚙️ Settings</a>
+      <a class="nav-item-sm" href="DashboardSettings.html">⚙️ Settings</a>
       <a class="nav-item-sm" href="DashboardManageAccount.html">👤 Manage Account</a>
       <a class="nav-item-sm active-sm" href="DashboardHelpCenter.html">❓ Help Center</a>
       <div class="nav-item-sm logout" onclick="confirmLogout()">↩ Log Out</div>
@@ -597,7 +598,7 @@
 <!-- LOGOUT -->
 <div class="logout-overlay" id="logoutModal">
   <div class="logout-card">
-    <div class="logout-logo">🏫</div>
+    <div class="logout-logo"><img src="LogoTk.png" alt="Logo" onerror="this.parentElement.innerHTML='🏫'" /></div>
     <div class="logout-title">ADMIN LOGIN</div>
     <div class="logout-msg">Apakah Anda yakin ingin<br>keluar dari dashboard?</div>
     <button class="logout-btn-confirm" onclick="doLogout()">↩ Ya, Log Out</button>
@@ -609,6 +610,33 @@
 <div class="toast" id="toast"></div>
 
 <script>
+/* ─── STORAGE KEY (sinkron dengan profil_sekolah.html) ─── */
+const PROFIL_SECTIONS_KEY = 'tk_aisyiyah_profil_sections_v1';
+
+/* ─── SIMPAN DATA KE LOCALSTORAGE ─── */
+function syncToStorage() {
+  try {
+    localStorage.setItem(PROFIL_SECTIONS_KEY, JSON.stringify(data));
+  } catch(e) {
+    console.warn('localStorage tidak tersedia:', e);
+  }
+}
+
+/* ─── LOAD DATA DARI LOCALSTORAGE (jika ada) ─── */
+function loadFromStorage() {
+  try {
+    const raw = localStorage.getItem(PROFIL_SECTIONS_KEY);
+    if (raw) {
+      const saved = JSON.parse(raw);
+      if (Array.isArray(saved) && saved.length > 0) {
+        data = saved;
+        // Pastikan nextId lebih besar dari id terbesar yang ada
+        nextId = Math.max(...data.map(r => r.id), 0) + 1;
+      }
+    }
+  } catch(e) {}
+}
+
 /* ─── DATA ─── */
 let data = [
   { id: 1, name: 'Profil Sekolah',   desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.', file: '1 Photo' },
@@ -619,6 +647,9 @@ let data = [
 let nextId = 5;
 let editingId = null;
 let deleteId = null;
+
+// Override dengan data dari localStorage jika ada
+loadFromStorage();
 
 /* ─── RENDER TABLE ─── */
 function render() {
@@ -693,6 +724,8 @@ function saveRow() {
     data.push({ id: nextId++, name, desc, file: fileLbl });
     showToast('✅ Section berhasil ditambahkan!', 'success');
   }
+
+  syncToStorage(); // ← simpan ke localStorage → profil_sekolah.html ikut update
   render();
   closeEdit();
 }
@@ -714,6 +747,7 @@ function doDelete() {
   if (!deleteId) return;
   data = data.filter(r => r.id !== deleteId);
   closeConfirm();
+  syncToStorage(); // ← simpan ke localStorage setelah hapus
   render();
   showToast('🗑️ Section berhasil dihapus.', 'success');
 }

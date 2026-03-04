@@ -362,7 +362,7 @@
       <div class="nav-mobile-divider"></div>
       <div class="nav-mobile-btns">
         <button class="btn-admin" onclick="goTo('Login-Admin.html')">Admin Login</button>
-        <button class="btn-ppdb" onclick="openPpdb()">PPDB 2026/2027</button>
+        <button class="btn-ppdb" onclick="window.location.href='ppdb.html'">PPDB 2027/2028</button>
       </div>
     </div>
 
@@ -383,7 +383,7 @@
           <div class="nav-item" onclick="window.location.href='profil_sekolah.html'">Profil Sekolah</div>
           <div class="nav-item" onclick="window.location.href='Galeri.html'">Galeri</div>
           <button class="btn-admin" onclick="window.location.href='Login-Admin.html'">Admin Login</button>
-          <button class="btn-ppdb" onclick="openPpdb()">PPDB 2026/2027</button>
+          <button class="btn-ppdb" onclick="window.location.href='ppdb.html'">PPDB 2027/2028</button>
         </div>
         <div class="nav-hamburger" id="hamburger" onclick="toggleMobileMenu()">
           <span></span><span></span><span></span>
@@ -519,7 +519,7 @@
     <section class="section-cta" id="cta">
       <div class="cta-container">
         <h2 class="cta-title">Mulai Petualangan Si Kecil bersama kami!<br>Daftar Sekarang !</h2>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfHN9S8RSsGs-huLbVv7qaaqlOKi-tCzG9veoakL9N_4LPr7g/viewform" target="_blank" class="btn-cta-ppdb">PPDB 2026/2027</a>
+        <a href="ppdb.html" class="btn-cta-ppdb">PPDB 2027/2028</a>
       </div>
     </section>
 
@@ -571,7 +571,7 @@
       }
 
       /* ============= HELPERS ============= */
-      function openPpdb() { window.open('https://docs.google.com/forms/d/e/1FAIpQLSfHN9S8RSsGs-huLbVv7qaaqlOKi-tCzG9veoakL9N_4LPr7g/viewform','_blank'); }
+      function openPpdb() { window.open('ppdb.html'); }
       function goTo(url) { closeMobileMenu(); window.location.href = url; }
 
       /* ============= MOBILE MENU ============= */
